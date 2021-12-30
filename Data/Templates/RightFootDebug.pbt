@@ -105,7 +105,7 @@ Assets {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
               R: 10
-              B: 10
+              G: 10
               A: 1
             }
           }
@@ -168,7 +168,7 @@ Assets {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
               R: 10
-              B: 10
+              G: 10
               A: 1
             }
           }

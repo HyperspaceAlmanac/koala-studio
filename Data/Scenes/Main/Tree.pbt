@@ -242,6 +242,7 @@ Objects {
     }
   }
   ParentId: 13435901624349323642
+  ChildIds: 14808587282188705174
   ChildIds: 6512843787840410006
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -258,7 +259,7 @@ Objects {
   Control {
     Width: 100
     Height: 55
-    UIY: 225
+    UIY: 230
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -324,7 +325,8 @@ Objects {
         Id: 666500853896180674
       }
       Color {
-        B: 1
+        R: 1
+        G: 1
         A: 0.5
       }
       TeamSettings {
@@ -335,6 +337,81 @@ Objects {
       ShadowOffset {
       }
       ScreenshotIndex: 1
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 14808587282188705174
+  Name: "Label"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 10397444099576514857
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 150
+    Height: 60
+    UIX: 20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Text {
+      Label: "Right Foot"
+      Color {
+        A: 1
+      }
+      Size: 24
+      Justification {
+        Value: "mc:etextjustify:left"
+      }
+      AutoWrapText: true
+      Font {
+        Id: 841534158063459245
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:top"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+      OutlineColor {
+        A: 1
+      }
     }
     AnchorLayout {
       SelfAnchor {
@@ -365,6 +442,7 @@ Objects {
     }
   }
   ParentId: 13435901624349323642
+  ChildIds: 517292960616807464
   ChildIds: 4590530351473973209
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -381,7 +459,7 @@ Objects {
   Control {
     Width: 100
     Height: 55
-    UIY: 170
+    UIY: 175
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -447,7 +525,7 @@ Objects {
         Id: 666500853896180674
       }
       Color {
-        B: 1
+        R: 1
         A: 0.5
       }
       TeamSettings {
@@ -458,6 +536,81 @@ Objects {
       ShadowOffset {
       }
       ScreenshotIndex: 1
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 517292960616807464
+  Name: "Label"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 5920124623147640565
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 150
+    Height: 60
+    UIX: 20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Text {
+      Label: "Left Foot"
+      Color {
+        A: 1
+      }
+      Size: 24
+      Justification {
+        Value: "mc:etextjustify:left"
+      }
+      AutoWrapText: true
+      Font {
+        Id: 841534158063459245
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:top"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+      OutlineColor {
+        A: 1
+      }
     }
     AnchorLayout {
       SelfAnchor {
@@ -488,6 +641,7 @@ Objects {
     }
   }
   ParentId: 13435901624349323642
+  ChildIds: 15546134133802359552
   ChildIds: 15661196294133319381
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -504,7 +658,7 @@ Objects {
   Control {
     Width: 100
     Height: 55
-    UIY: 115
+    UIY: 120
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -597,6 +751,81 @@ Objects {
   }
 }
 Objects {
+  Id: 15546134133802359552
+  Name: "Label"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 11857891303122715698
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 150
+    Height: 60
+    UIX: 20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Text {
+      Label: "Right Hand"
+      Color {
+        A: 1
+      }
+      Size: 24
+      Justification {
+        Value: "mc:etextjustify:left"
+      }
+      AutoWrapText: true
+      Font {
+        Id: 841534158063459245
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:top"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+      OutlineColor {
+        A: 1
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
   Id: 2143915800388794586
   Name: "LeftHand"
   Transform {
@@ -611,6 +840,7 @@ Objects {
     }
   }
   ParentId: 13435901624349323642
+  ChildIds: 9088194211500487253
   ChildIds: 15058052014412058942
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -627,7 +857,7 @@ Objects {
   Control {
     Width: 100
     Height: 55
-    UIY: 60
+    UIY: 65
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -693,7 +923,7 @@ Objects {
         Id: 666500853896180674
       }
       Color {
-        B: 1
+        G: 1
         A: 0.5
       }
       TeamSettings {
@@ -704,6 +934,81 @@ Objects {
       ShadowOffset {
       }
       ScreenshotIndex: 1
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 9088194211500487253
+  Name: "Label"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 2143915800388794586
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 150
+    Height: 60
+    UIX: 20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Text {
+      Label: "Left Hand"
+      Color {
+        A: 1
+      }
+      Size: 24
+      Justification {
+        Value: "mc:etextjustify:left"
+      }
+      AutoWrapText: true
+      Font {
+        Id: 841534158063459245
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:top"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+      OutlineColor {
+        A: 1
+      }
     }
     AnchorLayout {
       SelfAnchor {
@@ -734,6 +1039,7 @@ Objects {
     }
   }
   ParentId: 13435901624349323642
+  ChildIds: 1724923703791718731
   ChildIds: 5115393980734713668
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -750,7 +1056,7 @@ Objects {
   Control {
     Width: 100
     Height: 55
-    UIY: 5
+    UIY: 10
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -816,6 +1122,7 @@ Objects {
         Id: 666500853896180674
       }
       Color {
+        G: 1
         B: 1
         A: 0.5
       }
@@ -827,6 +1134,81 @@ Objects {
       ShadowOffset {
       }
       ScreenshotIndex: 1
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 1724923703791718731
+  Name: "Label"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 5316509733383620983
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 150
+    Height: 60
+    UIX: 20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Text {
+      Label: "Body"
+      Color {
+        A: 1
+      }
+      Size: 24
+      Justification {
+        Value: "mc:etextjustify:left"
+      }
+      AutoWrapText: true
+      Font {
+        Id: 841534158063459245
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:top"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+      OutlineColor {
+        A: 1
+      }
     }
     AnchorLayout {
       SelfAnchor {
@@ -2558,9 +2940,9 @@ Objects {
   }
   Control {
     Width: 300
-    Height: 750
+    Height: 725
     UIX: 350
-    UIY: 25
+    UIY: 10
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
