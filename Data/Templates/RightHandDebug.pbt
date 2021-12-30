@@ -7,7 +7,7 @@ Assets {
       RootId: 9049328999808543155
       Objects {
         Id: 9049328999808543155
-        Name: "LeftHandDebug"
+        Name: "RightHandDebug"
         Transform {
           Scale {
             X: 1
@@ -34,7 +34,7 @@ Assets {
           AimOffset {
           }
           IKAnchorType {
-            Value: "mc:eikanchortype:lefthand"
+            Value: "mc:eikanchortype:righthand"
           }
           BlendWeight: 1
         }
@@ -106,7 +106,7 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
-              G: 10
+              B: 10
               A: 1
             }
           }
@@ -170,7 +170,7 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
-              G: 10
+              B: 10
               A: 1
             }
           }
@@ -235,14 +235,6 @@ Assets {
               SubObjectId: 916558315117712829
             }
           }
-          Overrides {
-            Name: "cs:Type"
-            String: "Hand"
-          }
-          Overrides {
-            Name: "cs:Left"
-            Bool: false
-          }
         }
         Collidable_v2 {
           Value: "mc:ecollisionsetting:inheritfromparent"
@@ -290,4 +282,5 @@ Assets {
     }
   }
   SerializationVersion: 103
+  VirtualFolderPath: "IKAnchors"
 }

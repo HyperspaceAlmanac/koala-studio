@@ -1,13 +1,13 @@
 Assets {
-  Id: 3157633151622510024
-  Name: "LeftHandDebug"
+  Id: 304162242050779131
+  Name: "LeftFootDebug"
   PlatformAssetType: 5
   TemplateAsset {
     ObjectBlock {
       RootId: 9049328999808543155
       Objects {
         Id: 9049328999808543155
-        Name: "LeftHandDebug"
+        Name: "LeftFootDebug"
         Transform {
           Scale {
             X: 1
@@ -34,7 +34,7 @@ Assets {
           AimOffset {
           }
           IKAnchorType {
-            Value: "mc:eikanchortype:lefthand"
+            Value: "mc:eikanchortype:leftfoot"
           }
           BlendWeight: 1
         }
@@ -84,10 +84,8 @@ Assets {
         Name: "Cylinder"
         Transform {
           Location {
-            X: 10
           }
           Rotation {
-            Pitch: 90
           }
           Scale {
             X: 0.25
@@ -106,7 +104,7 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
-              G: 10
+              R: 10
               A: 1
             }
           }
@@ -148,10 +146,8 @@ Assets {
         Name: "Offset"
         Transform {
           Location {
-            X: 10
           }
           Rotation {
-            Pitch: 90
           }
           Scale {
             X: 0.25
@@ -170,7 +166,7 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
-              G: 10
+              R: 10
               A: 1
             }
           }
