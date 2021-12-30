@@ -4,5 +4,9 @@ Assets {
   PlatformAssetType: 30
   SerializationVersion: 103
   VirtualFolderSetAsset {
+    Folders {
+      VirtualFolderPath: "IKAnchors"
+      PlatformAssetType: 5
+    }
   }
 }
