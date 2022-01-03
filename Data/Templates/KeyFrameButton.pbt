@@ -45,9 +45,9 @@ Assets {
               A: 1
             }
             HoveredColor {
-              R: 0.5
-              G: 0.5
-              B: 0.5
+              R: 0.25
+              G: 0.25
+              B: 0.25
               A: 1
             }
             PressedColor {
