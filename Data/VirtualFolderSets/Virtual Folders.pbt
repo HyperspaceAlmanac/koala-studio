@@ -8,5 +8,9 @@ Assets {
       VirtualFolderPath: "IKAnchors"
       PlatformAssetType: 5
     }
+    Folders {
+      VirtualFolderPath: "Test"
+      PlatformAssetType: 3
+    }
   }
 }
