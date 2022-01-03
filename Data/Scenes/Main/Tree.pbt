@@ -165,13 +165,35 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:SecondLabel"
+      AssetReference {
+        Id: 7864363465554216616
+      }
+    }
+    Overrides {
       Name: "cs:ScrollingTimeline"
       ObjectReference {
         SelfId: 15664039965080084926
       }
     }
     Overrides {
+      Name: "cs:Anchors"
+      ObjectReference {
+        SelfId: 11954358028197048264
+      }
+    }
+    Overrides {
+      Name: "cs:TickMarks"
+      ObjectReference {
+        SelfId: 1800815164587529530
+      }
+    }
+    Overrides {
       Name: "cs:KeyFrameButton:category"
+      String: "Templates"
+    }
+    Overrides {
+      Name: "cs:SecondLabel:category"
       String: "Templates"
     }
   }
@@ -442,11 +464,8 @@ Objects {
     }
   }
   ParentId: 7245179807553518422
-  ChildIds: 7032083957029883968
-  ChildIds: 9190225051166972453
-  ChildIds: 8340037145428656817
-  ChildIds: 14032783190067562963
-  ChildIds: 13058392608806274882
+  ChildIds: 1800815164587529530
+  ChildIds: 11954358028197048264
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -490,6 +509,64 @@ Objects {
   }
 }
 Objects {
+  Id: 11954358028197048264
+  Name: "Anchors"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 15664039965080084926
+  ChildIds: 7032083957029883968
+  ChildIds: 9190225051166972453
+  ChildIds: 8340037145428656817
+  ChildIds: 14032783190067562963
+  ChildIds: 13058392608806274882
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 2000
+    Height: 100
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    UseParentHeight: true
+    Panel {
+      Opacity: 1
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
   Id: 13058392608806274882
   Name: "RFButton"
   Transform {
@@ -503,7 +580,7 @@ Objects {
       Z: 1
     }
   }
-  ParentId: 15664039965080084926
+  ParentId: 11954358028197048264
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -525,6 +602,7 @@ Objects {
         Value: "mc:euianchor:middlecenter"
       }
     }
+    UseParentWidth: true
     Button {
       FontColor {
         A: 1
@@ -532,8 +610,8 @@ Objects {
       FontSize: 20
       ButtonColor {
         R: 1
-        G: 0.999999762
-        A: 1
+        G: 1
+        A: 0.5
       }
       HoveredColor {
         R: 1
@@ -543,7 +621,7 @@ Objects {
       PressedColor {
         R: 1
         G: 0.999999523
-        A: 0.5
+        A: 0.75
       }
       DisabledColor {
         R: 1
@@ -600,7 +678,7 @@ Objects {
       Z: 1
     }
   }
-  ParentId: 15664039965080084926
+  ParentId: 11954358028197048264
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -622,6 +700,7 @@ Objects {
         Value: "mc:euianchor:middlecenter"
       }
     }
+    UseParentWidth: true
     Button {
       FontColor {
         A: 1
@@ -629,7 +708,7 @@ Objects {
       FontSize: 20
       ButtonColor {
         R: 1
-        A: 1
+        A: 0.5
       }
       HoveredColor {
         R: 1
@@ -637,7 +716,7 @@ Objects {
       }
       PressedColor {
         R: 1
-        A: 0.5
+        A: 0.75
       }
       DisabledColor {
         R: 1
@@ -694,7 +773,7 @@ Objects {
       Z: 1
     }
   }
-  ParentId: 15664039965080084926
+  ParentId: 11954358028197048264
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -716,6 +795,7 @@ Objects {
         Value: "mc:euianchor:middlecenter"
       }
     }
+    UseParentWidth: true
     Button {
       FontColor {
         A: 1
@@ -723,7 +803,7 @@ Objects {
       FontSize: 20
       ButtonColor {
         B: 1
-        A: 1
+        A: 0.5
       }
       HoveredColor {
         B: 1
@@ -731,7 +811,7 @@ Objects {
       }
       PressedColor {
         B: 1
-        A: 0.5
+        A: 0.75
       }
       DisabledColor {
         R: 1
@@ -788,7 +868,7 @@ Objects {
       Z: 1
     }
   }
-  ParentId: 15664039965080084926
+  ParentId: 11954358028197048264
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -810,6 +890,7 @@ Objects {
         Value: "mc:euianchor:middlecenter"
       }
     }
+    UseParentWidth: true
     Button {
       FontColor {
         A: 1
@@ -817,7 +898,7 @@ Objects {
       FontSize: 20
       ButtonColor {
         G: 0.999999762
-        A: 1
+        A: 0.5
       }
       HoveredColor {
         G: 0.999999523
@@ -825,7 +906,7 @@ Objects {
       }
       PressedColor {
         G: 0.999999523
-        A: 0.5
+        A: 0.75
       }
       DisabledColor {
         R: 1
@@ -882,7 +963,7 @@ Objects {
       Z: 1
     }
   }
-  ParentId: 15664039965080084926
+  ParentId: 11954358028197048264
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -904,15 +985,16 @@ Objects {
         Value: "mc:euianchor:middlecenter"
       }
     }
+    UseParentWidth: true
     Button {
       FontColor {
         A: 1
       }
       FontSize: 20
       ButtonColor {
-        G: 1
+        G: 0.999999523
         B: 1
-        A: 1
+        A: 0.5
       }
       HoveredColor {
         G: 0.999999762
@@ -920,9 +1002,9 @@ Objects {
         A: 0.75
       }
       PressedColor {
-        G: 0.999999762
+        G: 0.999999523
         B: 1
-        A: 0.5
+        A: 0.75
       }
       DisabledColor {
         R: 1
@@ -950,6 +1032,60 @@ Objects {
       }
       ShadowOffset {
       }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 1800815164587529530
+  Name: "TickMarks"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 15664039965080084926
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 100
+    Height: 100
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    UseParentWidth: true
+    UseParentHeight: true
+    Panel {
+      Opacity: 1
     }
     AnchorLayout {
       SelfAnchor {
