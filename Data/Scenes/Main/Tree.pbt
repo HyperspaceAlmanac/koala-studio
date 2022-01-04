@@ -17,7 +17,6 @@ Objects {
   ChildIds: 9086936746104183945
   ChildIds: 16813558807825262224
   ChildIds: 16495029666475327460
-  ChildIds: 17866027913111271010
   ChildIds: 1864576807348716574
   ChildIds: 8326545056456087967
   ChildIds: 1204701316850750194
@@ -282,9 +281,11 @@ Objects {
     }
   }
   ParentId: 8326545056456087967
+  ChildIds: 14214228906969668433
   ChildIds: 3023761103100554427
   ChildIds: 1673269956018870714
   ChildIds: 9561057767705723034
+  ChildIds: 13882008852988796951
   Collidable_v2 {
     Value: "mc:ecollisionsetting:forceoff"
   }
@@ -298,6 +299,294 @@ Objects {
     Value: "mc:eindicatorvisibility:visiblewhenselected"
   }
   NetworkContext {
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 13882008852988796951
+  Name: "KeyFrameUIController"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 18004227384880621309
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:pX"
+      ObjectReference {
+        SelfId: 17584154568242495524
+      }
+    }
+    Overrides {
+      Name: "cs:pY"
+      ObjectReference {
+        SelfId: 10252166290342547505
+      }
+    }
+    Overrides {
+      Name: "cs:pZ"
+      ObjectReference {
+        SelfId: 5645163792718713868
+      }
+    }
+    Overrides {
+      Name: "cs:rX"
+      ObjectReference {
+        SelfId: 16151878907430432823
+      }
+    }
+    Overrides {
+      Name: "cs:rY"
+      ObjectReference {
+        SelfId: 7707251398684832128
+      }
+    }
+    Overrides {
+      Name: "cs:rZ"
+      ObjectReference {
+        SelfId: 8328317949154022610
+      }
+    }
+    Overrides {
+      Name: "cs:weightButton"
+      ObjectReference {
+        SelfId: 11168780231258893470
+      }
+    }
+    Overrides {
+      Name: "cs:blendInButton"
+      ObjectReference {
+        SelfId: 4069623981818367385
+      }
+    }
+    Overrides {
+      Name: "cs:blendOutButton"
+      ObjectReference {
+        SelfId: 11899215281717690147
+      }
+    }
+    Overrides {
+      Name: "cs:oX"
+      ObjectReference {
+        SelfId: 16825295058622793047
+      }
+    }
+    Overrides {
+      Name: "cs:oY"
+      ObjectReference {
+        SelfId: 14425015567847954253
+      }
+    }
+    Overrides {
+      Name: "cs:oZ"
+      ObjectReference {
+        SelfId: 1675413639153204495
+      }
+    }
+    Overrides {
+      Name: "cs:Activated"
+      ObjectReference {
+        SelfId: 4216545502497295375
+      }
+    }
+    Overrides {
+      Name: "cs:LMBDrag"
+      ObjectReference {
+        SelfId: 1481874781409267817
+      }
+    }
+    Overrides {
+      Name: "cs:TimeButton"
+      ObjectReference {
+        SelfId: 6425126944505952669
+      }
+    }
+    Overrides {
+      Name: "cs:TransformButton"
+      ObjectReference {
+        SelfId: 1732671052546205980
+      }
+    }
+    Overrides {
+      Name: "cs:AnchorButton"
+      ObjectReference {
+        SelfId: 3218555209491750175
+      }
+    }
+    Overrides {
+      Name: "cs:Duplicate"
+      ObjectReference {
+        SelfId: 1405258712670231428
+      }
+    }
+    Overrides {
+      Name: "cs:Delete"
+      ObjectReference {
+        SelfId: 9646775961427275570
+      }
+    }
+    Overrides {
+      Name: "cs:AnchorEditor"
+      ObjectReference {
+        SelfId: 16821370512684007034
+      }
+    }
+    Overrides {
+      Name: "cs:EffectsEditor"
+      ObjectReference {
+        SelfId: 7561824532846124233
+      }
+    }
+    Overrides {
+      Name: "cs:Transform"
+      ObjectReference {
+        SelfId: 2563152495625933110
+      }
+    }
+    Overrides {
+      Name: "cs:Anchor"
+      ObjectReference {
+        SelfId: 11037794244870521390
+      }
+    }
+    Overrides {
+      Name: "cs:Editmode"
+      ObjectReference {
+        SelfId: 10167691961213277847
+      }
+    }
+    Overrides {
+      Name: "cs:EditMenu"
+      ObjectReference {
+        SelfId: 2164600200995529248
+      }
+    }
+    Overrides {
+      Name: "cs:AnchorEditor:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:EffectsEditor:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Transform:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Anchor:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Editmode:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:EditMenu:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:pX:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:pY:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:pZ:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:rX:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:rY:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:rZ:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:weightButton:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:blendInButton:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:blendOutButton:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:oX:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:oY:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:oZ:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Activated:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:LMBDrag:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:TimeButton:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:TransformButton:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:AnchorButton:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Duplicate:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Delete:category"
+      String: "UI"
+    }
+  }
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Script {
+    ScriptAsset {
+      Id: 9614558353929908684
+    }
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
@@ -359,7 +648,7 @@ Objects {
 }
 Objects {
   Id: 1673269956018870714
-  Name: "UIController"
+  Name: "TimelineController"
   Transform {
     Location {
     }
@@ -478,119 +767,6 @@ Objects {
   }
 }
 Objects {
-  Id: 10068152650647582781
-  Name: "NetworkedObj"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 8326545056456087967
-  UnregisteredParameters {
-    Overrides {
-      Name: "cs:Message"
-      String: ""
-    }
-    Overrides {
-      Name: "cs:Message:isrep"
-      Bool: true
-    }
-  }
-  WantsNetworking: true
-  Collidable_v2 {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  Visible_v2 {
-    Value: "mc:evisibilitysetting:inheritfromparent"
-  }
-  CameraCollidable {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  EditorIndicatorVisibility {
-    Value: "mc:eindicatorvisibility:visiblewhenselected"
-  }
-  Folder {
-    IsGroup: true
-  }
-  NetworkRelevanceDistance {
-    Value: "mc:eproxyrelevance:critical"
-  }
-}
-Objects {
-  Id: 1864576807348716574
-  Name: "DefaultContext"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 4781671109827199097
-  Collidable_v2 {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  Visible_v2 {
-    Value: "mc:evisibilitysetting:inheritfromparent"
-  }
-  CameraCollidable {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  EditorIndicatorVisibility {
-    Value: "mc:eindicatorvisibility:visiblewhenselected"
-  }
-  Folder {
-    IsGroup: true
-  }
-  NetworkRelevanceDistance {
-    Value: "mc:eproxyrelevance:critical"
-  }
-}
-Objects {
-  Id: 17866027913111271010
-  Name: "Client"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 4781671109827199097
-  ChildIds: 14214228906969668433
-  Collidable_v2 {
-    Value: "mc:ecollisionsetting:forceoff"
-  }
-  Visible_v2 {
-    Value: "mc:evisibilitysetting:inheritfromparent"
-  }
-  CameraCollidable {
-    Value: "mc:ecollisionsetting:forceoff"
-  }
-  EditorIndicatorVisibility {
-    Value: "mc:eindicatorvisibility:visiblewhenselected"
-  }
-  NetworkContext {
-  }
-  NetworkRelevanceDistance {
-    Value: "mc:eproxyrelevance:critical"
-  }
-}
-Objects {
   Id: 14214228906969668433
   Name: "Interface"
   Transform {
@@ -604,7 +780,7 @@ Objects {
       Z: 1
     }
   }
-  ParentId: 17866027913111271010
+  ParentId: 18004227384880621309
   ChildIds: 16821370512684007034
   ChildIds: 7561824532846124233
   ChildIds: 7245179807553518422
@@ -6158,7 +6334,7 @@ Objects {
   Control {
     Width: 350
     Height: 220
-    UIX: 370
+    UIX: 10
     UIY: 285
     RenderTransformPivot {
       Anchor {
@@ -6379,7 +6555,7 @@ Objects {
 }
 Objects {
   Id: 3218555209491750175
-  Name: "Anchor"
+  Name: "AnchorButton"
   Transform {
     Location {
     }
@@ -6475,7 +6651,7 @@ Objects {
 }
 Objects {
   Id: 1732671052546205980
-  Name: "Transform"
+  Name: "TransformButton"
   Transform {
     Location {
     }
@@ -6677,7 +6853,7 @@ Objects {
   Control {
     Width: 350
     Height: 280
-    UIX: 370
+    UIX: 10
     UIY: 10
     RenderTransformPivot {
       Anchor {
@@ -6751,9 +6927,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -6853,9 +7029,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -7191,9 +7367,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -7340,7 +7516,7 @@ Objects {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
   Visible_v2 {
-    Value: "mc:evisibilitysetting:inheritfromparent"
+    Value: "mc:evisibilitysetting:forceoff"
   }
   CameraCollidable {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -7351,7 +7527,7 @@ Objects {
   Control {
     Width: 350
     Height: 490
-    UIX: 10
+    UIX: 360
     UIY: 10
     RenderTransformPivot {
       Anchor {
@@ -7454,7 +7630,7 @@ Objects {
 }
 Objects {
   Id: 1675413639153204495
-  Name: "NumericField"
+  Name: "oZ"
   Transform {
     Location {
     }
@@ -7501,9 +7677,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -7632,7 +7808,7 @@ Objects {
 }
 Objects {
   Id: 14425015567847954253
-  Name: "NumericField"
+  Name: "oY"
   Transform {
     Location {
     }
@@ -7679,9 +7855,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -7810,7 +7986,7 @@ Objects {
 }
 Objects {
   Id: 16825295058622793047
-  Name: "NumericField"
+  Name: "oX"
   Transform {
     Location {
     }
@@ -7857,9 +8033,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -8063,7 +8239,7 @@ Objects {
 }
 Objects {
   Id: 11899215281717690147
-  Name: "NumericField"
+  Name: "blendOutButton"
   Transform {
     Location {
     }
@@ -8110,9 +8286,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -8240,7 +8416,7 @@ Objects {
 }
 Objects {
   Id: 4069623981818367385
-  Name: "NumericField"
+  Name: "blendInButton"
   Transform {
     Location {
     }
@@ -8287,9 +8463,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -8417,7 +8593,7 @@ Objects {
 }
 Objects {
   Id: 11168780231258893470
-  Name: "NumericField"
+  Name: "weightButton"
   Transform {
     Location {
     }
@@ -8464,9 +8640,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -8694,7 +8870,7 @@ Objects {
   Control {
     Width: 300
     Height: 490
-    UIX: 10
+    UIX: 360
     UIY: 10
     RenderTransformPivot {
       Anchor {
@@ -8882,7 +9058,7 @@ Objects {
 }
 Objects {
   Id: 8328317949154022610
-  Name: "NumericField"
+  Name: "rZ"
   Transform {
     Location {
     }
@@ -8929,9 +9105,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -9063,7 +9239,7 @@ Objects {
 }
 Objects {
   Id: 7707251398684832128
-  Name: "NumericField"
+  Name: "rY"
   Transform {
     Location {
     }
@@ -9110,9 +9286,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -9244,7 +9420,7 @@ Objects {
 }
 Objects {
   Id: 16151878907430432823
-  Name: "NumericField"
+  Name: "rX"
   Transform {
     Location {
     }
@@ -9291,9 +9467,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -9507,7 +9683,7 @@ Objects {
 }
 Objects {
   Id: 5645163792718713868
-  Name: "NumericField"
+  Name: "pZ"
   Transform {
     Location {
     }
@@ -9554,9 +9730,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -9688,7 +9864,7 @@ Objects {
 }
 Objects {
   Id: 10252166290342547505
-  Name: "NumericField"
+  Name: "pY"
   Transform {
     Location {
     }
@@ -9735,9 +9911,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -9869,7 +10045,7 @@ Objects {
 }
 Objects {
   Id: 17584154568242495524
-  Name: "NumericField"
+  Name: "pX"
   Transform {
     Location {
     }
@@ -9916,9 +10092,9 @@ Objects {
         A: 1
       }
       HoveredColor {
-        R: 1
-        G: 1
-        B: 1
+        R: 0.5
+        G: 0.5
+        B: 0.5
         A: 1
       }
       PressedColor {
@@ -10112,6 +10288,85 @@ Objects {
         }
       }
     }
+  }
+}
+Objects {
+  Id: 10068152650647582781
+  Name: "NetworkedObj"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 8326545056456087967
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:Message"
+      String: ""
+    }
+    Overrides {
+      Name: "cs:Message:isrep"
+      Bool: true
+    }
+  }
+  WantsNetworking: true
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Folder {
+    IsGroup: true
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 1864576807348716574
+  Name: "DefaultContext"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 4781671109827199097
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Folder {
+    IsGroup: true
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
   }
 }
 Objects {
