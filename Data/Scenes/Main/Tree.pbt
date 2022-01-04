@@ -10181,7 +10181,7 @@ Objects {
     }
     UseParentWidth: true
     Text {
-      Label: "Tranform"
+      Label: "Transform"
       Color {
         R: 1
         G: 1
