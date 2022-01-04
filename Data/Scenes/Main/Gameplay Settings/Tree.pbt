@@ -267,15 +267,17 @@ Objects {
     IsDefault: true
     GameSettings {
       RagdollOnDeath: true
+      EnablePlayerStorage: true
       ChatMode {
         Value: "mc:echatmode:teamandall"
       }
       ChatSettings {
         ChatMode {
+          Value: "mc:echatmode:teamonly"
         }
         ChatPosition {
-          X: 1527.71655
-          Y: -411.523285
+          X: 10
+          Y: 60
         }
         ChatSize {
           X: 100

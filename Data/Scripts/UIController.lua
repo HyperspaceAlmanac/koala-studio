@@ -11,6 +11,7 @@ local SCREEN_SIZE = UI.GetScreenSize()
 
 local lastHoveredAnchor = nil
 local currentKeyFrame = nil
+local dragging = false
 local keyFrameTable = {}
 local tickMarks = {}
 
@@ -41,10 +42,11 @@ Task.Spawn(
 
 function PressKeyFrame(button)
     currentKeyFrame = button
+    dragging = true
 end
 
 function ReleaseKeyFrame(button)
-    currentKeyFrame = nil
+    dragging = false
 end
 
 function HoverAnchor(button)
@@ -68,7 +70,7 @@ for _, button in ipairs(ANCHORS:GetChildren()) do
 end
 
 function Tick(deltaTime)
-    if currentKeyFrame then
+    if currentKeyFrame and dragging then
         local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition - 25
         currentKeyFrame.x = CoreMath.Clamp(offset, -25, ANCHORS.width -25)
     end
