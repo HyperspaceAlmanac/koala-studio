@@ -12,5 +12,13 @@ Assets {
       VirtualFolderPath: "Test"
       PlatformAssetType: 3
     }
+    Folders {
+      VirtualFolderPath: "Animator"
+      PlatformAssetType: 3
+    }
+    Folders {
+      VirtualFolderPath: "Encoder"
+      PlatformAssetType: 3
+    }
   }
 }

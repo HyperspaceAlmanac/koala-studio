@@ -100,7 +100,7 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
             AssetReference {
-              Id: 18275048201856134673
+              Id: 2692525859599613449
             }
           }
           Overrides {
@@ -164,7 +164,7 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
             AssetReference {
-              Id: 18275048201856134673
+              Id: 2692525859599613449
             }
           }
           Overrides {
@@ -268,12 +268,12 @@ Assets {
       }
     }
     Assets {
-      Id: 18275048201856134673
-      Name: "Additive Edgeline Top Fade"
+      Id: 2692525859599613449
+      Name: "Edgeline Wavy Object Fade Advanced"
       PlatformAssetType: 2
       PrimaryAsset {
         AssetType: "MaterialAssetRef"
-        AssetId: "fxmi_add_edgeline_sharpline_topfade"
+        AssetId: "fxma_add_edgeline_local"
       }
     }
     PrimaryAssetId {

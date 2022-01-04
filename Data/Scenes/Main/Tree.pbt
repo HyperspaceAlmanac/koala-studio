@@ -20,6 +20,7 @@ Objects {
   ChildIds: 17866027913111271010
   ChildIds: 1864576807348716574
   ChildIds: 8326545056456087967
+  ChildIds: 1204701316850750194
   UnregisteredParameters {
   }
   Collidable_v2 {
@@ -32,6 +33,109 @@ Objects {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
   Folder {
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 1204701316850750194
+  Name: "IKAnchors"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 4781671109827199097
+  ChildIds: 16552092005109394679
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Folder {
+    IsGroup: true
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 16552092005109394679
+  Name: "TEST_IK"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 1204701316850750194
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:BodyDebug"
+      AssetReference {
+        Id: 4592957535985972253
+      }
+    }
+    Overrides {
+      Name: "cs:LeftFootDebug"
+      AssetReference {
+        Id: 304162242050779131
+      }
+    }
+    Overrides {
+      Name: "cs:LeftHandDebug"
+      AssetReference {
+        Id: 3157633151622510024
+      }
+    }
+    Overrides {
+      Name: "cs:RightFootDebug"
+      AssetReference {
+        Id: 18238639466152772534
+      }
+    }
+    Overrides {
+      Name: "cs:RightHandDebug"
+      AssetReference {
+        Id: 5177685851208596832
+      }
+    }
+  }
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Script {
+    ScriptAsset {
+      Id: 1080401805515982768
+    }
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
@@ -52,6 +156,7 @@ Objects {
     }
   }
   ParentId: 4781671109827199097
+  ChildIds: 10068152650647582781
   ChildIds: 18004227384880621309
   ChildIds: 505572074111893118
   Collidable_v2 {
@@ -88,6 +193,7 @@ Objects {
     }
   }
   ParentId: 8326545056456087967
+  ChildIds: 17506501044394447135
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -102,6 +208,60 @@ Objects {
   }
   NetworkContext {
     Type: Server
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 17506501044394447135
+  Name: "ServerSynchronization"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 505572074111893118
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:NetworkedObj"
+      ObjectReference {
+        SelfId: 10068152650647582781
+      }
+    }
+    Overrides {
+      Name: "cs:EncoderAPI"
+      AssetReference {
+        Id: 16533647364127447721
+      }
+    }
+    Overrides {
+      Name: "cs:EncoderAPI:category"
+      String: "API"
+    }
+  }
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Script {
+    ScriptAsset {
+      Id: 6898803419170891685
+    }
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
@@ -124,6 +284,7 @@ Objects {
   ParentId: 8326545056456087967
   ChildIds: 3023761103100554427
   ChildIds: 1673269956018870714
+  ChildIds: 9561057767705723034
   Collidable_v2 {
     Value: "mc:ecollisionsetting:forceoff"
   }
@@ -137,6 +298,60 @@ Objects {
     Value: "mc:eindicatorvisibility:visiblewhenselected"
   }
   NetworkContext {
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 9561057767705723034
+  Name: "ClientSyncronization"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 18004227384880621309
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:NetworkedObj"
+      ObjectReference {
+        SelfId: 10068152650647582781
+      }
+    }
+    Overrides {
+      Name: "cs:EncoderAPI"
+      AssetReference {
+        Id: 16533647364127447721
+      }
+    }
+    Overrides {
+      Name: "cs:EncoderAPI:category"
+      String: "API"
+    }
+  }
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Script {
+    ScriptAsset {
+      Id: 8058858663364942168
+    }
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
@@ -257,6 +472,51 @@ Objects {
     ScriptAsset {
       Id: 4075073284374359509
     }
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 10068152650647582781
+  Name: "NetworkedObj"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 8326545056456087967
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:Message"
+      String: ""
+    }
+    Overrides {
+      Name: "cs:Message:isrep"
+      Bool: true
+    }
+  }
+  WantsNetworking: true
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Folder {
+    IsGroup: true
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
