@@ -158,7 +158,7 @@ function UpdateStatus()
         O_Z.text = tostring(values.offset.z)
         ACTIVATED.text = values.activated and "Activated" or "Deactivate"
         LMBDRAG.text = "Place Holder"
-        TIME_BUTTON.text = "Time: "..tostring((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / 200)
+        TIME_BUTTON.text = "Time: "..tostring(CoreMath.Round((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / 200, 3))
     end
 end
 
