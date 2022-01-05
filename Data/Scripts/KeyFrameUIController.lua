@@ -1,3 +1,6 @@
+-- API
+local API = require(script:GetCustomProperty("AnimatorClientAPI"))
+
 -- UI 
 local ANCHOR_EDITOR = script:GetCustomProperty("AnchorEditor"):WaitForObject() ---@type UIPanel
 local EFFECTS_EDITOR = script:GetCustomProperty("EffectsEditor"):WaitForObject() ---@type UIPanel
@@ -52,6 +55,13 @@ function ButtonReleased(button)
    	elseif button.clientUserData.value == "duplicate" then
    	elseif button.clientUserData.value == "delete" then
    	end
+end
+
+function DeleteCurrentKeyFrame()
+    if LOCAL_PLAYER.clientUserData.currentKeyFrame then
+        LOCAL_PLAYER.clientUserData.currentKeyFrame:Destroy()
+        LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
+    end
 end
 
 function Initialize()
@@ -127,6 +137,14 @@ function Initialize()
     DUPLICATE.clientUserData.released = DUPLICATE.releasedEvent:Connect(ButtonReleased)
     DELETE.clientUserData.value = "delete"
     DELETE.clientUserData.released = DELETE.releasedEvent:Connect(ButtonReleased)
+
+    DELETE.clickedEvent:Connect(
+        function(button)
+            if API.DeleteCallback and LOCAL_PLAYER.clientUserData.currentKeyFrame then
+                API.DeleteCallback("KeyFrame", DeleteCurrentKeyFrame)
+            end
+        end
+    )
 end
 
 function UpdateStatus()

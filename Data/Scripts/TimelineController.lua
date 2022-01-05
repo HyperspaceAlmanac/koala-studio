@@ -1,3 +1,6 @@
+-- Custom 
+local API = require(script:GetCustomProperty("AnimatorClientAPI"))
+
 -- Templates 
 local KEY_FRAME_BUTTON = script:GetCustomProperty("KeyFrameButton")
 local SECOND_LABEL = script:GetCustomProperty("SecondLabel")
@@ -11,6 +14,8 @@ local SCREEN_SIZE = UI.GetScreenSize()
 local LOCAL_PLAYER = Game.GetLocalPlayer()
 
 local lastHoveredAnchor = nil
+local gray = Color.New(0.25, 0.25, 0.25)
+local black = Color.New(0, 0, 0)
 LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
 LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
 local keyFrameTable = {}
@@ -42,6 +47,11 @@ Task.Spawn(
 )
 
 function PressKeyFrame(button)
+    local prev = LOCAL_PLAYER.clientUserData.currentKeyFrame
+    if prev then
+        prev:SetButtonColor(black)
+    end
+    button:SetButtonColor(gray)
     LOCAL_PLAYER.clientUserData.currentKeyFrame = button
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = true
     LOCAL_PLAYER.clientUserData.lastPressed = nil
@@ -49,6 +59,7 @@ end
 
 function ReleaseKeyFrame(button)
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
+    button:SetButtonColor(gray)
 end
 
 function HoverAnchor(button)
@@ -74,7 +85,12 @@ function ClickAnchor(button)
     kfButton.clientUserData.released = kfButton.releasedEvent:Connect(ReleaseKeyFrame)
     InitializeKeyFrameProperties(kfButton, offset - 25)
     table.insert(keyFrameTable, kfButton)
+    local prev = LOCAL_PLAYER.clientUserData.currentKeyFrame
+    if prev then
+        prev:SetButtonColor(black)
+    end
     LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
+    kfButton:SetButtonColor(gray)
     kfButton.x = offset - 25
     kfButton.y = 0
 end

@@ -52,7 +52,6 @@ function DeleteAnimation(params)
 end
 
 function ClientEvent(type, params)
-
 end
 
 function ReadServerData()
