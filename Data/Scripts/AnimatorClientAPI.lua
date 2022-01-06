@@ -19,6 +19,7 @@ API.LoadAnimationTimelineCallback = nil
 API.PushToQueueCallback = nil
 API.DeleteCallback = nil
 API.CancelDeleteCallback = nil
+API.UpdateTimeDisplayCallback = nil
 API.ChatInputType = nil
 API.WaitToDelete = false
 
@@ -51,6 +52,17 @@ end
 function API.DeleteAnimation(params)
 end
 
+function API.UpdateName(name)
+    print("Updated Animation name to: "..name)
+end
+
+function API.UpdateMaxTime(time)
+    print("Updated max time to: "..tostring(time))
+end
+
+function API.UpdateTimeScale(index)
+end
+
 function API.RegisterLAC(callback)
     API.LoadAnimationCallbacl = callback
 end
@@ -69,6 +81,10 @@ end
 
 function API.CancelDeleteCallback(callback)
     API.CancelDeleteCallback = callback
+end
+
+function API.RegisterUTD(callback)
+    API.UpdateTimeDisplayCallback = callback
 end
 
 function API.Hello()

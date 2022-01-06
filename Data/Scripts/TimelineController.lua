@@ -54,6 +54,7 @@ function UpdateTickMarks()
     end
 end
 
+API.RegisterUTD(UpdateTickMarks)
 UpdateTickMarks()
 
 function PressKeyFrame(button)

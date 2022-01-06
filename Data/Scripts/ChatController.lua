@@ -52,3 +52,25 @@ function Tick(deltaTime)
         TYPE.text = "String"
     end
 end
+
+function ChatHook(param)
+    local lp = LOCAL_PLAYER.clientUserData.lastPressed
+    local mt = LOCAL_PLAYER.clientUserData.changeMaxTime
+    local name = LOCAL_PLAYER.clientUserData.setAnimName
+    if lp then
+    elseif mt then
+        local num = tonumber(param.message)
+        if num then
+            num = CoreMath.Round(num, 3)
+            num = CoreMath.Clamp(num, 0, 60)
+            LOCAL_PLAYER.clientUserData.maxSeconds = num
+            API.UpdateMaxTime(num)
+            API.UpdateTimeDisplayCallback()
+            param.message = ""
+        end
+    elseif name then
+        API.UpdateName(param.message)
+        param.message = ""
+    end
+end
+Chat.sendMessageHook:Connect(ChatHook)
