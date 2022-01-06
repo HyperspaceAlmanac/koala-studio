@@ -6,11 +6,13 @@ local ANIMATION_BUTTON = script:GetCustomProperty("AnimationButton")
 local ANIMATIONS = script:GetCustomProperty("Animations"):WaitForObject() ---@type UIPanel
 local ANIMATION_LIST = script:GetCustomProperty("AnimationList"):WaitForObject() ---@type UIScrollPanel
 local NEW = script:GetCustomProperty("New"):WaitForObject() ---@type UIButton
-local SAVE = script:GetCustomProperty("Save"):WaitForObject() ---@type UIButton
+local NAME = script:GetCustomProperty("Name"):WaitForObject() ---@type UIButton
 local DELETE = script:GetCustomProperty("Delete"):WaitForObject() ---@type UIButton
 local EXPORT_ENCODED = script:GetCustomProperty("ExportEncoded"):WaitForObject() ---@type UIButton
 local EXPORT_SCRIPT = script:GetCustomProperty("ExportScript"):WaitForObject() ---@type UIButton
 local DELETE_MODAL = script:GetCustomProperty("DeleteModal"):WaitForObject() ---@type UIPanel
+
+local LOCAL_PLAYER = Game.GetLocalPlayer()
 
 local deleteMenu = {}
 deleteMenu.display = DELETE_MODAL:FindChildByName("DeleteTitle")
@@ -91,6 +93,20 @@ DELETE.clickedEvent:Connect(
     end
 )
 
+function NameClicked(button)
+    local lastPressed = LOCAL_PLAYER.clientUserData.lastPressed
+    if lastPressed then
+        lastPressed:SetButtonColor(gray)
+        LOCAL_PLAYER.clientUserData.lastPressed = nil
+    end
+    local lastKF = LOCAL_PLAYER.clientUserData.currentKeyFrame
+    if LOCAL_PLAYER.clientUserData.currentKeyFrame then
+        lastKF:SetButtonColor(Color.BLACK)
+        LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
+    end
+    LOCAL_PLAYER.clientUserData.setAnimName = true
+end
 
+NAME.clickedEvent:Connect(NameClicked)
 API.RegisterDeleteCallback(ClickedDelete)
 

@@ -16,6 +16,7 @@ local LOCAL_PLAYER = Game.GetLocalPlayer()
 local lastHoveredAnchor = nil
 local gray = Color.New(0.25, 0.25, 0.25)
 local black = Color.New(0, 0, 0)
+local white = Color.New(1, 1, 1)
 LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
 LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
 local keyFrameTable = {}
@@ -54,6 +55,10 @@ function PressKeyFrame(button)
     button:SetButtonColor(gray)
     LOCAL_PLAYER.clientUserData.currentKeyFrame = button
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = true
+    prev = LOCAL_PLAYER.clientUserData.lastPressed
+    if prev then
+        prev:SetButtonColor(white)    
+    end
     LOCAL_PLAYER.clientUserData.lastPressed = nil
 end
 

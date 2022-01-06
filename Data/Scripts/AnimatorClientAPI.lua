@@ -19,6 +19,7 @@ API.LoadAnimationTimelineCallback = nil
 API.PushToQueueCallback = nil
 API.DeleteCallback = nil
 API.CancelDeleteCallback = nil
+API.ChatInputType = nil
 API.WaitToDelete = false
 
 function API.CreateKeyFrame(params)
