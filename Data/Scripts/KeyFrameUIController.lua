@@ -50,7 +50,7 @@ function ButtonReleased(button)
     	TRANSFORM.visibility = Visibility.INHERIT
     	ANCHOR.visibility = Visibility.FORCE_OFF
     elseif button.clientUserData.value == "anchor" then
-        	TRANSFORM.visibility = Visibility.FORCE_OFF
+        TRANSFORM.visibility = Visibility.FORCE_OFF
     	ANCHOR.visibility = Visibility.INHERIT
    	elseif button.clientUserData.value == "duplicate" then
    	elseif button.clientUserData.value == "delete" then
@@ -143,6 +143,19 @@ function Initialize()
             if API.DeleteCallback and LOCAL_PLAYER.clientUserData.currentKeyFrame then
                 API.DeleteCallback("KeyFrame", DeleteCurrentKeyFrame)
             end
+        end
+    )
+
+    DUPLICATE.clickedEvent:Connect(
+        function(button)
+            local prevButton = LOCAL_PLAYER.clientUserData.lastPressed
+            if prevButton then
+                if prevButton.clientUserData.index then
+                    prevButton:SetButtonColor(white)
+                end
+            end
+            LOCAL_PLAYER.clientUserData.lastPressed = nil
+            API.DuplicateKFCallback()
         end
     )
 end

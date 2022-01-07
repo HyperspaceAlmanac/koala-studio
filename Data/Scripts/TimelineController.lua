@@ -66,7 +66,7 @@ function PressKeyFrame(button)
     LOCAL_PLAYER.clientUserData.currentKeyFrame = button
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = true
     prev = LOCAL_PLAYER.clientUserData.lastPressed
-    if prev then
+    if prev and prev.clientUserData.index then
         prev:SetButtonColor(white)    
     end
     LOCAL_PLAYER.clientUserData.lastPressed = nil
@@ -81,7 +81,7 @@ function HoverAnchor(button)
     lastHoveredAnchor = button
 end
 
-function InitializeKeyFrameProperties(button, offset)
+function InitializeKeyFrameProperties(button)
     button.clientUserData.prop = {}
     button.clientUserData.prop.id = 1
     button.clientUserData.prop.position = Vector3.New(0, 0, 0)
@@ -93,12 +93,12 @@ function InitializeKeyFrameProperties(button, offset)
     button.clientUserData.prop.activated = true
 end
 
-function ClickAnchor(button)
-    local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition
-    local kfButton = World.SpawnAsset(KEY_FRAME_BUTTON, {parent = button})
+local kfProps = {"id", "position", "offset", "rotation", "weight", "blendIn", "blendOut", "activated"}
+
+function InitializeKeyFrame(offset, kfButton)
     kfButton.clientUserData.pressed = kfButton.pressedEvent:Connect(PressKeyFrame)
     kfButton.clientUserData.released = kfButton.releasedEvent:Connect(ReleaseKeyFrame)
-    InitializeKeyFrameProperties(kfButton, offset - 25)
+    InitializeKeyFrameProperties(kfButton)
     table.insert(keyFrameTable, kfButton)
     local prev = LOCAL_PLAYER.clientUserData.currentKeyFrame
     if prev then
@@ -106,8 +106,27 @@ function ClickAnchor(button)
     end
     LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
     kfButton:SetButtonColor(gray)
-    kfButton.x = offset - 25
+    kfButton.x = offset
     kfButton.y = 0
+end
+
+function DuplicateKeyFrame()
+    local prevKF = LOCAL_PLAYER.clientUserData.currentKeyFrame
+    if prevKF then
+        local kfButton =  World.SpawnAsset(KEY_FRAME_BUTTON, {parent = prevKF.parent})
+        InitializeKeyFrame(prevKF.x, kfButton)
+        for _, val in ipairs(kfProps) do
+            kfButton.clientUserData.prop[val] = prevKF.clientUserData.prop[val]
+        end
+    end
+end
+
+API.RegisterDuplicateKF(DuplicateKeyFrame)
+
+function ClickAnchor(button)
+    local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition
+    local kfButton = World.SpawnAsset(KEY_FRAME_BUTTON, {parent = button})
+    InitializeKeyFrame(offset - 25, kfButton)
 end
 
 for _, button in ipairs(ANCHORS:GetChildren()) do
@@ -137,7 +156,7 @@ function SetMaxTime(button)
     end
     LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
     prev = LOCAL_PLAYER.clientUserData.lastPressed
-    if prev then
+    if prev and prev.clientUserData.index then
         prev:SetButtonColor(white)    
     end
     LOCAL_PLAYER.clientUserData.lastPressed = nil

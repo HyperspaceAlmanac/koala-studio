@@ -20,6 +20,7 @@ API.PushToQueueCallback = nil
 API.DeleteCallback = nil
 API.CancelDeleteCallback = nil
 API.UpdateTimeDisplayCallback = nil
+API.DuplicateKFCallback = nil
 API.ChatInputType = nil
 API.WaitToDelete = false
 
@@ -85,6 +86,10 @@ end
 
 function API.RegisterUTD(callback)
     API.UpdateTimeDisplayCallback = callback
+end
+
+function API.RegisterDuplicateKF(callback)
+    API.DuplicateKFCallback = callback
 end
 
 function API.Hello()
