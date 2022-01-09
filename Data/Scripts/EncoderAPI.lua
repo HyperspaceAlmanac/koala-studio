@@ -55,6 +55,54 @@ function Encoder.DecodeNetwork(encoded)
     return left * 100 + right
 end
 
+function Encoder.EncodeDecimal(num)
+    num = CoreMath.Round(num, 3) * 1000
+    local left = math.floor(num / 10000) + 1
+    local center = math.floor((num % 10000) / 100) + 1
+    local right = math.floor(num % 100) + 1
+    return string.char(left)..string.char(center)..string.char(right)
+end
+
+function Encoder.DecodeDecimal(encoded)
+    local left = tonumber(string.byte(encoded:sub(1, 1))) - 1
+    local middle = tonumber(string.byte(encoded:sub(2, 2))) - 1
+    local right = tonumber(string.byte(encoded:sub(3, 3))) - 1
+    return CoreMath.Round(left * 10 + middle / 10 + right / 1000, 3)
+end
+
+function Encoder.EncodePosAndOffsetSigns(position, offset)
+    local x1 = position.x >= 0 and 1 or 0
+    local y1 = position.y >= 0 and 1 or 0
+    local z1 = position.z >= 0 and 1 or 0
+    local x2 = offset.x >= 0 and 1 or 0
+    local y2 = offset.y >= 0 and 1 or 0
+    local z2 = offset.z >= 0 and 1 or 0
+    local val = (x1 << 5) + (y1 << 4) + (z1 << 3) + (x2 << 2) + (y2 << 1) + z2
+    if val == 0 then
+        return string.char(1 << 6)
+    else
+        return string.char(val)
+    end
+end
+
+function Encoder.DecodePosAndOffsetSigns(encoded)
+    local values = {}
+    encoded = tonumber(string.byte(encoded))
+    if encoded == 1 << 6 then
+        for i=1, 6 do
+            values[i] = false
+        end
+    else
+        values[1] = (encoded & 32) > 0
+        values[2] = (encoded & 16) > 0
+        values[3] = (encoded & 8) > 0
+        values[4] = (encoded & 4) > 0
+        values[5] = (encoded & 2) > 0
+        values[6] = (encoded & 1) > 0
+    end
+    return values
+end
+
 -- 0 to 255
 function Encoder.EncodeByte(num)
     return string.char(num)

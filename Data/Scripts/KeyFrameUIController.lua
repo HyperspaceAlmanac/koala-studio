@@ -59,8 +59,23 @@ end
 
 function DeleteCurrentKeyFrame()
     if LOCAL_PLAYER.clientUserData.currentKeyFrame then
-        LOCAL_PLAYER.clientUserData.currentKeyFrame:Destroy()
-        LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
+        local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+        local kfTable = LOCAL_PLAYER.clientUserData.anchors[kf.clientUserData.anchorIndex]
+        local foundIndex = nil
+        for i, b in ipairs(kfTable) do
+            if b == kf then
+                foundIndex = i
+            else
+                if foundIndex and foundIndex > i then
+                    b.clientUserData.timelineIndex = b.clientUserData.timelineIndex - 1
+                end
+            end
+            if foundIndex then
+                table.remove(kfTable, foundIndex)
+            end
+        end
+        kf:Destroy()
+        kf = nil
     end
 end
 

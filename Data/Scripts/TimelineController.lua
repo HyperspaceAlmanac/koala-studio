@@ -26,11 +26,18 @@ local gray = Color.New(0.25, 0.25, 0.25)
 local lightGray = Color.New(0.75, 0.75, 0.75)
 local black = Color.New(0, 0, 0)
 local white = Color.New(1, 1, 1)
+LOCAL_PLAYER.clientUserData.anchors = {}
 LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
 LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
 LOCAL_PLAYER.clientUserData.changeMaxTime = nil
 local keyFrameTable = {}
 local tickMarks = {}
+
+for _, child in ipairs(ANCHORS:GetChildren()) do
+    local tbl = LOCAL_PLAYER.clientUserData.anchors
+    table.insert(tbl, {})
+    child.clientUserData.anchorIndex = #tbl
+end
 
 LOCAL_PLAYER.clientUserData.tickMarkNum = 2
 B_2:SetButtonColor(lightGray)
@@ -96,7 +103,7 @@ end
 
 local kfProps = {"id", "position", "offset", "rotation", "weight", "blendIn", "blendOut", "activated"}
 
-function InitializeKeyFrame(offset, kfButton)
+function InitializeKeyFrame(offset, kfButton, duplicate)
     kfButton.clientUserData.pressed = kfButton.pressedEvent:Connect(PressKeyFrame)
     kfButton.clientUserData.released = kfButton.releasedEvent:Connect(ReleaseKeyFrame)
     InitializeKeyFrameProperties(kfButton)
@@ -105,7 +112,11 @@ function InitializeKeyFrame(offset, kfButton)
     if prev then
         prev:SetButtonColor(black)
     end
-    LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
+    if not duplicate then
+        LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
+        local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
+        kfButton.clientUserData.timelineIndex = #anchors + 1
+    end
     kfButton:SetButtonColor(gray)
     kfButton.x = offset
     kfButton.y = 0
@@ -115,10 +126,13 @@ function DuplicateKeyFrame()
     local prevKF = LOCAL_PLAYER.clientUserData.currentKeyFrame
     if prevKF then
         local kfButton =  World.SpawnAsset(KEY_FRAME_BUTTON, {parent = prevKF.parent})
-        InitializeKeyFrame(prevKF.x, kfButton)
+        InitializeKeyFrame(prevKF.x, kfButton, true)
         for _, val in ipairs(kfProps) do
             kfButton.clientUserData.prop[val] = prevKF.clientUserData.prop[val]
         end
+        kfButton.clientUserData.anchorIndex = prevKF.clientUserData.anchorIndex
+        local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
+        kfButton.clientUserData.timelineIndex = #anchors + 1
     end
 end
 
@@ -127,7 +141,8 @@ API.RegisterDuplicateKF(DuplicateKeyFrame)
 function ClickAnchor(button)
     local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition
     local kfButton = World.SpawnAsset(KEY_FRAME_BUTTON, {parent = button})
-    InitializeKeyFrame(offset - 25, kfButton)
+    kfButton.clientUserData.anchorIndex = button.clientUserData.anchorIndex
+    InitializeKeyFrame(offset - 25, kfButton, false)
 end
 
 for _, button in ipairs(ANCHORS:GetChildren()) do

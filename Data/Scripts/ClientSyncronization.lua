@@ -44,6 +44,12 @@ function ProcessRequest(params)
         Events.BroadcastToServer("ChangeAnimationName", params[2], params[3])
     elseif params[1] == "GetAnimations" then
         Events.BroadcastToServer("GetAnimations")
+    elseif params[1] == "DeleteKeyFrame" then
+    elseif params[1] == "AddkeyFrame" then
+
+    elseif params[1] == "DuplicateKeyFrame" then
+    elseif params[1] == "SetTimeScale" then
+    elseif params[1] == "SetMaxTime" then
     else
         print("Unknown request header, no action taken")
     end

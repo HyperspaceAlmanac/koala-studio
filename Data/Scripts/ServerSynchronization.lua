@@ -8,6 +8,21 @@ local ENCODER_API = require(script:GetCustomProperty("EncoderAPI"))
 local animations = {}
 local listeners = {}
 
+--[[
+    Properties of key frame
+    {timelinePosition, active, position, rotation, weight, blendIn, blendout, offset}
+]]
+local sample = {
+    timelinePosition = 30.111,
+    position = Vector3.New(10, 10, 10),
+    rotation = Rotation.New(-30, 90, 20),
+    offset = Vector3.New(0, 25, 0),
+    weight = 0.95,
+    blendIn = 0.35,
+    blendOut = 0.201,
+    active = true
+}
+
 function SendAnimations(player)
     local encodedTable = {}
     table.insert(encodedTable, ENCODER_API.EncodeByte(1))
