@@ -59,7 +59,6 @@ function VisibilityCheck()
 end
 
 function Validator(value, expected)
-    print("Validator")
     local num = tonumber(value)
     if not num then
         return {"Not a valid Number", nil}
@@ -188,8 +187,13 @@ function ChatHook(param)
             param.message = ""
         end
     elseif name then
-        API.UpdateName(param.message)
-        param.message = ""
+        local newName = param.message
+        if #newName == 0 or #newName > 25 then
+            param.message = "Name must be between 1 and 25 characters"
+        else
+            API.UpdateNameCallback(param.message)
+            param.message = ""
+        end
     end
 end
 

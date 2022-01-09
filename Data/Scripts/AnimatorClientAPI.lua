@@ -11,16 +11,16 @@ end
 
 API.loadingTable = {}
 API.AnimationTable = {}
-API.CurrenAnimation = {}
 
 --Callbacks
 API.LoadAnimationCallback = nil
 API.LoadAnimationTimelineCallback = nil
-API.PushToQueueCallback = nil
+API.PushToQueue = nil
 API.DeleteCallback = nil
 API.CancelDeleteCallback = nil
 API.UpdateTimeDisplayCallback = nil
 API.DuplicateKFCallback = nil
+API.UpdateNameCallback = nil
 API.ChatInputType = nil
 API.WaitToDelete = false
 
@@ -88,7 +88,7 @@ function API.RegisterLATC(callback)
 end
 
 function API.RegisterP2QC(callback)
-    API.PushToQueueCallback = callback
+    API.PushToQueue = callback
 end
 
 function API.RegisterDeleteCallback(callback)
@@ -107,6 +107,10 @@ function API.RegisterDuplicateKF(callback)
     API.DuplicateKFCallback = callback
 end
 
+function API.RegisterUpdateNameCallback(callback)
+    API.UpdateNameCallback = callback
+end
+
 function API.CleanUp(player)
     local lastPressed = player.clientUserData.lastPressed
     if lastPressed and lastPressed.clientUserData.index then
@@ -123,6 +127,11 @@ function API.CleanUp(player)
         player.clientUserData.changeMaxTime = nil
     end
     player.clientUserData.setAnimName = false
+end
+
+function API.FullCleanUp(player)
+    API.CleanUp(player)
+    player.clientUserData.currentAnimation = nil
 end
 
 function API.Hello()

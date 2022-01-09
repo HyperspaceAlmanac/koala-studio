@@ -20,5 +20,9 @@ Assets {
       VirtualFolderPath: "Encoder"
       PlatformAssetType: 3
     }
+    Folders {
+      VirtualFolderPath: "Editor"
+      PlatformAssetType: 3
+    }
   }
 }

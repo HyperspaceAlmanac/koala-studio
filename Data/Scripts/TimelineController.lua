@@ -5,7 +5,8 @@ local API = require(script:GetCustomProperty("AnimatorClientAPI"))
 local KEY_FRAME_BUTTON = script:GetCustomProperty("KeyFrameButton")
 local SECOND_LABEL = script:GetCustomProperty("SecondLabel")
 
--- Custom 
+-- Custom
+local TIME_LINE = script:GetCustomProperty("TimeLine"):WaitForObject() ---@type UIPanel
 local SCROLLING_TIMELINE = script:GetCustomProperty("ScrollingTimeline"):WaitForObject() ---@type UIScrollPanel
 local ANCHORS = script:GetCustomProperty("Anchors"):WaitForObject() ---@type UIPanel
 local TICK_MARKS = script:GetCustomProperty("TickMarks"):WaitForObject() ---@type UIPanel
@@ -164,6 +165,11 @@ end
 TIME_BUTTON.clickedEvent:Connect(SetMaxTime)
 
 function Tick(deltaTime)
+    if not LOCAL_PLAYER.clientUserData.currentAnimation then
+        TIME_LINE.visibility = Visibility.FORCE_OFF
+        return
+    end
+    TIME_LINE.visibility = Visibility.INHERIT
     if LOCAL_PLAYER.clientUserData.currentKeyFrame and LOCAL_PLAYER.clientUserData.draggingKeyFrame then
         local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition - 25
         LOCAL_PLAYER.clientUserData.currentKeyFrame.x = CoreMath.Clamp(offset, -25, ANCHORS.width -25)

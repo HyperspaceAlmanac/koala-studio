@@ -1,5 +1,9 @@
--- Custom 
+-- API
 local API = require(script:GetCustomProperty("AnimatorClientAPI"))
+local ENCODER_API = require(script:GetCustomProperty("EncoderAPI"))
+
+-- Networking 
+local NETWORKED = script:GetCustomProperty("NetworkedObj"):WaitForObject() ---@type Folder
 
 -- Custom 
 local ANIMATION_BUTTON = script:GetCustomProperty("AnimationButton")
@@ -23,25 +27,8 @@ deleteMenu.callback = nil
 local lightGray = Color.New(0.75, 0.75, 0.75)
 local gray = Color.New(1, 1, 1)
 
-local animations = {}
-local currentAnimation = nil
-for _, anim in ipairs(ANIMATION_LIST:GetChildren()) do
-    if anim:IsA("UIButton") then
-        table.insert(animations, anim)
-        anim.clickedEvent:Connect(
-            function(button)
-                if currentAnimation then
-                    currentAnimation:SetButtonColor(lightGray)
-                end
-                button:SetButtonColor(gray)
-                currentAnimation = button
-            end
-        )
-        anim.text = "Animation"..tostring(#animations)
-    end
-end
-currentAnimation = animations[1]
-currentAnimation:SetButtonColor(gray)
+local animationNames = {}
+local animationButtons = {}
 
 deleteMenu.confirm.clickedEvent:Connect(
     function(button)
@@ -69,6 +56,7 @@ function FindAndDelete(t, v)
     for i, val in ipairs(t) do
         if val == v then
             table.remove(t, i)
+            API.PushToQueue({"DeleteAnimation", i})
         end
     end
     for i, val in ipairs(t) do
@@ -77,25 +65,61 @@ function FindAndDelete(t, v)
 end
 DELETE.clickedEvent:Connect(
     function (button)
-        if currentAnimation then
+        if LOCAL_PLAYER.clientUserData.currentAnimation then
+            local currentAnimation = LOCAL_PLAYER.clientUserData.currentAnimation
             ClickedDelete("Animation",
             function()
                 if currentAnimation then
-                    FindAndDelete(animations, currentAnimation)
+                    FindAndDelete(animationButtons, currentAnimation)
                     currentAnimation:Destroy()
-                    if #animations > 0 then
-                        currentAnimation = animations[1]
-                        currentAnimation:SetButtonColor(gray)
-                    end
+                    LOCAL_PLAYER.clientUserData.currentAnimation = nil
                 end
             end)
         end
     end
 )
 
+function NewAnimation(button)
+    local defaultName = "Animation"
+    table.insert(animationNames, defaultName)
+    local spawned = World.SpawnAsset(ANIMATION_BUTTON, {parent = ANIMATION_LIST})
+    spawned.text = defaultName
+    spawned.y = (#animationNames - 1) * 60
+    table.insert(animationButtons, spawned)
+    spawned.clickedEvent:Connect(
+        function(b)
+            if LOCAL_PLAYER.clientUserData.currentAnimation then
+                LOCAL_PLAYER.clientUserData.currentAnimation:SetButtonColor(lightGray)
+            end
+            button:SetButtonColor(Color.WHITE)
+            LOCAL_PLAYER.clientUserData.currentAnimation = spawned
+        end
+    )
+    local tbl = {}
+    API.PushToQueue({"NewAnimation", defaultName})
+end
+
+function RenameAnimation(name)
+    local currentAnimation = LOCAL_PLAYER.clientUserData.currentAnimation
+    if currentAnimation then
+        currentAnimation.text = name
+        for i, val in ipairs(animationButtons) do
+            if val == currentAnimation then
+                API.PushToQueue({"ChangeAnimationName", i, name})
+                return
+            end
+        end
+    end
+end
+API.RegisterUpdateNameCallback(RenameAnimation)
+
+NEW.clickedEvent:Connect(NewAnimation)
+
 function NameClicked(button)
-    API.CleanUp(LOCAL_PLAYER)
-    LOCAL_PLAYER.clientUserData.setAnimName = true
+    if LOCAL_PLAYER.clientUserData.currentAnimation then
+        API.CleanUp(LOCAL_PLAYER)
+        LOCAL_PLAYER.clientUserData.setAnimName = true
+    end
 end
 
 NAME.clickedEvent:Connect(NameClicked)
@@ -105,5 +129,55 @@ function Join(player)
     API.PlayerJoin(player)
     player.clientUserData.currentAnimation = nil
 end
+
+function UpdateAnimationNames(message)
+    animationNames = {}
+    animationButtons = {}
+    LOCAL_PLAYER.clientUserData.currentAnimation = nil
+    for _, btn in ipairs(ANIMATION_LIST:GetChildren()) do
+        btn:Destroy()
+    end
+    local index = 2
+    while index < #message do
+        local size = ENCODER_API.DecodeByte(message:sub(index, index))
+        index = index + 1
+        local name = message:sub(index, index + size - 1)
+        table.insert(animationNames, name)
+        index = index + size
+    end
+    for i, name in ipairs(animationNames) do
+        local button = World.SpawnAsset(ANIMATION_BUTTON, {parent = ANIMATION_LIST})
+        button.text = name
+        button.y = (i - 1) * 60
+        table.insert(animationButtons, button)
+        button.clickedEvent:Connect(
+            function(b)
+                if LOCAL_PLAYER.clientUserData.currentAnimation then
+                    LOCAL_PLAYER.clientUserData.currentAnimation:SetButtonColor(lightGray)
+                end
+                button:SetButtonColor(Color.WHITE)
+                LOCAL_PLAYER.clientUserData.currentAnimation = button
+            end
+        )
+    end
+end
+
+function NetworkedMessage(obj, key)
+    if key =="Message" then
+        local message = obj:GetCustomProperty(key)
+        if message then
+            local opCode = ENCODER_API.DecodeByte(message:sub(1, 1))
+            if opCode == 1 then
+                UpdateAnimationNames(message)                
+            end
+        end
+    end
+end
 Game.playerJoinedEvent:Connect(Join)
+NETWORKED.customPropertyChangedEvent:Connect(NetworkedMessage)
+
+--Send initial message to get animations
+Task.Wait()
+API.FullCleanUp(LOCAL_PLAYER)
+API.PushToQueue({"GetAnimations"})
 

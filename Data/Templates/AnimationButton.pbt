@@ -87,6 +87,7 @@ Assets {
             }
             ShadowOffset {
             }
+            ScaleToFit: true
           }
           AnchorLayout {
             SelfAnchor {

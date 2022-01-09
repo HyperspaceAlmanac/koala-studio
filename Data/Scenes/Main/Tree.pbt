@@ -192,7 +192,6 @@ Objects {
     }
   }
   ParentId: 8326545056456087967
-  ChildIds: 14150344104373901496
   ChildIds: 17506501044394447135
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -236,6 +235,12 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:EditorAPI"
+      AssetReference {
+        Id: 12454095728369486788
+      }
+    }
+    Overrides {
       Name: "cs:EncoderAPI"
       AssetReference {
         Id: 16533647364127447721
@@ -243,6 +248,10 @@ Objects {
     }
     Overrides {
       Name: "cs:EncoderAPI:category"
+      String: "API"
+    }
+    Overrides {
+      Name: "cs:EditorAPI:category"
       String: "API"
     }
   }
@@ -261,42 +270,6 @@ Objects {
   Script {
     ScriptAsset {
       Id: 6898803419170891685
-    }
-  }
-  NetworkRelevanceDistance {
-    Value: "mc:eproxyrelevance:critical"
-  }
-}
-Objects {
-  Id: 14150344104373901496
-  Name: "EditorServer"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 505572074111893118
-  Collidable_v2 {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  Visible_v2 {
-    Value: "mc:evisibilitysetting:inheritfromparent"
-  }
-  CameraCollidable {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  EditorIndicatorVisibility {
-    Value: "mc:eindicatorvisibility:visiblewhenselected"
-  }
-  Script {
-    ScriptAsset {
-      Id: 9759874855925179679
     }
   }
   NetworkRelevanceDistance {
@@ -446,9 +419,21 @@ Objects {
   ParentId: 18004227384880621309
   UnregisteredParameters {
     Overrides {
+      Name: "cs:NetworkedObj"
+      ObjectReference {
+        SelfId: 10068152650647582781
+      }
+    }
+    Overrides {
       Name: "cs:AnimatorClientAPI"
       AssetReference {
         Id: 3696733425841567565
+      }
+    }
+    Overrides {
+      Name: "cs:EncoderAPI"
+      AssetReference {
+        Id: 16533647364127447721
       }
     }
     Overrides {
@@ -507,6 +492,14 @@ Objects {
     }
     Overrides {
       Name: "cs:AnimatorClientAPI:category"
+      String: "API"
+    }
+    Overrides {
+      Name: "cs:NetworkedObj:category"
+      String: "Networking"
+    }
+    Overrides {
+      Name: "cs:EncoderAPI:category"
       String: "API"
     }
   }
@@ -848,6 +841,12 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:AnimatorClientAPI"
+      AssetReference {
+        Id: 3696733425841567565
+      }
+    }
+    Overrides {
       Name: "cs:EncoderAPI"
       AssetReference {
         Id: 16533647364127447721
@@ -911,6 +910,12 @@ Objects {
       Name: "cs:SecondLabel"
       AssetReference {
         Id: 7864363465554216616
+      }
+    }
+    Overrides {
+      Name: "cs:TimeLine"
+      ObjectReference {
+        SelfId: 7245179807553518422
       }
     }
     Overrides {
@@ -3048,9 +3053,6 @@ Objects {
   }
   ParentId: 5649922712792588649
   ChildIds: 14164037435312806447
-  ChildIds: 2765389199714355691
-  ChildIds: 16038768049803860762
-  ChildIds: 10113769393233973256
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -3090,144 +3092,6 @@ Objects {
           Value: "mc:euianchor:topleft"
         }
       }
-    }
-  }
-}
-Objects {
-  Id: 10113769393233973256
-  Name: "AnimationButton"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 9318253256762108250
-  TemplateInstance {
-    ParameterOverrideMap {
-      key: 14339719061352111737
-      value {
-        Overrides {
-          Name: "Name"
-          String: "AnimationButton"
-        }
-        Overrides {
-          Name: "Position"
-          Vector {
-          }
-        }
-        Overrides {
-          Name: "Rotation"
-          Rotator {
-          }
-        }
-        Overrides {
-          Name: "Scale"
-          Vector {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        Overrides {
-          Name: "UIX"
-          Float: 0
-        }
-        Overrides {
-          Name: "UIY"
-          Float: 100
-        }
-      }
-    }
-    TemplateAsset {
-      Id: 15875297213603496247
-    }
-  }
-}
-Objects {
-  Id: 16038768049803860762
-  Name: "AnimationButton"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 9318253256762108250
-  TemplateInstance {
-    ParameterOverrideMap {
-      key: 14339719061352111737
-      value {
-        Overrides {
-          Name: "Name"
-          String: "AnimationButton"
-        }
-        Overrides {
-          Name: "Position"
-          Vector {
-          }
-        }
-        Overrides {
-          Name: "Rotation"
-          Rotator {
-          }
-        }
-        Overrides {
-          Name: "Scale"
-          Vector {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        Overrides {
-          Name: "UIX"
-          Float: 0
-        }
-        Overrides {
-          Name: "UIY"
-          Float: 50
-        }
-      }
-    }
-    TemplateAsset {
-      Id: 15875297213603496247
-    }
-  }
-}
-Objects {
-  Id: 2765389199714355691
-  Name: "AnimationButton"
-  Transform {
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 9318253256762108250
-  TemplateInstance {
-    ParameterOverrideMap {
-      key: 14339719061352111737
-      value {
-        Overrides {
-          Name: "Name"
-          String: "AnimationButton"
-        }
-      }
-    }
-    TemplateAsset {
-      Id: 15875297213603496247
     }
   }
 }
