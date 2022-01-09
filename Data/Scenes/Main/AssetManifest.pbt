@@ -8,6 +8,15 @@ Assets {
   }
 }
 Assets {
+  Id: 15940705853348151200
+  Name: "Kunai"
+  PlatformAssetType: 9
+  PrimaryAsset {
+    AssetType: "PlatformBrushAssetRef"
+    AssetId: "UI_Japan_Icon_030"
+  }
+}
+Assets {
   Id: 12095835209017042614
   Name: "Cube"
   PlatformAssetType: 1
@@ -32,6 +41,24 @@ Assets {
   PrimaryAsset {
     AssetType: "BlueprintAssetRef"
     AssetId: "CORESKY_Sky"
+  }
+}
+Assets {
+  Id: 5524013887411838035
+  Name: "Icon Capture Point"
+  PlatformAssetType: 9
+  PrimaryAsset {
+    AssetType: "PlatformBrushAssetRef"
+    AssetId: "Icon_CapturePoint"
+  }
+}
+Assets {
+  Id: 4990209639387425672
+  Name: "Icon Arrow"
+  PlatformAssetType: 9
+  PrimaryAsset {
+    AssetType: "PlatformBrushAssetRef"
+    AssetId: "Icon_Arrow"
   }
 }
 Assets {
