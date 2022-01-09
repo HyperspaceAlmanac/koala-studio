@@ -7,8 +7,14 @@ local CHAT_REMINDER = script:GetCustomProperty("ChatReminder"):WaitForObject() -
 local TITLE = script:GetCustomProperty("Title"):WaitForObject() ---@type UIText
 local FIELD = script:GetCustomProperty("Field"):WaitForObject() ---@type UIText
 local TYPE = script:GetCustomProperty("Type"):WaitForObject() ---@type UIText
+local LMBDRAG_AREA = script:GetCustomProperty("LMBDragArea"):WaitForObject() ---@type UIButton
+
+local START_ICON = script:GetCustomProperty("StartIcon"):WaitForObject() ---@type UIImage
+local END_ICON = script:GetCustomProperty("EndIcon"):WaitForObject() ---@type UIImage
 
 local LOCAL_PLAYER = Game.GetLocalPlayer()
+LOCAL_PLAYER.clientUserData.dragStartValue = nil
+LOCAL_PLAYER.clientUserData.mouseStartPos = nil
 
 local lpTable = {
     px = {"Position X", "number"},
@@ -18,8 +24,8 @@ local lpTable = {
     ry = {"Rotation Y", "degrees"},
     rz = {"Rotation Z", "degrees"},
     weight = {"Anchor Weight", "0 - 1.0"},
-    blendIn = {"Blend In Time", "number"},
-    blendOut = {"Blend out Time", "number"},
+    blendIn = {"Blend In Time", "blend"},
+    blendOut = {"Blend out Time", "blend"},
     ox = {"Offset X", "number"},
     oy = {"Offset Y", "number"},
     oz = {"Offset Z", "number"},
@@ -67,6 +73,12 @@ function Validator(value, expected)
         else
             return {"Value not between 0 and 1", nil}
         end
+    elseif expected == "blend" then
+        if num > 0 then
+            return {"", num}
+        else
+            return {"Time must be greater than 0", nil}
+        end
     elseif expected == "degrees" then
         num = num % 360
         return {"", num}
@@ -74,11 +86,11 @@ function Validator(value, expected)
 end
 
 function UpdateLastPressed(name, value)
-	print("Checking last pressed")
     local values = LOCAL_PLAYER.clientUserData.currentKeyFrame.clientUserData.prop
     if not values then
         return false
     end
+    value = CoreMath.Round(value, 3)
     if name == "px" then
         values.position.x = value
     elseif name == "py" then
@@ -116,6 +128,40 @@ function UpdateLastPressed(name, value)
     return true
 end
 
+function GetCurrentPropValue(name)
+    local values = LOCAL_PLAYER.clientUserData.currentKeyFrame.clientUserData.prop
+    if not values then
+        return nil
+    end
+    local current = nil
+    if name == "px" then
+        current = values.position.x
+    elseif name == "py" then
+        current = values.position.y
+    elseif name == "pz" then
+        current = values.position.z
+    elseif name == "rx" then
+        current = values.rotation.x
+    elseif name == "ry" then
+        current = values.rotation.y
+    elseif name == "rz" then
+        current = values.rotation.z
+    elseif name == "ox" then
+        current = values.offset.x
+    elseif name == "oy" then
+        current = values.offset.y
+    elseif name == "oz" then
+        current = values.offset.z
+    elseif name == "weight" then
+        current = values.weight
+    elseif name == "blendIn" then
+        current = values.blendIn
+    elseif name == "blendOut" then
+        current = values.blendOut
+    end
+    return current
+end
+
 function ChatHook(param)
     local lp = LOCAL_PLAYER.clientUserData.lastPressed
     local mt = LOCAL_PLAYER.clientUserData.changeMaxTime
@@ -147,6 +193,85 @@ function ChatHook(param)
     end
 end
 
+function UpdateDragStatus()
+    if not LOCAL_PLAYER.clientUserData.dragStartValue then
+        return
+    end
+    local lp = LOCAL_PLAYER.clientUserData.lastPressed
+    local position = UI.GetCursorPosition()
+    END_ICON.x = position.x - 45
+    END_ICON.y = position.y - 10
+    if lp then
+        local key = lp.clientUserData.value
+        if key and lpTable[key] then
+            local inputType = lpTable[key][2]
+            local val = LOCAL_PLAYER.clientUserData.dragStartValue
+            if inputType == "number" then
+                local diff = UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x
+                val = val + diff / 10
+            elseif inputType == "degrees" then
+                local diff = UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x
+                val = (val + diff) % 360
+                if val > 180 then
+                    val = - (360 - val)
+                elseif val < -180 then
+                    val = 360 + val
+                end
+            elseif inputType == "blend" then
+                local diff = (UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x) / 50
+                val = math.max(0, val + diff)
+            elseif inputType == "0 - 1.0" then
+                local diff = (UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x) / 200
+                val = CoreMath.Clamp(val + diff, 0, 1)
+            else
+                error("Invalid input type")
+                return
+            end
+            local update = UpdateLastPressed(key, CoreMath.Round(val, 3))
+        end
+    end
+end
+
+function StartDrag(button)
+    local lp = LOCAL_PLAYER.clientUserData.lastPressed
+    if lp then
+        local key = lp.clientUserData.value
+        if key and lpTable[key] then
+            local currentVal = CoreMath.Round(GetCurrentPropValue(key), 3) 
+            if currentVal then
+                LOCAL_PLAYER.clientUserData.dragStartValue = currentVal
+            end
+        end
+    end
+    if LOCAL_PLAYER.clientUserData.dragStartValue then
+        local position = UI.GetCursorPosition()
+        LOCAL_PLAYER.clientUserData.mouseStartPos = position
+        START_ICON.visibility = Visibility.FORCE_ON
+        START_ICON.x = position.x - 25
+        START_ICON.y = position.y - 25
+        END_ICON.visibility = Visibility.FORCE_ON
+        END_ICON.x = position.x - 45
+        END_ICON.y = position.y - 10
+    end
+end
+function EndDrag(button)
+    local lp = LOCAL_PLAYER.clientUserData.lastPressed
+    if lp then
+        local key = lp.clientUserData.value
+        if key and lpTable[key] then
+            --Broadcast new value to server
+        end
+    end
+    if LOCAL_PLAYER.clientUserData.dragStartValue then
+        LOCAL_PLAYER.clientUserData.mouseStartPos = nil
+        START_ICON.visibility = Visibility.FORCE_OFF
+        END_ICON.visibility = Visibility.FORCE_OFF
+    end
+    LOCAL_PLAYER.clientUserData.dragStartValue = nil
+end
+LMBDRAG_AREA.pressedEvent:Connect(StartDrag)
+LMBDRAG_AREA.releasedEvent:Connect(EndDrag)
+
 function Tick(deltaTime)
     VisibilityCheck()
     local lp = LOCAL_PLAYER.clientUserData.lastPressed
@@ -165,5 +290,6 @@ function Tick(deltaTime)
         FIELD.text = "Aniation Name"
         TYPE.text = "String"
     end
+    UpdateDragStatus()
 end
 Chat.sendMessageHook:Connect(ChatHook)

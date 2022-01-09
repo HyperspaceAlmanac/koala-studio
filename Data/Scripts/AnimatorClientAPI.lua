@@ -9,9 +9,9 @@ else
     return _G["AnimationAPI"]
 end
 
-API.LOADING = false
-API.SAVING = false
-API.DELETE_CONFIRM = false
+API.loadingTable = {}
+API.AnimationTable = {}
+API.CurrenAnimation = {}
 
 --Callbacks
 API.LoadAnimationCallback = nil
@@ -24,16 +24,29 @@ API.DuplicateKFCallback = nil
 API.ChatInputType = nil
 API.WaitToDelete = false
 
-function API.CreateKeyFrame(params)
+function API.PlayerJoin(player)
+    API.AnimationTable[player] = {}
+    API.loadingTable[player] = {}
 end
 
-function API.MoveKeyFrame(params)
+function API.PlayerLeave(player)
+    API.AnimationTable[player] = nil
+    API.loadingTable[player] = nil
 end
 
-function API.UpdateKeyFrame(params)
+function API.GetAnimations(player)
 end
 
-function API.DeleteKeyFrame(params)
+function API.CreateKeyFrame(player, params)
+end
+
+function API.MoveKeyFrame(player, params)
+end
+
+function API.UpdateKeyFrame(player, params)
+end
+
+function API.DeleteKeyFrame(player, params)
 end
 
 function API.CreateAnimation(params)
@@ -64,6 +77,8 @@ end
 function API.UpdateTimeScale(index)
 end
 
+
+
 function API.RegisterLAC(callback)
     API.LoadAnimationCallbacl = callback
 end
@@ -90,6 +105,24 @@ end
 
 function API.RegisterDuplicateKF(callback)
     API.DuplicateKFCallback = callback
+end
+
+function API.CleanUp(player)
+    local lastPressed = player.clientUserData.lastPressed
+    if lastPressed and lastPressed.clientUserData.index then
+        lastPressed:SetButtonColor(Color.WHITE)
+        player.clientUserData.lastPressed = nil
+    end
+    local lastKF = player.clientUserData.currentKeyFrame
+    if player.clientUserData.currentKeyFrame then
+        lastKF:SetButtonColor(Color.BLACK)
+        player.clientUserData.currentKeyFrame = nil
+    end
+    if player.clientUserData.changeMaxTime then
+        player.clientUserData.changeMaxTime:SetButtonColor(Color.WHITE)
+        player.clientUserData.changeMaxTime = nil
+    end
+    player.clientUserData.setAnimName = false
 end
 
 function API.Hello()

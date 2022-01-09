@@ -160,36 +160,40 @@ function Initialize()
     )
 end
 
+function ToRoundedString(number)
+    return tostring(CoreMath.Round(number, 3))
+end
+
 function UpdateStatus()
     if not LOCAL_PLAYER.clientUserData.currentKeyFrame then
         ANCHOR_EDITOR.visibility = Visibility.FORCE_OFF
     else
         ANCHOR_EDITOR.visibility = Visibility.INHERIT
         local values = LOCAL_PLAYER.clientUserData.currentKeyFrame.clientUserData.prop
-        P_X.text = tostring(values.position.x)
+        P_X.text = ToRoundedString(values.position.x)
+
+        P_Y.text = ToRoundedString(values.position.y)
     
-        P_Y.text = tostring(values.position.y)
-    
-        P_Z.text = tostring(values.position.z)
+        P_Z.text = ToRoundedString(values.position.z)
 
-        R_X.text = tostring(values.rotation.x)
+        R_X.text = ToRoundedString(values.rotation.x)
 
-        R_Y.text = tostring(values.rotation.y)
+        R_Y.text = ToRoundedString(values.rotation.y)
 
-        R_Z.text = tostring(values.rotation.z)
+        R_Z.text = ToRoundedString(values.rotation.z)
 
-        WEIGHT_BUTTON.text = tostring(values.weight)
+        WEIGHT_BUTTON.text = ToRoundedString(values.weight)
 
-        BLEND_IN_BUTTON.text = tostring(values.blendIn)
+        BLEND_IN_BUTTON.text = ToRoundedString(values.blendIn)
 
-        BLEND_OUT_BUTTON.text = tostring(values.blendOut)
+        BLEND_OUT_BUTTON.text = ToRoundedString(values.blendOut)
 
-        O_X.text = tostring(values.offset.x)
-        O_Y.text = tostring(values.offset.y)
-        O_Z.text = tostring(values.offset.z)
+        O_X.text = ToRoundedString(values.offset.x)
+        O_Y.text = ToRoundedString(values.offset.y)
+        O_Z.text = ToRoundedString(values.offset.z)
         ACTIVATED.text = values.activated and "Activated" or "Deactivate"
         LMBDRAG.text = "Place Holder"
-        TIME_BUTTON.text = "Time: "..tostring(CoreMath.Round((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / 200, 3))
+        TIME_BUTTON.text = "Time: "..ToRoundedString(CoreMath.Round((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / 200, 3))
     end
 end
 

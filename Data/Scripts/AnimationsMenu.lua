@@ -94,23 +94,16 @@ DELETE.clickedEvent:Connect(
 )
 
 function NameClicked(button)
-    local lastPressed = LOCAL_PLAYER.clientUserData.lastPressed
-    if lastPressed then
-        lastPressed:SetButtonColor(gray)
-        LOCAL_PLAYER.clientUserData.lastPressed = nil
-    end
-    local lastKF = LOCAL_PLAYER.clientUserData.currentKeyFrame
-    if LOCAL_PLAYER.clientUserData.currentKeyFrame then
-        lastKF:SetButtonColor(Color.BLACK)
-        LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
-    end
-    if LOCAL_PLAYER.clientUserData.changeMaxTime then
-        LOCAL_PLAYER.clientUserData.changeMaxTime:SetButtonColor(Color.WHITE)
-        LOCAL_PLAYER.clientUserData.changeMaxTime = nil
-    end
+    API.CleanUp(LOCAL_PLAYER)
     LOCAL_PLAYER.clientUserData.setAnimName = true
 end
 
 NAME.clickedEvent:Connect(NameClicked)
 API.RegisterDeleteCallback(ClickedDelete)
+
+function Join(player)
+    API.PlayerJoin(player)
+    player.clientUserData.currentAnimation = nil
+end
+Game.playerJoinedEvent:Connect(Join)
 
