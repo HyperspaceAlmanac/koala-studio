@@ -21,7 +21,6 @@
 
 
     Key Frame Properties
-    index = 2 bytes
     timelinePosition = 60.000, 3 bytes
 
     position = 3 x 3 bytes + 3 bit

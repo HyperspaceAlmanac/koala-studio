@@ -23,6 +23,29 @@ local sample = {
     active = true
 }
 
+function EncodeKeyFrame(kf)
+    local tbl = {}
+    table.insert(tbl, ENCODER_API.EncodeByte(kf.active and 1 or 0))
+    local pos = kf.position
+    local offset = kf.offset
+    table.insert(tbl, ENCODER_API.EncodePosAndOffsetSigns(pos, offset))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(pos.x)))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(pos.y)))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(pos.z)))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(offset.x)))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(offset.y)))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(offset.z)))
+    local rot = kf.rotation
+    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.x < 0 and rot.x + 360 or rot.x))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.y < 0 and rot.y + 360 or rot.y))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.z < 0 and rot.z + 360 or rot.z))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(kf.timelinePosition))
+    table.insert(tbl, ENCODER_API.EncodeNetwork(math.floor(kf.weight * 1000)))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(kf.blendIn))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(kf.blendOut))
+    return table.concat(tbl, "")
+end
+
 function SendAnimations(player)
     local encodedTable = {}
     table.insert(encodedTable, ENCODER_API.EncodeByte(1))
@@ -33,9 +56,24 @@ function SendAnimations(player)
     NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
 
-function SendAnimationInfo(animation)
-
+function SendAnimationInfo()
+    local encodedTable = {}
+    table.insert(encodedTable, ENCODER_API.EncodeByte(2))
+    for i = 1, 6 do
+        table.insert(encodedTable, ENCODER_API.EncodeNetwork(2))
+        for j = 1, 2 do
+            table.insert(encodedTable, EncodeKeyFrame(sample))
+        end
+    end
+    NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
+
+Task.Spawn(
+    function()
+        Task.Wait(3)
+        SendAnimationInfo()
+    end
+)
 
 function HandleGetAnimations(player)
     SendAnimations(player)
