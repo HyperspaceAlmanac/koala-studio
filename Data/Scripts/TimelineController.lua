@@ -20,7 +20,6 @@ local B_4 = script:GetCustomProperty("B4"):WaitForObject() ---@type UIButton
 local SCREEN_SIZE = UI.GetScreenSize()
 local LOCAL_PLAYER = Game.GetLocalPlayer()
 
-local lastHoveredAnchor = nil
 local tickMarkScale = {B_1, B_2, B_3, B_4}
 local gray = Color.New(0.25, 0.25, 0.25)
 local lightGray = Color.New(0.75, 0.75, 0.75)
@@ -43,7 +42,7 @@ LOCAL_PLAYER.clientUserData.tickMarkNum = 2
 B_2:SetButtonColor(lightGray)
 LOCAL_PLAYER.clientUserData.maxSeconds = 10
 
-function UpdateTickMarks()
+function UpdateTickMarks(oldSize)
     local tickMarkNum = LOCAL_PLAYER.clientUserData.tickMarkNum
     local maxSeconds = LOCAL_PLAYER.clientUserData.maxSeconds
     ANCHORS.width = maxSeconds * tickMarkNum * 100 + 10
@@ -60,10 +59,25 @@ function UpdateTickMarks()
     for i = 1, maxSeconds do
         tickMarks[i].x = i * tickMarkNum * 100
     end
+    --Update keyFrames
+    if oldSize then
+        for _, anchor in ipairs(LOCAL_PLAYER.clientUserData.anchors) do
+            for _, kf in ipairs(anchor) do
+                local time = (kf.x + 25) / (100 * oldSize) 
+                kf.x = time * (100 * tickMarkNum) - 25
+            end
+        end
+    else
+        for _, anchor in ipairs(LOCAL_PLAYER.clientUserData.anchors) do
+            for _, kf in ipairs(anchor) do
+                kf.x = math.min(kf.x, maxSeconds * tickMarkNum * 100 - 25)
+            end
+        end
+    end
 end
 
 API.RegisterUTD(UpdateTickMarks)
-UpdateTickMarks()
+UpdateTickMarks(nil)
 
 function PressKeyFrame(button)
     local prev = LOCAL_PLAYER.clientUserData.currentKeyFrame
@@ -83,10 +97,6 @@ end
 function ReleaseKeyFrame(button)
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
     button:SetButtonColor(gray)
-end
-
-function HoverAnchor(button)
-    lastHoveredAnchor = button
 end
 
 function InitializeKeyFrameProperties(button)
@@ -116,6 +126,7 @@ function InitializeKeyFrame(offset, kfButton, duplicate)
         LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
         local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
         kfButton.clientUserData.timelineIndex = #anchors + 1
+        table.insert(anchors, kfButton)
     end
     kfButton:SetButtonColor(gray)
     kfButton.x = offset
@@ -133,6 +144,7 @@ function DuplicateKeyFrame()
         kfButton.clientUserData.anchorIndex = prevKF.clientUserData.anchorIndex
         local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
         kfButton.clientUserData.timelineIndex = #anchors + 1
+        table.insert(anchors, kfButton)
     end
 end
 
@@ -147,15 +159,15 @@ end
 
 for _, button in ipairs(ANCHORS:GetChildren()) do
     keyFrameTable[button] = {}
-    button.hoveredEvent:Connect(HoverAnchor)
     button.clickedEvent:Connect(ClickAnchor)
 end
 
 function SetScale(button, index)
     tickMarkScale[LOCAL_PLAYER.clientUserData.tickMarkNum]:SetButtonColor(white)
     tickMarkScale[index]:SetButtonColor(lightGray)
+    local oldSize = LOCAL_PLAYER.clientUserData.tickMarkNum
     LOCAL_PLAYER.clientUserData.tickMarkNum = index
-    UpdateTickMarks()
+    UpdateTickMarks(oldSize)
 end
 
 B_1.clickedEvent:Connect(SetScale, 1)

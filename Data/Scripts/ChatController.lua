@@ -183,7 +183,7 @@ function ChatHook(param)
             num = CoreMath.Clamp(num, 0, 60)
             LOCAL_PLAYER.clientUserData.maxSeconds = num
             API.UpdateMaxTime(num)
-            API.UpdateTimeDisplayCallback()
+            API.UpdateTimeDisplayCallback(nil)
             param.message = ""
         end
     elseif name then

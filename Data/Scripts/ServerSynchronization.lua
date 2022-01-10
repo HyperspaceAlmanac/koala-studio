@@ -98,7 +98,7 @@ end
 
 function Join(player)
     animations[player] = {}
-    local animationTable = {{name="animation1"}, {name="animation TWO"}, {name="Much Longer Name"}}
+    local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, }, {name="animation TWO"}, {name="Much Longer Name"}}
     animations[player] = animationTable
 end
 

@@ -185,15 +185,18 @@ function DecodeKeyFrame(message)
     print("Debugged")
 end
 
-function UpdateAnchors(message)
+function AnimationData(message)
     local index = 2
+    print(#message)
     for i = 1, 6 do
         local size = ENCODER_API.DecodeNetwork(message:sub(index, index + 1))
         index = index + 2
+        print(index)
         if size > 0 then
             for j = 1, size do
                 local keyFrame = DecodeKeyFrame(message:sub(index, index + 40)) --size of 41
                 index = index + 41
+                print(index)
             end
         end
     end
@@ -208,7 +211,7 @@ function NetworkedMessage(obj, key)
             end
             if opCode == 2 then
                 --TODO: Timeline settings such as max and increment size
-                UpdateAnchors(message)
+                --AnimationData(message)
             end
         end
     end
