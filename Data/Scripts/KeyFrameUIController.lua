@@ -70,9 +70,9 @@ function DeleteCurrentKeyFrame()
                     b.clientUserData.timelineIndex = b.clientUserData.timelineIndex - 1
                 end
             end
-            if foundIndex then
-                table.remove(kfTable, foundIndex)
-            end
+        end
+        if foundIndex then
+            table.remove(kfTable, foundIndex)
         end
         kf:Destroy()
         kf = nil
