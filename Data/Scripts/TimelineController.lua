@@ -124,9 +124,11 @@ function InitializeKeyFrame(offset, kfButton, duplicate)
     end
     if not duplicate then
         LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
-        local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
+        local anchorIndex = kfButton.clientUserData.anchorIndex
+        local anchors = LOCAL_PLAYER.clientUserData.anchors[anchorIndex]
         kfButton.clientUserData.timelineIndex = #anchors + 1
         table.insert(anchors, kfButton)
+        API.PushToQueue({"CreateKeyFrame", anchorIndex, (offset + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100)})
     end
     kfButton:SetButtonColor(gray)
     kfButton.x = offset
@@ -141,10 +143,12 @@ function DuplicateKeyFrame()
         for _, val in ipairs(kfProps) do
             kfButton.clientUserData.prop[val] = prevKF.clientUserData.prop[val]
         end
-        kfButton.clientUserData.anchorIndex = prevKF.clientUserData.anchorIndex
+        local anchorIndex = prevKF.clientUserData.anchorIndex
+        kfButton.clientUserData.anchorIndex = anchorIndex
         local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
         kfButton.clientUserData.timelineIndex = #anchors + 1
         table.insert(anchors, kfButton)
+        API.PushToQueue({"DuplicateKeyFrame", anchorIndex, prevKF.clientUserData.timelineIndex})
     end
 end
 

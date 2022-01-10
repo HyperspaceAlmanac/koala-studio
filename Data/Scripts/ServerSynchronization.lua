@@ -186,7 +186,8 @@ end
 function HandleCreateKF(player, i, time)
     local kf = DuplicateKeyFrame(DEFAULT_KF)
     table.insert(animations[player][i], kf)
-    kf.time = time
+    kf.time = CoreMath.Round(time, 3)
+    print(time)
 end
 
 function HandleDuplicateKF(player, i, from)
