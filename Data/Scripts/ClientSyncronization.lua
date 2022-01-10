@@ -45,11 +45,31 @@ function ProcessRequest(params)
     elseif params[1] == "GetAnimations" then
         Events.BroadcastToServer("GetAnimations")
     elseif params[1] == "DeleteKeyFrame" then
-    elseif params[1] == "AddkeyFrame" then
-
+        Events.BroadcastToServer("DuplicateKF", params[2], params[3])
+    elseif params[1] == "CreateKeyFrame" then
+        Events.BroadcastToServer("CreateKF", params[2], params[3])
     elseif params[1] == "DuplicateKeyFrame" then
+        Events.BroadcastToServer("DuplicateKF", params[2], params[3])
     elseif params[1] == "SetTimeScale" then
+        Events.BroadcastToServer("ChangeAnimationTimeScale", params[2], params[3])
     elseif params[1] == "SetMaxTime" then
+        Events.BroadcastToServer("ChangeAnimationMaxTime", params[2], params[3])
+    elseif params[1] == "UpdateKFTime" then
+        Events.BroadcastToServer("UpdateKFTime", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFPosition" then
+        Events.BroadcastToServer("UpdateKFPosition", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFTRotation" then
+        Events.BroadcastToServer("UpdateKFTRotation", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFOffset" then
+        Events.BroadcastToServer("UpdateKFOffset", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFWeight" then
+        Events.BroadcastToServer("UpdateKFWeight", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFBlendIn" then
+        Events.BroadcastToServer("UpdateKFBlendIn", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFBlendOut" then
+        Events.BroadcastToServer("UpdateKFBlendOut", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFActive" then
+        Events.BroadcastToServer("UpdateKFActive", params[2], params[3], params[4])
     else
         print("Unknown request header, no action taken")
     end
