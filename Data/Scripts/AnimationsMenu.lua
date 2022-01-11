@@ -201,9 +201,9 @@ end
 function ProcessAnimationData(message)
     local index = 2
     print(#message)
-    local maxTime = ENCODER_API.DecodeDecimal(message:sub(index,index + 2))
-    if LOCAL_PLAYER.clientUserData.maxTime ~= maxTime then
-        LOCAL_PLAYER.clientUserData.maxTime = maxTime
+    local maxSeconds = ENCODER_API.DecodeDecimal(message:sub(index,index + 2))
+    if LOCAL_PLAYER.clientUserData.maxSeconds ~= maxSeconds then
+        LOCAL_PLAYER.clientUserData.maxSeconds = maxSeconds
         API.UpdateTimeDisplayCallback(nil)
     end
     index = index + 3
