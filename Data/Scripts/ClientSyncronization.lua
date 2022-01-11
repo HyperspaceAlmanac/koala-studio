@@ -42,6 +42,8 @@ function ProcessRequest(params)
         Events.BroadcastToServer("DeleteAnimation", params[2])
     elseif params[1] == "ChangeAnimationName" then
         Events.BroadcastToServer("ChangeAnimationName", params[2], params[3])
+    elseif params[1] == "SelectAnimation" then
+        Events.BroadcastToServer("SelectAnimation", params[2])
     elseif params[1] == "GetAnimations" then
         Events.BroadcastToServer("GetAnimations")
     elseif params[1] == "DeleteKeyFrame" then

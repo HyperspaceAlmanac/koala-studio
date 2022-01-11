@@ -157,6 +157,12 @@ function UpdateAnimationNames(message)
                 end
                 button:SetButtonColor(Color.WHITE)
                 LOCAL_PLAYER.clientUserData.currentAnimation = button
+                for j, btn in ipairs(animationButtons) do
+                    if btn == b then
+                        API.PushToQueue({"SelectAnimation", j})
+                        break
+                    end
+                end
             end
         )
     end

@@ -68,6 +68,19 @@ function SendAnimationInfo()
     NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
 
+function LoadAnimation(player, index)
+   
+end
+
+function GetCurrentAnchorTable(player)
+    print(player.serverUserData.currentAnimation)
+    return animations[player][player.serverUserData.currentAnimation].keyFrames
+end
+function HandleSelectAnimation(player, index)
+    player.serverUserData.currentAnimation = index
+    LoadAnimation(player, index)
+end
+
 Task.Spawn(
     function()
         Task.Wait(3)
@@ -80,11 +93,12 @@ function HandleGetAnimations(player)
 end
 
 function HandleNewAnimation(player, animName)
-   table.insert(animations[player], {name=animName})
+   table.insert(animations[player], {name=animName, maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}})
 end
 
 function HandleDeleteAnimation(player, index)
     table.remove(animations[player], index)
+    player.serverUserData.currentAnimation = nil
 end
 
 function HandleChangeAnimationName(player, index, newName)
@@ -144,66 +158,69 @@ local sample = {
 }
 
 function HandleKFTime(player, i, j, time)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.time = time
 end
 
 function HandleKFPosition(player, i, j, position)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.position = position
 end
 
 function HandleKFRotation(player, i, j, rotation)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.rotation = rotation
 end
 
 function HandleKFOffset(player, i, j, offset)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.offset = offset
 end
 
 function HandleKFWeight(player, i, j, weight)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.weight = weight
 end
 
 function HandleKFBlendIn(player, i, j, blendIn)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.blendIn = blendIn
 end
 
 function HandleKFBlendOut(player, i, j, blendOut)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.blendOut = blendOut
 end
 
 function HandleKFActive(player, i, j, active)
-    local kf = animations[player][i][j]
+    local kf = GetCurrentAnchorTable(player)[i][j]
     kf.active = active
 end
 
 function HandleCreateKF(player, i, time)
     local kf = DuplicateKeyFrame(DEFAULT_KF)
-    table.insert(animations[player][i], kf)
+    table.insert(GetCurrentAnchorTable(player)[i], kf)
     kf.time = CoreMath.Round(time, 3)
     print(time)
 end
 
 function HandleDuplicateKF(player, i, from)
-    local anchor = animations[player][i]
+    local anchor = GetCurrentAnchorTable(player)[i]
     table.insert(anchor, DuplicateKeyFrame(anchor[from]))
 end
 
 function HandleDeleteKF(player, i, j)
-    local anchor = animations[player][i]
+    local anchor = GetCurrentAnchorTable(player)[i]
     table.remove(anchor, j)
 end
 
 function Join(player)
     animations[player] = {}
-    local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, }, {name="animation TWO"}, {name="Much Longer Name"}}
+    local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
+        {name="animation TWO", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
+        {name="Much Longer Name" , maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}}}
     animations[player] = animationTable
+    player.serverUserData.currentAnimation = nil
 end
 
 function Leave(player)
@@ -216,6 +233,7 @@ Game.playerLeftEvent:Connect(Leave)
 Events.ConnectForPlayer("GetAnimations", HandleGetAnimations)
 Events.ConnectForPlayer("NewAnimation", HandleNewAnimation)
 Events.ConnectForPlayer("DeleteAnimation", HandleDeleteAnimation)
+Events.ConnectForPlayer("SelectAnimation", HandleSelectAnimation)
 Events.ConnectForPlayer("ChangeAnimationName", HandleChangeAnimationName)
 Events.ConnectForPlayer("ChangeAnimationTimeScale", HandleChangeTimeScale)
 Events.ConnectForPlayer("ChangeAnimationMaxTime", HandleChangeMaxTime)
