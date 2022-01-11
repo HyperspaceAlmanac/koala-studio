@@ -146,10 +146,7 @@ function Initialize()
             if kf then
                 local original = kf.clientUserData.prop.activated
                 kf.clientUserData.prop.activated = not original
-                print("Activated / Deactivated")
-                print(kf.clientUserData.anchorIndex)
-                print(kf.clientUserData.timelineIndex)
-                --API.PushToQueue({"UpdateKFActive", kf.clientUserData.anchorIndex, kf.clientUserData.timelineIndex}) 
+                API.PushToQueue({"UpdateKFActive", kf.clientUserData.anchorIndex, kf.clientUserData.timelineIndex, not original}) 
             end
         end
     )
