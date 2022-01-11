@@ -78,6 +78,8 @@ function GetCurrentAnchorTable(player)
 end
 function HandleSelectAnimation(player, index)
     player.serverUserData.currentAnimation = index
+    print("load animation")
+    print(index)
     LoadAnimation(player, index)
 end
 

@@ -128,14 +128,6 @@ function Initialize()
     table.insert(anchorTable, O_Z)
     O_Z.clientUserData.index = #table
 
-    ACTIVATED.clientUserData.value = "activated"
-    table.insert(anchorTable, ACTIVATED)
-    ACTIVATED.clientUserData.index = #table
-
-    LMBDRAG.clientUserData.value = "lmbDrag"
-    table.insert(anchorTable, LMBDRAG)
-    LMBDRAG.clientUserData.index = #table
-
     TIME_BUTTON.clientUserData.value = "time"
     table.insert(anchorTable, TIME_BUTTON)
     TIME_BUTTON.clientUserData.index = #table
@@ -148,6 +140,19 @@ function Initialize()
     TRANSFORM_BUTTON.clientUserData.released = TRANSFORM_BUTTON.releasedEvent:Connect(ButtonReleased)
     ANCHOR_BUTTON.clientUserData.value = "anchor"
     ANCHOR_BUTTON.clientUserData.released = ANCHOR_BUTTON.releasedEvent:Connect(ButtonReleased)
+    ACTIVATED.clickedEvent:Connect(
+        function (button)
+            local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+            if kf then
+                local original = kf.clientUserData.prop.activated
+                kf.clientUserData.prop.activated = not original
+                print("Activated / Deactivated")
+                print(kf.clientUserData.anchorIndex)
+                print(kf.clientUserData.timelineIndex)
+                --API.PushToQueue({"UpdateKFActive", kf.clientUserData.anchorIndex, kf.clientUserData.timelineIndex}) 
+            end
+        end
+    )
     DUPLICATE.clientUserData.value = "duplicate"
     DUPLICATE.clientUserData.released = DUPLICATE.releasedEvent:Connect(ButtonReleased)
     DELETE.clientUserData.value = "delete"

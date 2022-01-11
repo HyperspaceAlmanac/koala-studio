@@ -79,26 +79,6 @@ DELETE.clickedEvent:Connect(
     end
 )
 
-function NewAnimation(button)
-    local defaultName = "Animation"
-    table.insert(animationNames, defaultName)
-    local spawned = World.SpawnAsset(ANIMATION_BUTTON, {parent = ANIMATION_LIST})
-    spawned.text = defaultName
-    spawned.y = (#animationNames - 1) * 60
-    table.insert(animationButtons, spawned)
-    spawned.clickedEvent:Connect(
-        function(b)
-            if LOCAL_PLAYER.clientUserData.currentAnimation then
-                LOCAL_PLAYER.clientUserData.currentAnimation:SetButtonColor(lightGray)
-            end
-            button:SetButtonColor(Color.WHITE)
-            LOCAL_PLAYER.clientUserData.currentAnimation = spawned
-        end
-    )
-    local tbl = {}
-    API.PushToQueue({"NewAnimation", defaultName})
-end
-
 function RenameAnimation(name)
     local currentAnimation = LOCAL_PLAYER.clientUserData.currentAnimation
     if currentAnimation then
@@ -112,8 +92,6 @@ function RenameAnimation(name)
     end
 end
 API.RegisterUpdateNameCallback(RenameAnimation)
-
-NEW.clickedEvent:Connect(NewAnimation)
 
 function NameClicked(button)
     if LOCAL_PLAYER.clientUserData.currentAnimation then
@@ -129,6 +107,37 @@ function Join(player)
     API.PlayerJoin(player)
     player.clientUserData.currentAnimation = nil
 end
+
+function ClickAnimation(button)
+    API.CleanUp(LOCAL_PLAYER)
+    local currentAnim = LOCAL_PLAYER.clientUserData.currentAnimation
+    if currentAnim == button then
+        return
+    end
+    if currentAnim then
+        currentAnim:SetButtonColor(lightGray)
+    end
+    button:SetButtonColor(Color.YELLOW)
+    LOCAL_PLAYER.clientUserData.currentAnimation = button
+    for j, btn in ipairs(animationButtons) do
+        if btn == button then
+            API.PushToQueue({"SelectAnimation", j})
+            break
+        end
+    end
+end
+
+function NewAnimation(button)
+    local defaultName = "Animation"
+    table.insert(animationNames, defaultName)
+    local spawned = World.SpawnAsset(ANIMATION_BUTTON, {parent = ANIMATION_LIST})
+    spawned.text = defaultName
+    spawned.y = (#animationNames - 1) * 60
+    table.insert(animationButtons, spawned)
+    spawned.clickedEvent:Connect(ClickAnimation)
+    API.PushToQueue({"NewAnimation", defaultName})
+end
+NEW.clickedEvent:Connect(NewAnimation)
 
 function UpdateAnimationNames(message)
     animationNames = {}
@@ -150,21 +159,7 @@ function UpdateAnimationNames(message)
         button.text = name
         button.y = (i - 1) * 60
         table.insert(animationButtons, button)
-        button.clickedEvent:Connect(
-            function(b)
-                if LOCAL_PLAYER.clientUserData.currentAnimation then
-                    LOCAL_PLAYER.clientUserData.currentAnimation:SetButtonColor(lightGray)
-                end
-                button:SetButtonColor(Color.WHITE)
-                LOCAL_PLAYER.clientUserData.currentAnimation = button
-                for j, btn in ipairs(animationButtons) do
-                    if btn == b then
-                        API.PushToQueue({"SelectAnimation", j})
-                        break
-                    end
-                end
-            end
-        )
+        button.clickedEvent:Connect(ClickAnimation)
     end
 end
 
