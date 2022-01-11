@@ -21,6 +21,8 @@ API.CancelDeleteCallback = nil
 API.UpdateTimeDisplayCallback = nil
 API.DuplicateKFCallback = nil
 API.UpdateNameCallback = nil
+API.ChangeTLScale = nil
+API.LoadKeyFrame = nil
 API.ChatInputType = nil
 API.WaitToDelete = false
 
@@ -32,38 +34,6 @@ end
 function API.PlayerLeave(player)
     API.AnimationTable[player] = nil
     API.loadingTable[player] = nil
-end
-
-function API.GetAnimations(player)
-end
-
-function API.CreateKeyFrame(player, params)
-end
-
-function API.MoveKeyFrame(player, params)
-end
-
-function API.UpdateKeyFrame(player, params)
-end
-
-function API.DeleteKeyFrame(player, params)
-end
-
-function API.CreateAnimation(params)
-end
-
-function API.LoadAnimation(params)
-
-end
-
-function API.SaveAnimation(params)
-end
-
-function API.ExportAnimation(params)
-
-end
-
-function API.DeleteAnimation(params)
 end
 
 function API.UpdateName(name)
@@ -109,6 +79,14 @@ end
 
 function API.RegisterUpdateNameCallback(callback)
     API.UpdateNameCallback = callback
+end
+
+function API.RegisterLoadKeyFrame(callback)
+    API.LoadKeyFrame = callback
+end
+
+function API.RegisterChangeTLScale(callback)
+    API.ChangeTLScale = callback
 end
 
 function API.CleanUp(player)

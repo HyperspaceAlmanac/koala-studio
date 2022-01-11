@@ -108,6 +108,16 @@ function Join(player)
     player.clientUserData.currentAnimation = nil
 end
 
+function DeleteAllKeyFrames()
+    for i = 1, 5 do
+        local anchors = LOCAL_PLAYER.clientUserData.anchors[i]
+        for _, button in ipairs(anchors) do
+            button:Destroy()
+        end
+        LOCAL_PLAYER.clientUserData.anchors[i] = {}
+    end
+end
+
 function ClickAnimation(button)
     API.CleanUp(LOCAL_PLAYER)
     local currentAnim = LOCAL_PLAYER.clientUserData.currentAnimation
@@ -121,7 +131,9 @@ function ClickAnimation(button)
     LOCAL_PLAYER.clientUserData.currentAnimation = button
     for j, btn in ipairs(animationButtons) do
         if btn == button then
+            LOCAL_PLAYER.clientUserData.loading = true
             API.PushToQueue({"SelectAnimation", j})
+            DeleteAllKeyFrames()
             break
         end
     end
@@ -186,21 +198,36 @@ function DecodeKeyFrame(message)
     print("Debugged")
 end
 
-function AnimationData(message)
+function ProcessAnimationData(message)
     local index = 2
     print(#message)
-    for i = 1, 6 do
-        local size = ENCODER_API.DecodeNetwork(message:sub(index, index + 1))
-        index = index + 2
-        print(index)
-        if size > 0 then
-            for j = 1, size do
-                local keyFrame = DecodeKeyFrame(message:sub(index, index + 40)) --size of 41
-                index = index + 41
-                print(index)
+    local maxTime = ENCODER_API.DecodeDecimal(message:sub(index,index + 2))
+    if LOCAL_PLAYER.clientUserData.maxTime ~= maxTime then
+        LOCAL_PLAYER.clientUserData.maxTime = maxTime
+        API.UpdateTimeDisplayCallback(nil)
+    end
+    index = index + 3
+    local scale = ENCODER_API.DecodeByte(message:sub(index,index))
+    index = index + 1
+    local oldTickMark = LOCAL_PLAYER.clientUserData.tickMarkNum
+    if scale ~= oldTickMark then
+        API.ChangeTLScale(scale)
+    end
+    if false then
+        for i = 1, 5 do
+            local size = ENCODER_API.DecodeNetwork(message:sub(index, index + 1))
+            index = index + 2
+            
+            if size > 0 then
+                for j = 1, size do
+                    local keyFrame = DecodeKeyFrame(message:sub(index, index + 40)) --size of 41
+                    index = index + 41
+                    print(index)
+                end
             end
         end
     end
+    LOCAL_PLAYER.clientUserData.loading = false
 end
 function NetworkedMessage(obj, key)
     if key =="Message" then
@@ -212,7 +239,7 @@ function NetworkedMessage(obj, key)
             end
             if opCode == 2 then
                 --TODO: Timeline settings such as max and increment size
-                --AnimationData(message)
+                ProcessAnimationData(message)
             end
         end
     end

@@ -25,14 +25,17 @@ local gray = Color.New(0.25, 0.25, 0.25)
 local lightGray = Color.New(0.75, 0.75, 0.75)
 local black = Color.New(0, 0, 0)
 local white = Color.New(1, 1, 1)
+LOCAL_PLAYER.clientUserData.loading = false
 LOCAL_PLAYER.clientUserData.anchors = {}
 LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
 LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
 LOCAL_PLAYER.clientUserData.changeMaxTime = nil
-local keyFrameTable = {}
 local tickMarks = {}
 
-for _, child in ipairs(ANCHORS:GetChildren()) do
+for i, child in ipairs(ANCHORS:GetChildren()) do
+    if i == 6 then
+        break
+    end
     local tbl = LOCAL_PLAYER.clientUserData.anchors
     table.insert(tbl, {})
     child.clientUserData.anchorIndex = #tbl
@@ -60,6 +63,9 @@ function UpdateTickMarks(oldSize)
         tickMarks[i].x = i * tickMarkNum * 100
     end
     --Update keyFrames
+    if LOCAL_PLAYER.clientUserData.loading then
+        return
+    end
     if oldSize then
         for _, anchor in ipairs(LOCAL_PLAYER.clientUserData.anchors) do
             for _, kf in ipairs(anchor) do
@@ -101,7 +107,6 @@ end
 
 function InitializeKeyFrameProperties(button)
     button.clientUserData.prop = {}
-    button.clientUserData.prop.id = 1
     button.clientUserData.prop.position = Vector3.New(0, 0, 0)
     button.clientUserData.prop.offset = Vector3.New(0, 0, 0)
     button.clientUserData.prop.rotation = Rotation.New(0, 0, 0)
@@ -117,7 +122,6 @@ function InitializeKeyFrame(offset, kfButton, duplicate)
     kfButton.clientUserData.pressed = kfButton.pressedEvent:Connect(PressKeyFrame)
     kfButton.clientUserData.released = kfButton.releasedEvent:Connect(ReleaseKeyFrame)
     InitializeKeyFrameProperties(kfButton)
-    table.insert(keyFrameTable, kfButton)
     local prev = LOCAL_PLAYER.clientUserData.currentKeyFrame
     if prev then
         prev:SetButtonColor(black)
@@ -154,6 +158,20 @@ end
 
 API.RegisterDuplicateKF(DuplicateKeyFrame)
 
+function LoadKeyFrame(keyFrameData, anchor, time)
+    local kfButton =  World.SpawnAsset(KEY_FRAME_BUTTON, {parent = prevKF.parent})
+    InitializeKeyFrame(time * LOCAL_PLAYER.clientUserData.tickMarkNum - 25, kfButton, false)
+    for _, val in ipairs(keyFrameData) do
+        kfButton.clientUserData.prop[val] = keyFrameData[val]
+    end
+    local anchorIndex = anchor
+    kfButton.clientUserData.anchorIndex = anchorIndex
+    local anchors = LOCAL_PLAYER.clientUserData.anchors[kfButton.clientUserData.anchorIndex]
+    kfButton.clientUserData.timelineIndex = #anchors + 1
+    table.insert(anchors, kfButton)
+end
+API.RegisterLoadKeyFrame(LoadKeyFrame)
+
 function ClickAnchor(button)
     local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition
     local kfButton = World.SpawnAsset(KEY_FRAME_BUTTON, {parent = button})
@@ -161,8 +179,10 @@ function ClickAnchor(button)
     InitializeKeyFrame(offset - 25, kfButton, false)
 end
 
-for _, button in ipairs(ANCHORS:GetChildren()) do
-    keyFrameTable[button] = {}
+for i, button in ipairs(ANCHORS:GetChildren()) do
+    if i == 6 then
+        break
+    end
     button.clickedEvent:Connect(ClickAnchor)
 end
 
@@ -173,6 +193,14 @@ function SetScale(button, index)
     LOCAL_PLAYER.clientUserData.tickMarkNum = index
     UpdateTickMarks(oldSize)
 end
+
+function SetTLScale(index)
+    if index == 1 or index == 2 or index == 3 or index == 4 then
+        SetScale(tickMarkScale[index], index)
+    end
+end
+
+API.RegisterChangeTLScale(SetTLScale)
 
 B_1.clickedEvent:Connect(SetScale, 1)
 B_2.clickedEvent:Connect(SetScale, 2)

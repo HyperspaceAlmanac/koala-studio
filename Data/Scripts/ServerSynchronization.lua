@@ -56,10 +56,14 @@ function SendAnimations(player)
     NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
 
-function SendAnimationInfo()
+function SendAnimationInfo(player, index)
+    local animInfo = animations[player][index]
     local encodedTable = {}
     table.insert(encodedTable, ENCODER_API.EncodeByte(2))
-    for i = 1, 6 do
+    --MaxTime
+    table.insert(encodedTable, ENCODER_API.EncodeDecimal(animInfo.maxTime))
+    table.insert(encodedTable, ENCODER_API.EncodeByte(animInfo.timeScale))
+    for i = 1, 5 do
         table.insert(encodedTable, ENCODER_API.EncodeNetwork(2))
         for j = 1, 2 do
             table.insert(encodedTable, EncodeKeyFrame(sample))
@@ -69,7 +73,19 @@ function SendAnimationInfo()
 end
 
 function LoadAnimation(player, index)
-   
+    local animInfo = animations[player][index]
+    local encodedTable = {}
+    table.insert(encodedTable, ENCODER_API.EncodeByte(2))
+    --MaxTime
+    table.insert(encodedTable, ENCODER_API.EncodeDecimal(animInfo.maxTime))
+    table.insert(encodedTable, ENCODER_API.EncodeByte(animInfo.timeScale))
+    for i = 1, 5 do
+        table.insert(encodedTable, ENCODER_API.EncodeNetwork(2))
+        for j = 1, 2 do
+            table.insert(encodedTable, EncodeKeyFrame(sample))
+        end
+    end
+    NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
 
 function GetCurrentAnchorTable(player)
@@ -82,13 +98,6 @@ function HandleSelectAnimation(player, index)
     print(index)
     LoadAnimation(player, index)
 end
-
-Task.Spawn(
-    function()
-        Task.Wait(3)
-        SendAnimationInfo()
-    end
-)
 
 function HandleGetAnimations(player)
     SendAnimations(player)
@@ -219,8 +228,8 @@ end
 function Join(player)
     animations[player] = {}
     local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
-        {name="animation TWO", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
-        {name="Much Longer Name" , maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}}}
+        {name="animation TWO", maxTime = 20, timeScale = 2, keyFrames = {{}, {}, {}, {}, {}, {}}},
+        {name="Much Longer Name" , maxTime = 15, timeScale = 3, keyFrames = {{}, {}, {}, {}, {}, {}}}}
     animations[player] = animationTable
     player.serverUserData.currentAnimation = nil
 end
