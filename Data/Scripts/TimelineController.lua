@@ -141,8 +141,7 @@ function InitializeKeyFrame(offset, kfButton, duplicate, load)
             API.PushToQueue({"CreateKeyFrame", anchorIndex, (offset + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100)})
         end
     end
-    
-    print(offset)
+
     kfButton.x = offset
     kfButton.y = 0
 end

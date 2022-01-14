@@ -60,7 +60,7 @@ function ProcessRequest(params)
         Events.BroadcastToServer("UpdateKFTime", params[2], params[3], params[4])
     elseif params[1] == "UpdateKFPosition" then
         Events.BroadcastToServer("UpdateKFPosition", params[2], params[3], params[4])
-    elseif params[1] == "UpdateKFTRotation" then
+    elseif params[1] == "UpdateKFRotation" then
         Events.BroadcastToServer("UpdateKFTRotation", params[2], params[3], params[4])
     elseif params[1] == "UpdateKFOffset" then
         Events.BroadcastToServer("UpdateKFOffset", params[2], params[3], params[4])

@@ -114,8 +114,8 @@ end
 
 function HandleChangeMaxTime(player, index, maxTime)
     local animation = animations[player][index]
-    animation.maxtime = maxTime
-    for _, anchor in animation do
+    animation.maxTime = maxTime
+    for _, anchor in ipairs(animation.keyFrames) do
         for i, kf in ipairs(anchor) do
             kf.time = math.min(kf.time, maxTime)
         end

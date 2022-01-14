@@ -17,19 +17,19 @@ LOCAL_PLAYER.clientUserData.dragStartValue = nil
 LOCAL_PLAYER.clientUserData.mouseStartPos = nil
 
 local lpTable = {
-    px = {"Position X", "number"},
-    py = {"Position Y", "number"},
-    pz = {"Position Z", "number"},
-    rx = {"Rotation X", "degrees"},
-    ry = {"Rotation Y", "degrees"},
-    rz = {"Rotation Z", "degrees"},
-    weight = {"Anchor Weight", "0 - 1.0"},
-    blendIn = {"Blend In Time", "blend"},
-    blendOut = {"Blend out Time", "blend"},
-    ox = {"Offset X", "number"},
-    oy = {"Offset Y", "number"},
-    oz = {"Offset Z", "number"},
-    time = {"Time", "number"}
+    px = {"Position X", "number", "UpdateKFPosition"},
+    py = {"Position Y", "number", "UpdateKFPosition"},
+    pz = {"Position Z", "number", "UpdateKFPosition"},
+    rx = {"Rotation X", "degrees", "UpdateKFRotation"},
+    ry = {"Rotation Y", "degrees", "UpdateKFRotation"},
+    rz = {"Rotation Z", "degrees", "UpdateKFRotation"},
+    weight = {"Anchor Weight", "0 - 1.0", "UpdateKFWeight"},
+    blendIn = {"Blend In Time", "blend", "UpdateKFBlendIn"},
+    blendOut = {"Blend out Time", "blend", "UpdateKFBlendOut"},
+    ox = {"Offset X", "number", "UpdateKFOffset"},
+    oy = {"Offset Y", "number", "UpdateKFOffset"},
+    oz = {"Offset Z", "number", "UpdateKFOffset"},
+    time = {"Time", "number", "UpdateKFTime"}
 }
 
 function VisibilityCheck()
@@ -172,6 +172,26 @@ function ChatHook(param)
             if result[1] == "" then
                 param.message = ""
                 local update = UpdateLastPressed(key, result[2])
+                local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+                local i = kf.clientUserData.anchorIndex
+                local j = kf.clientUserData.timelineIndex
+                local prop = kf.clientUserData.prop
+                local eventName = lpTable[key][3]
+                if eventName == "UpdateKFPosition" then
+                    API.PushToQueue({eventName, i, j, prop.position})
+                elseif eventName == "UpdateKFRotation" then
+                    API.PushToQueue({eventName, i, j, prop.rotation})
+                elseif eventName == "UpdateKFOffset" then
+                    API.PushToQueue({eventName, i, j, prop.offset})
+                elseif eventName == "UpdateKFWeight" then
+                    API.PushToQueue({eventName, i, j, prop.weight})
+                elseif eventName == "UpdateKFBlendIn" then
+                    API.PushToQueue({eventName, i, j, prop.blendIn})
+                elseif eventName == "UpdateKFBlendOut" then
+                    API.PushToQueue({eventName, i, j, prop.blendOut})
+                else
+                    print("ERROR! Unable to find event type")
+                end
             else
                 param.message = result[1]
             end
@@ -214,7 +234,7 @@ function UpdateDragStatus()
                 local diff = UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x
                 val = val + diff / 10
             elseif inputType == "degrees" then
-                local diff = UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x
+                local diff = (UI.GetCursorPosition().x - LOCAL_PLAYER.clientUserData.mouseStartPos.x) / 5
                 val = (val + diff) % 360
                 if val > 180 then
                     val = - (360 - val)
@@ -263,7 +283,26 @@ function EndDrag(button)
     if lp then
         local key = lp.clientUserData.value
         if key and lpTable[key] then
-            --Broadcast new value to server
+            local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+            local i = kf.clientUserData.anchorIndex
+            local j = kf.clientUserData.timelineIndex
+            local prop = kf.clientUserData.prop
+            local eventName = lpTable[key][3]
+            if eventName == "UpdateKFPosition" then
+                API.PushToQueue({eventName, i, j, prop.position})
+            elseif eventName == "UpdateKFRotation" then
+                API.PushToQueue({eventName, i, j, prop.rotation})
+            elseif eventName == "UpdateKFOffset" then
+                API.PushToQueue({eventName, i, j, prop.offset})
+            elseif eventName == "UpdateKFWeight" then
+                API.PushToQueue({eventName, i, j, prop.weight})
+            elseif eventName == "UpdateKFBlendIn" then
+                API.PushToQueue({eventName, i, j, prop.blendIn})
+            elseif eventName == "UpdateKFBlendOut" then
+                API.PushToQueue({eventName, i, j, prop.blendOut})
+            else
+                print("ERROR! Unable to find event type")
+            end
         end
     end
     if LOCAL_PLAYER.clientUserData.dragStartValue then

@@ -101,7 +101,7 @@ function Initialize()
     table.insert(anchorTable, R_Y)
     R_Y.clientUserData.index = #table
 
-    R_Z.clientUserData.value = "rx"
+    R_Z.clientUserData.value = "rz"
     table.insert(anchorTable, R_Z)
     R_Z.clientUserData.index = #table
 
@@ -211,6 +211,7 @@ function UpdateStatus()
         O_Z.text = ToRoundedString(values.offset.z)
         ACTIVATED.text = values.activated and "Activated" or "Deactivated"
         TIME_BUTTON.text = "Time: "..ToRoundedString((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100))
+        
         local lp = LOCAL_PLAYER.clientUserData.lastPressed
         if lp and (lp.clientUserData.value == "time" or lp.clientUserData.index) then
             local value = lp.clientUserData.value
