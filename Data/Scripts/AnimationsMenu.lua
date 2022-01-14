@@ -116,10 +116,12 @@ function DeleteAllKeyFrames()
         end
         LOCAL_PLAYER.clientUserData.anchors[i] = {}
     end
+    local test = LOCAL_PLAYER.clientUserData.anchors
 end
 
 function ClickAnimation(button)
     API.CleanUp(LOCAL_PLAYER)
+    DeleteAllKeyFrames()
     local currentAnim = LOCAL_PLAYER.clientUserData.currentAnimation
     if currentAnim == button then
         return
@@ -132,9 +134,8 @@ function ClickAnimation(button)
     for j, btn in ipairs(animationButtons) do
         if btn == button then
             LOCAL_PLAYER.clientUserData.loading = true
-            API.PushToQueue({"SelectAnimation", j})
-            DeleteAllKeyFrames()
-            break
+		    API.PushToQueue({"SelectAnimation", j})
+		    break
         end
     end
 end

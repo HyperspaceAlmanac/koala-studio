@@ -176,7 +176,6 @@ function LoadKeyFrame(keyFrameData, anchorIndex, time)
     end
     local anchors = LOCAL_PLAYER.clientUserData.anchors[anchorIndex]
     kfButton.clientUserData.timelineIndex = #anchors + 1
-    table.insert(anchors, kfButton)
 end
 API.RegisterLoadKeyFrame(LoadKeyFrame)
 
