@@ -187,7 +187,7 @@ end
 
 function DecodeKeyFrame(message)
     local kf = {}
-    kf.activated = ENCODER_API.DecodeByte(message:sub(1, 1)) == 1
+    kf.activated = ENCODER_API.DecodeByte(message:sub(1, 1)) == 2
     local signTable = ENCODER_API.DecodePosAndOffsetSigns(message:sub(2, 2))
     local x = ENCODER_API.DecodeDecimal(message:sub(3, 5))
     local y = ENCODER_API.DecodeDecimal(message:sub(6, 8))

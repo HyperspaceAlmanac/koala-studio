@@ -47,7 +47,7 @@ function ProcessRequest(params)
     elseif params[1] == "GetAnimations" then
         Events.BroadcastToServer("GetAnimations")
     elseif params[1] == "DeleteKeyFrame" then
-        Events.BroadcastToServer("DuplicateKF", params[2], params[3])
+        Events.BroadcastToServer("DeleteKF", params[2], params[3])
     elseif params[1] == "CreateKeyFrame" then
         Events.BroadcastToServer("CreateKF", params[2], params[3])
     elseif params[1] == "DuplicateKeyFrame" then

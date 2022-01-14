@@ -547,6 +547,12 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:Line2"
+      ObjectReference {
+        SelfId: 2149638374840271479
+      }
+    }
+    Overrides {
       Name: "cs:pX"
       ObjectReference {
         SelfId: 17584154568242495524
@@ -622,12 +628,6 @@ Objects {
       Name: "cs:Activated"
       ObjectReference {
         SelfId: 4216545502497295375
-      }
-    }
-    Overrides {
-      Name: "cs:LMBDrag"
-      ObjectReference {
-        SelfId: 1481874781409267817
       }
     }
     Overrides {
@@ -773,10 +773,6 @@ Objects {
       String: "UI"
     }
     Overrides {
-      Name: "cs:LMBDrag:category"
-      String: "UI"
-    }
-    Overrides {
       Name: "cs:TimeButton:category"
       String: "UI"
     }
@@ -794,6 +790,10 @@ Objects {
     }
     Overrides {
       Name: "cs:Delete:category"
+      String: "UI"
+    }
+    Overrides {
+      Name: "cs:Line2:category"
       String: "UI"
     }
   }
@@ -10015,7 +10015,6 @@ Objects {
   ChildIds: 3368541054104542596
   ChildIds: 17433259190585078894
   ChildIds: 2149638374840271479
-  ChildIds: 1481874781409267817
   ChildIds: 6425126944505952669
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -10087,7 +10086,7 @@ Objects {
     Width: 280
     Height: 50
     UIX: 35
-    UIY: 200
+    UIY: 170
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -10095,108 +10094,6 @@ Objects {
     }
     Button {
       Label: "Current Time"
-      FontColor {
-        A: 1
-      }
-      FontSize: 20
-      ButtonColor {
-        R: 1
-        G: 1
-        B: 1
-        A: 1
-      }
-      HoveredColor {
-        R: 0.5
-        G: 0.5
-        B: 0.5
-        A: 1
-      }
-      PressedColor {
-        R: 1
-        G: 1
-        B: 1
-        A: 1
-      }
-      DisabledColor {
-        R: 1
-        G: 1
-        B: 1
-        A: 1
-      }
-      Brush {
-        Id: 841534158063459245
-      }
-      IsButtonEnabled: true
-      ClickMode {
-        Value: "mc:ebuttonclickmode:default"
-      }
-      Font {
-      }
-      Justification {
-        Value: "mc:etextjustify:center"
-      }
-      VerticalJustification {
-        Value: "mc:everticaljustification:center"
-      }
-      ShadowColor {
-        A: 1
-      }
-      ShadowOffset {
-      }
-    }
-    AnchorLayout {
-      SelfAnchor {
-        Anchor {
-          Value: "mc:euianchor:topleft"
-        }
-      }
-      TargetAnchor {
-        Anchor {
-          Value: "mc:euianchor:topleft"
-        }
-      }
-    }
-  }
-}
-Objects {
-  Id: 1481874781409267817
-  Name: "LMBDrag"
-  Transform {
-    Location {
-    }
-    Rotation {
-    }
-    Scale {
-      X: 1
-      Y: 1
-      Z: 1
-    }
-  }
-  ParentId: 10167691961213277847
-  Collidable_v2 {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  Visible_v2 {
-    Value: "mc:evisibilitysetting:inheritfromparent"
-  }
-  CameraCollidable {
-    Value: "mc:ecollisionsetting:inheritfromparent"
-  }
-  EditorIndicatorVisibility {
-    Value: "mc:eindicatorvisibility:visiblewhenselected"
-  }
-  Control {
-    Width: 280
-    Height: 50
-    UIX: 35
-    UIY: 145
-    RenderTransformPivot {
-      Anchor {
-        Value: "mc:euianchor:middlecenter"
-      }
-    }
-    Button {
-      Label: "LMB Drag ON"
       FontColor {
         A: 1
       }
@@ -10377,7 +10274,7 @@ Objects {
     }
     UseParentWidth: true
     Text {
-      Label: "Modifying: Transform"
+      Label: "Modifying:"
       Color {
         R: 1
         G: 1

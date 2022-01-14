@@ -2,6 +2,7 @@
 local API = require(script:GetCustomProperty("AnimatorClientAPI"))
 
 -- UI 
+local LINE = script:GetCustomProperty("Line2"):WaitForObject() ---@type UIText
 local ANCHOR_EDITOR = script:GetCustomProperty("AnchorEditor"):WaitForObject() ---@type UIPanel
 local EFFECTS_EDITOR = script:GetCustomProperty("EffectsEditor"):WaitForObject() ---@type UIPanel
 local TRANSFORM = script:GetCustomProperty("Transform"):WaitForObject() ---@type UIPanel
@@ -21,7 +22,6 @@ local O_X = script:GetCustomProperty("oX"):WaitForObject() ---@type UIButton
 local O_Y = script:GetCustomProperty("oY"):WaitForObject() ---@type UIButton
 local O_Z = script:GetCustomProperty("oZ"):WaitForObject() ---@type UIButton
 local ACTIVATED = script:GetCustomProperty("Activated"):WaitForObject() ---@type UIButton
-local LMBDRAG = script:GetCustomProperty("LMBDrag"):WaitForObject() ---@type UIButton
 local TIME_BUTTON = script:GetCustomProperty("TimeButton"):WaitForObject() ---@type UIButton
 local TRANSFORM_BUTTON = script:GetCustomProperty("TransformButton"):WaitForObject() ---@type UIButton
 local ANCHOR_BUTTON = script:GetCustomProperty("AnchorButton"):WaitForObject() ---@type UIButton
@@ -73,9 +73,10 @@ function DeleteCurrentKeyFrame()
         end
         if foundIndex then
             table.remove(kfTable, foundIndex)
+            API.PushToQueue({"DeleteKeyFrame", kf.clientUserData.anchorIndex, foundIndex})
         end
         kf:Destroy()
-        kf = nil
+        LOCAL_PLAYER.clientUserData.currentKeyFrame = nil
     end
 end
 
@@ -208,9 +209,43 @@ function UpdateStatus()
         O_X.text = ToRoundedString(values.offset.x)
         O_Y.text = ToRoundedString(values.offset.y)
         O_Z.text = ToRoundedString(values.offset.z)
-        ACTIVATED.text = values.activated and "Activated" or "Deactivate"
-        LMBDRAG.text = "Place Holder"
-        TIME_BUTTON.text = "Time: "..ToRoundedString(CoreMath.Round((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100), 3))
+        ACTIVATED.text = values.activated and "Activated" or "Deactivated"
+        TIME_BUTTON.text = "Time: "..ToRoundedString((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100))
+        local lp = LOCAL_PLAYER.clientUserData.lastPressed
+        if lp and (lp.clientUserData.value == "time" or lp.clientUserData.index) then
+            local value = lp.clientUserData.value
+            if value == "time" then
+                LINE.text = "Current key frame time"
+            elseif value == "px" then
+                LINE.text = "Position.x"
+            elseif value == "py" then
+                LINE.text = "Position.y"
+            elseif value == "pz" then
+                LINE.text = "Position.z"
+            elseif value == "rx" then
+                LINE.text = "Rotation.x"
+            elseif value == "ry" then
+                LINE.text = "Rotation.y"
+            elseif value == "rz" then
+                LINE.text = "Rotation.z"
+            elseif value == "ox" then
+                LINE.text = "IK Anchor Offset.x"
+            elseif value == "oy" then
+                LINE.text = "IK Anchor Offset.y"
+            elseif value == "oz" then
+                LINE.text = "IK Anchor Offset.z"
+            elseif value == "weight" then
+                LINE.text = "IK Anchor Weight"
+            elseif value == "blendIn" then
+                LINE.text = "IK Anchor BlendIn Time"
+            elseif value == "blendOut" then
+                LINE.text = "IK Anchor BlendOut Time"
+            else
+                LINE.text = ""
+            end
+        else
+            LINE.text = ""
+        end
     end
 end
 

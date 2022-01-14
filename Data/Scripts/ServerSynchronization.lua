@@ -25,7 +25,7 @@ local sample = {
 
 function EncodeKeyFrame(kf)
     local tbl = {}
-    table.insert(tbl, ENCODER_API.EncodeByte(kf.active and 1 or 0))
+    table.insert(tbl, ENCODER_API.EncodeByte(kf.active and 2 or 1))
     local pos = kf.position
     local offset = kf.offset
     table.insert(tbl, ENCODER_API.EncodePosAndOffsetSigns(pos, offset))
