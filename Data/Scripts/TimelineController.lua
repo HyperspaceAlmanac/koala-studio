@@ -102,6 +102,8 @@ end
 
 function ReleaseKeyFrame(button)
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
+    local time = (button.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100)
+    API.PushToQueue({"UpdateKFTime", button.clientUserData.anchorIndex, button.clientUserData.timelineIndex, time})
     button:SetButtonColor(gray)
 end
 
@@ -174,8 +176,6 @@ function LoadKeyFrame(keyFrameData, anchorIndex, time)
             kfButton.clientUserData.prop[key] = val
         end
     end
-    local anchors = LOCAL_PLAYER.clientUserData.anchors[anchorIndex]
-    kfButton.clientUserData.timelineIndex = #anchors + 1
 end
 API.RegisterLoadKeyFrame(LoadKeyFrame)
 

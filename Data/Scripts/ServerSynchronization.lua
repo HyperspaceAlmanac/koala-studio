@@ -158,6 +158,7 @@ local sample = {
 }
 
 function HandleKFTime(player, i, j, time)
+    print(tostring(i)..", "..tostring(j))
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.time = time
 end
