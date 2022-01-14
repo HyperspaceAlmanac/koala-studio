@@ -39,7 +39,7 @@ function EncodeKeyFrame(kf)
     table.insert(tbl, ENCODER_API.EncodeDecimal(rot.x < 0 and rot.x + 360 or rot.x))
     table.insert(tbl, ENCODER_API.EncodeDecimal(rot.y < 0 and rot.y + 360 or rot.y))
     table.insert(tbl, ENCODER_API.EncodeDecimal(rot.z < 0 and rot.z + 360 or rot.z))
-    table.insert(tbl, ENCODER_API.EncodeDecimal(kf.timeline))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(kf.time))
     table.insert(tbl, ENCODER_API.EncodeNetwork(math.floor(kf.weight * 1000)))
     table.insert(tbl, ENCODER_API.EncodeDecimal(kf.blendIn))
     table.insert(tbl, ENCODER_API.EncodeDecimal(kf.blendOut))
@@ -56,22 +56,6 @@ function SendAnimations(player)
     NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
 
-function SendAnimationInfo(player, index)
-    local animInfo = animations[player][index]
-    local encodedTable = {}
-    table.insert(encodedTable, ENCODER_API.EncodeByte(2))
-    --MaxTime
-    table.insert(encodedTable, ENCODER_API.EncodeDecimal(animInfo.maxTime))
-    table.insert(encodedTable, ENCODER_API.EncodeByte(animInfo.timeScale))
-    for i = 1, 5 do
-        table.insert(encodedTable, ENCODER_API.EncodeNetwork(2))
-        for j = 1, 2 do
-            table.insert(encodedTable, EncodeKeyFrame(sample))
-        end
-    end
-    NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
-end
-
 function LoadAnimation(player, index)
     local animInfo = animations[player][index]
     local encodedTable = {}
@@ -79,10 +63,15 @@ function LoadAnimation(player, index)
     --MaxTime
     table.insert(encodedTable, ENCODER_API.EncodeDecimal(animInfo.maxTime))
     table.insert(encodedTable, ENCODER_API.EncodeByte(animInfo.timeScale))
+    local kfTable = animInfo.keyFrames
     for i = 1, 5 do
-        table.insert(encodedTable, ENCODER_API.EncodeNetwork(2))
-        for j = 1, 2 do
-            table.insert(encodedTable, EncodeKeyFrame(sample))
+        local keyFrames = kfTable[i]
+        local size = #keyFrames
+        table.insert(encodedTable, ENCODER_API.EncodeNetwork(size))
+        if size > 0 then
+            for j = 1, size do
+                table.insert(encodedTable, EncodeKeyFrame(keyFrames[j]))
+            end
         end
     end
     NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))

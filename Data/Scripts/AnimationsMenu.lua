@@ -177,7 +177,7 @@ end
 
 function DecodeKeyFrame(message)
     local kf = {}
-    kf.active = ENCODER_API.DecodeByte(message:sub(1, 1)) == 1
+    kf.activated = ENCODER_API.DecodeByte(message:sub(1, 1)) == 1
     local signTable = ENCODER_API.DecodePosAndOffsetSigns(message:sub(2, 2))
     local x = ENCODER_API.DecodeDecimal(message:sub(3, 5))
     local y = ENCODER_API.DecodeDecimal(message:sub(6, 8))
@@ -191,16 +191,15 @@ function DecodeKeyFrame(message)
     y = ENCODER_API.DecodeDecimal(message:sub(24, 26))
     z = ENCODER_API.DecodeDecimal(message:sub(27, 29))
     kf.rotation = Vector3.New(x > 180 and -(360 - x) or x, y > 180 and - (360 - y) or y, z > 180 and - (360 - z) or z )
-    kf.timeLinePosition = ENCODER_API.DecodeDecimal(message:sub(30, 32))
+    kf.time = ENCODER_API.DecodeDecimal(message:sub(30, 32))
     kf.weight = CoreMath.Round(ENCODER_API.DecodeNetwork(message:sub(33, 34)) / 1000, 3)
     kf.blendIn = ENCODER_API.DecodeDecimal(message:sub(35, 37))
     kf.blendOut = ENCODER_API.DecodeDecimal(message:sub(38, 40))
-    print("Debugged")
+    return kf
 end
 
 function ProcessAnimationData(message)
     local index = 2
-    print(#message)
     local maxSeconds = ENCODER_API.DecodeDecimal(message:sub(index,index + 2))
     if LOCAL_PLAYER.clientUserData.maxSeconds ~= maxSeconds then
         LOCAL_PLAYER.clientUserData.maxSeconds = maxSeconds
@@ -213,17 +212,15 @@ function ProcessAnimationData(message)
     if scale ~= oldTickMark then
         API.ChangeTLScale(scale)
     end
-    if false then
-        for i = 1, 5 do
-            local size = ENCODER_API.DecodeNetwork(message:sub(index, index + 1))
-            index = index + 2
-            
-            if size > 0 then
-                for j = 1, size do
-                    local keyFrame = DecodeKeyFrame(message:sub(index, index + 40)) --size of 41
-                    index = index + 41
-                    print(index)
-                end
+
+    for i = 1, 5 do
+        local size = ENCODER_API.DecodeNetwork(message:sub(index, index + 1))
+        index = index + 2
+        if size > 0 then
+            for j = 1, size do
+                local keyFrame = DecodeKeyFrame(message:sub(index, index + 39)) --size of 40
+                API.LoadKeyFrame(keyFrame, i, keyFrame.time)
+                index = index + 40
             end
         end
     end
