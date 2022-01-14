@@ -93,7 +93,7 @@ function HandleGetAnimations(player)
 end
 
 function HandleNewAnimation(player, animName)
-   table.insert(animations[player], {name=animName, maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}})
+    table.insert(animations[player], {name=animName, maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}})
 end
 
 function HandleDeleteAnimation(player, index)

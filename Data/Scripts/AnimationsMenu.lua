@@ -53,12 +53,19 @@ function ClickedDelete(message, callback)
 end
 
 function FindAndDelete(t, v)
+    local found = 0
     for i, val in ipairs(t) do
         if val == v then
-            table.remove(t, i)
-            API.PushToQueue({"DeleteAnimation", i})
+            found = i
+        elseif found > 0 then
+            val.clientUserData.id = val.clientUserData.id - 1
         end
     end
+    if found == 0 then
+        return
+    end
+    table.remove(t, found)
+    API.PushToQueue({"DeleteAnimation", found})
     for i, val in ipairs(t) do
         val.y = (i - 1) * 60
     end
@@ -145,6 +152,7 @@ function NewAnimation(button)
     table.insert(animationNames, defaultName)
     local spawned = World.SpawnAsset(ANIMATION_BUTTON, {parent = ANIMATION_LIST})
     spawned.text = defaultName
+    spawned.clientUserData.id = #animationNames
     spawned.y = (#animationNames - 1) * 60
     table.insert(animationButtons, spawned)
     spawned.clickedEvent:Connect(ClickAnimation)
@@ -169,6 +177,7 @@ function UpdateAnimationNames(message)
     end
     for i, name in ipairs(animationNames) do
         local button = World.SpawnAsset(ANIMATION_BUTTON, {parent = ANIMATION_LIST})
+        button.clientUserData.id = i
         button.text = name
         button.y = (i - 1) * 60
         table.insert(animationButtons, button)

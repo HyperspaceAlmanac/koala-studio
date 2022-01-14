@@ -197,8 +197,12 @@ function SetScale(button, index)
     tickMarkScale[LOCAL_PLAYER.clientUserData.tickMarkNum]:SetButtonColor(white)
     tickMarkScale[index]:SetButtonColor(lightGray)
     local oldSize = LOCAL_PLAYER.clientUserData.tickMarkNum
-    LOCAL_PLAYER.clientUserData.tickMarkNum = index
-    UpdateTickMarks(oldSize)
+    if oldSize ~= index then
+        LOCAL_PLAYER.clientUserData.tickMarkNum = index
+        local anim = LOCAL_PLAYER.clientUserData.currentAnimation
+        API.PushToQueue({"SetTimeScale", anim.clientUserData.id , index})
+        UpdateTickMarks(oldSize)
+    end
 end
 
 function SetTLScale(index)
@@ -229,6 +233,12 @@ function SetMaxTime(button)
     LOCAL_PLAYER.clientUserData.lastPressed = nil
 end
 TIME_BUTTON.clickedEvent:Connect(SetMaxTime)
+
+function MaxTimeUpdate(num)
+    local anim = LOCAL_PLAYER.clientUserData.currentAnimation
+    API.PushToQueue({"SetMaxTime", anim.clientUserData.id , num})
+end
+API.RegisterUpdateMaxTime(MaxTimeUpdate)
 
 function Tick(deltaTime)
     if not LOCAL_PLAYER.clientUserData.currentAnimation then

@@ -291,7 +291,7 @@ function Tick(deltaTime)
         FIELD.text = "Timeline Max"
         TYPE.text = "Seconds"
     elseif name then
-        FIELD.text = "Aniation Name"
+        FIELD.text = "Animation Name"
         TYPE.text = "String"
     end
     UpdateDragStatus()

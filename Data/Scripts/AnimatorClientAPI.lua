@@ -17,7 +17,6 @@ API.LoadAnimationCallback = nil
 API.LoadAnimationTimelineCallback = nil
 API.PushToQueue = nil
 API.DeleteCallback = nil
-API.CancelDeleteCallback = nil
 API.UpdateTimeDisplayCallback = nil
 API.DuplicateKFCallback = nil
 API.UpdateNameCallback = nil
@@ -38,10 +37,6 @@ end
 
 function API.UpdateName(name)
     print("Updated Animation name to: "..name)
-end
-
-function API.UpdateMaxTime(time)
-    print("Updated max time to: "..tostring(time))
 end
 
 function API.UpdateTimeScale(index)
@@ -65,10 +60,6 @@ function API.RegisterDeleteCallback(callback)
     API.DeleteCallback = callback
 end
 
-function API.CancelDeleteCallback(callback)
-    API.CancelDeleteCallback = callback
-end
-
 function API.RegisterUTD(callback)
     API.UpdateTimeDisplayCallback = callback
 end
@@ -87,6 +78,10 @@ end
 
 function API.RegisterChangeTLScale(callback)
     API.ChangeTLScale = callback
+end
+
+function API.RegisterUpdateMaxTime(callback)
+    API.UpdateMaxTime = callback
 end
 
 function API.CleanUp(player)
