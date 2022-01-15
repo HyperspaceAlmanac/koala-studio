@@ -2,6 +2,7 @@
 local NETWORKED_OBJ = script:GetCustomProperty("NetworkedObj"):WaitForObject() ---@type Folder
 
 -- API 
+local IK_API = require(script:GetCustomProperty("IK_API"))
 local EDITOR_API = require(script:GetCustomProperty("EditorAPI"))
 local ENCODER_API = require(script:GetCustomProperty("EncoderAPI"))
 
@@ -25,7 +26,7 @@ local sample = {
 
 function EncodeKeyFrame(kf)
     local tbl = {}
-    table.insert(tbl, ENCODER_API.EncodeByte(kf.active and 2 or 1))
+    table.insert(tbl, ENCODER_API.EncodeMisc(kf.active, kf.rxl, kf.ryl, kf.rzl))
     local pos = kf.position
     local offset = kf.offset
     table.insert(tbl, ENCODER_API.EncodePosAndOffsetSigns(pos, offset))
@@ -66,6 +67,7 @@ function LoadAnimation(player, index)
     local kfTable = animInfo.keyFrames
     for i = 1, 5 do
         local keyFrames = kfTable[i]
+        IK_API.CreateCurve(player, i, keyFrames)
         local size = #keyFrames
         table.insert(encodedTable, ENCODER_API.EncodeNetwork(size))
         if size > 0 then
@@ -130,7 +132,10 @@ local DEFAULT_KF = {
     weight = 1,
     blendIn = 0,
     blendOut = 0,
-    active = true
+    active = true,
+    rxl = false,
+    ryl = false,
+    rzl = false
 }
 
 function DuplicateKeyFrame(original)
@@ -143,6 +148,9 @@ function DuplicateKeyFrame(original)
     kf.blendIn = original.blendIn
     kf.blendOut = original.blendOut
     kf.active = original.active
+    kf.rxl = original.rxl
+    kf.ryl = original.ryl
+    kf.rzl = original.rzl
     return kf
 end
 
@@ -198,16 +206,33 @@ function HandleKFActive(player, i, j, active)
     kf.active = active
 end
 
+function HandleKFrxl(player, i, j, active)
+    local kf = GetCurrentAnchorTable(player)[i][j]
+    kf.rxl = active
+end
+
+function HandleKFryl(player, i, j, active)
+    local kf = GetCurrentAnchorTable(player)[i][j]
+    kf.ryl = active
+end
+
+function HandleKFrzl(player, i, j, active)
+    local kf = GetCurrentAnchorTable(player)[i][j]
+    kf.rzl = active
+end
+
 function HandleCreateKF(player, i, time)
     local kf = DuplicateKeyFrame(DEFAULT_KF)
     table.insert(GetCurrentAnchorTable(player)[i], kf)
     kf.time = CoreMath.Round(time, 3)
+    --IK_API.AddCurveKey(player, i, kf)
     print(time)
 end
 
 function HandleDuplicateKF(player, i, from)
     local anchor = GetCurrentAnchorTable(player)[i]
     table.insert(anchor, DuplicateKeyFrame(anchor[from]))
+    --IK_API.AddCurveKey(player, i, anchor[#anchor])
 end
 
 function HandleDeleteKF(player, i, j)
@@ -249,5 +274,9 @@ Events.ConnectForPlayer("UpdateKFActive", HandleKFActive)
 Events.ConnectForPlayer("CreateKF", HandleCreateKF)
 Events.ConnectForPlayer("DuplicateKF", HandleDuplicateKF)
 Events.ConnectForPlayer("DeleteKF", HandleDeleteKF)
+
+Events.ConnectForPlayer("UpdateKFrxl", HandleKFrxl)
+Events.ConnectForPlayer("UpdateKFryl", HandleKFryl)
+Events.ConnectForPlayer("UpdateKFrzl", HandleKFrzl)
 
 

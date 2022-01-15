@@ -205,6 +205,20 @@ function Encoder.DecodeSpawn(encoded)
     return values
 end
 
+function Encoder.EncodeMisc(active, rxl, ryl, rzl)
+    return  string.char(16 + (active and 8 or 0) + (rxl and 4 or 0) + (ryl and 2 or 0) + (rzl and 1 or 0))
+end
+
+function Encoder.DecodeMisc(encoded)
+    encoded = tonumber(string.byte(encoded)) - 16
+    local values = {}
+    values[1] = encoded & 8 > 0
+    values[2] = encoded & 4 > 0
+    values[3] = encoded & 2 > 0
+    values[4] = encoded & 1 > 0
+    return values
+end
+
 function Encoder.EncodeKeyFrame()
     return ""
 end

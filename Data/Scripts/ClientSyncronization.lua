@@ -72,6 +72,12 @@ function ProcessRequest(params)
         Events.BroadcastToServer("UpdateKFBlendOut", params[2], params[3], params[4])
     elseif params[1] == "UpdateKFActive" then
         Events.BroadcastToServer("UpdateKFActive", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFrxl" then
+        Events.BroadcastToServer("UpdateKFrxl", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFryl" then
+        Events.BroadcastToServer("UpdateKFryl", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFrzl" then
+        Events.BroadcastToServer("UpdateKFrzl", params[2], params[3], params[4])
     else
         print("Unknown request header, no action taken")
     end

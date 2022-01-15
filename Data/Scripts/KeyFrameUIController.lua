@@ -2,6 +2,11 @@
 local API = require(script:GetCustomProperty("AnimatorClientAPI"))
 
 -- UI 
+
+local R_XL = script:GetCustomProperty("rXL"):WaitForObject() ---@type UIButton
+local R_YL = script:GetCustomProperty("rYL"):WaitForObject() ---@type UIButton
+local R_ZL = script:GetCustomProperty("rZL"):WaitForObject() ---@type UIButton
+
 local LINE = script:GetCustomProperty("Line2"):WaitForObject() ---@type UIText
 local ANCHOR_EDITOR = script:GetCustomProperty("AnchorEditor"):WaitForObject() ---@type UIPanel
 local EFFECTS_EDITOR = script:GetCustomProperty("EffectsEditor"):WaitForObject() ---@type UIPanel
@@ -176,6 +181,36 @@ function Initialize()
             API.DuplicateKFCallback()
         end
     )
+    R_XL.clickedEvent:Connect(
+        function(button)
+            local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+            if kf then
+                local updated = not kf.clientUserData.prop.rxl
+                kf.clientUserData.prop.rxl = updated
+                API.PushToQueue({"UpdateKFrxl", kf.clientUserData.anchorIndex, kf.clientUserData.timelineIndex, updated})
+            end
+        end
+    )
+    R_YL.clickedEvent:Connect(
+        function(button)
+            local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+            if kf then
+                local updated = not kf.clientUserData.prop.ryl
+                kf.clientUserData.prop.ryl = updated
+                API.PushToQueue({"UpdateKFryl", kf.clientUserData.anchorIndex, kf.clientUserData.timelineIndex, updated})
+            end
+        end
+    )
+    R_ZL.clickedEvent:Connect(
+        function(button)
+            local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+            if kf then
+                local updated = not kf.clientUserData.prop.rzl
+                kf.clientUserData.prop.rzl = updated
+                API.PushToQueue({"UpdateKFrzl", kf.clientUserData.anchorIndex, kf.clientUserData.timelineIndex, updated})
+            end
+        end
+    )
 end
 
 function ToRoundedString(number)
@@ -210,7 +245,8 @@ function UpdateStatus()
         O_Y.text = ToRoundedString(values.offset.y)
         O_Z.text = ToRoundedString(values.offset.z)
         ACTIVATED.text = values.activated and "Activated" or "Deactivated"
-        TIME_BUTTON.text = "Time: "..ToRoundedString((LOCAL_PLAYER.clientUserData.currentKeyFrame.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100))
+        local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+        TIME_BUTTON.text = "Time: "..ToRoundedString((kf.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100))
         
         local lp = LOCAL_PLAYER.clientUserData.lastPressed
         if lp and (lp.clientUserData.value == "time" or lp.clientUserData.index) then
@@ -224,11 +260,11 @@ function UpdateStatus()
             elseif value == "pz" then
                 LINE.text = "Position.z"
             elseif value == "rx" then
-                LINE.text = "Rotation.x"
+                LINE.text = "Rotation.x, Checkbox\nfor longer path"
             elseif value == "ry" then
-                LINE.text = "Rotation.y"
+                LINE.text = "Rotation.y, Checkbox\nfor longer path"
             elseif value == "rz" then
-                LINE.text = "Rotation.z"
+                LINE.text = "Rotation.z, Checkbox\nfor longer path"
             elseif value == "ox" then
                 LINE.text = "IK Anchor Offset.x"
             elseif value == "oy" then
@@ -246,6 +282,21 @@ function UpdateStatus()
             end
         else
             LINE.text = ""
+        end
+        if kf.clientUserData.prop.rxl then
+            R_XL.text = "X"
+        else
+            R_XL.text = ""
+        end
+        if kf.clientUserData.prop.ryl then
+            R_YL.text = "X"
+        else
+            R_YL.text = ""
+        end
+        if kf.clientUserData.prop.rzl then
+            R_ZL.text = "X"
+        else
+            R_ZL.text = ""
         end
     end
 end

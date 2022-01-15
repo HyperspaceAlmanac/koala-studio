@@ -116,6 +116,9 @@ function InitializeKeyFrameProperties(button)
     button.clientUserData.prop.blendIn = 0
     button.clientUserData.prop.blendOut = 0
     button.clientUserData.prop.activated = true
+    button.clientUserData.prop.rxl = false
+    button.clientUserData.prop.ryl = false
+    button.clientUserData.prop.rzl = false
 end
 
 local kfProps = {"id", "position", "offset", "rotation", "weight", "blendIn", "blendOut", "activated"}

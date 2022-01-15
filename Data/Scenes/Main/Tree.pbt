@@ -158,6 +158,7 @@ Objects {
   ChildIds: 10068152650647582781
   ChildIds: 18004227384880621309
   ChildIds: 505572074111893118
+  ChildIds: 1126959186038650014
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -172,6 +173,84 @@ Objects {
   }
   Folder {
     IsGroup: true
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 1126959186038650014
+  Name: "IKAnchorController"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 8326545056456087967
+  UnregisteredParameters {
+    Overrides {
+      Name: "cs:IK_API"
+      AssetReference {
+        Id: 13291167366393717731
+      }
+    }
+    Overrides {
+      Name: "cs:BodyDebug"
+      AssetReference {
+        Id: 4592957535985972253
+      }
+    }
+    Overrides {
+      Name: "cs:LeftHandDebug"
+      AssetReference {
+        Id: 3157633151622510024
+      }
+    }
+    Overrides {
+      Name: "cs:LeftFootDebug"
+      AssetReference {
+        Id: 304162242050779131
+      }
+    }
+    Overrides {
+      Name: "cs:RightHandDebug"
+      AssetReference {
+        Id: 5177685851208596832
+      }
+    }
+    Overrides {
+      Name: "cs:RightFootDebug"
+      AssetReference {
+        Id: 18238639466152772534
+      }
+    }
+    Overrides {
+      Name: "cs:IK_API:category"
+      String: "API"
+    }
+  }
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Script {
+    ScriptAsset {
+      Id: 12457027762569876410
+    }
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
@@ -235,6 +314,12 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:IK_API"
+      AssetReference {
+        Id: 13291167366393717731
+      }
+    }
+    Overrides {
       Name: "cs:EditorAPI"
       AssetReference {
         Id: 12454095728369486788
@@ -252,6 +337,10 @@ Objects {
     }
     Overrides {
       Name: "cs:EditorAPI:category"
+      String: "API"
+    }
+    Overrides {
+      Name: "cs:IK_API:category"
       String: "API"
     }
   }
@@ -544,6 +633,24 @@ Objects {
       Name: "cs:AnimatorClientAPI"
       AssetReference {
         Id: 3696733425841567565
+      }
+    }
+    Overrides {
+      Name: "cs:rXL"
+      ObjectReference {
+        SelfId: 14733069646134259979
+      }
+    }
+    Overrides {
+      Name: "cs:rYL"
+      ObjectReference {
+        SelfId: 12755556805391552986
+      }
+    }
+    Overrides {
+      Name: "cs:rZL"
+      ObjectReference {
+        SelfId: 14674567832549497247
       }
     }
     Overrides {
@@ -10086,7 +10193,7 @@ Objects {
     Width: 280
     Height: 50
     UIX: 35
-    UIY: 170
+    UIY: 200
     RenderTransformPivot {
       Anchor {
         Value: "mc:euianchor:middlecenter"
@@ -10186,7 +10293,7 @@ Objects {
   }
   Control {
     Width: 200
-    Height: 60
+    Height: 100
     UIY: 90
     RenderTransformPivot {
       Anchor {
@@ -11944,7 +12051,7 @@ Objects {
     Value: "mc:eindicatorvisibility:visiblewhenselected"
   }
   Control {
-    Width: 300
+    Width: 350
     Height: 490
     UIX: 360
     UIY: 10
@@ -12011,7 +12118,7 @@ Objects {
     }
     UseParentWidth: true
     Text {
-      Label: "Rotation"
+      Label: "Rotation (X for long path)"
       Color {
         R: 1
         G: 1
@@ -12147,6 +12254,7 @@ Objects {
     }
   }
   ParentId: 2728693309166625872
+  ChildIds: 14674567832549497247
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -12170,6 +12278,106 @@ Objects {
     }
     Button {
       Label: "Numeric Value"
+      FontColor {
+        A: 1
+      }
+      FontSize: 20
+      ButtonColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      HoveredColor {
+        R: 0.5
+        G: 0.5
+        B: 0.5
+        A: 1
+      }
+      PressedColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 841534158063459245
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:middlecenter"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:middlecenter"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 14674567832549497247
+  Name: "rZL"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 8328317949154022610
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 50
+    Height: 50
+    UIX: 140
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Button {
       FontColor {
         A: 1
       }
@@ -12328,6 +12536,7 @@ Objects {
     }
   }
   ParentId: 12155208111333770354
+  ChildIds: 12755556805391552986
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -12351,6 +12560,106 @@ Objects {
     }
     Button {
       Label: "Numeric Value"
+      FontColor {
+        A: 1
+      }
+      FontSize: 20
+      ButtonColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      HoveredColor {
+        R: 0.5
+        G: 0.5
+        B: 0.5
+        A: 1
+      }
+      PressedColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 841534158063459245
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:middlecenter"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:middlecenter"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 12755556805391552986
+  Name: "rYL"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 7707251398684832128
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 50
+    Height: 50
+    UIX: 140
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Button {
       FontColor {
         A: 1
       }
@@ -12509,6 +12818,7 @@ Objects {
     }
   }
   ParentId: 3702064934750503007
+  ChildIds: 14733069646134259979
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -12532,6 +12842,106 @@ Objects {
     }
     Button {
       Label: "Numeric Value"
+      FontColor {
+        A: 1
+      }
+      FontSize: 20
+      ButtonColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      HoveredColor {
+        R: 0.5
+        G: 0.5
+        B: 0.5
+        A: 1
+      }
+      PressedColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 841534158063459245
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:middlecenter"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:middlecenter"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 14733069646134259979
+  Name: "rXL"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 16151878907430432823
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 50
+    Height: 50
+    UIX: 140
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Button {
       FontColor {
         A: 1
       }

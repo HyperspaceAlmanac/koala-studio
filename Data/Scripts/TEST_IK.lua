@@ -24,8 +24,4 @@ end
 function Play()
 
 end
-
-function Tick(deltaTime)
-
-end
-Game.playerJoinedEvent:Connect(Join)
+--Game.playerJoinedEvent:Connect(Join)
