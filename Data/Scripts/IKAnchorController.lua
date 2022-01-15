@@ -11,7 +11,6 @@ local RIGHT_FOOT_DEBUG = script:GetCustomProperty("RightFootDebug")
 
 
 local AnchorTable = {}
-local listeners = {}
 
 function Join(player)
     local anchors = {}
@@ -21,20 +20,6 @@ function Join(player)
     table.insert(anchors, World.SpawnAsset(LEFT_FOOT_DEBUG, {position = player:GetWorldPosition()}))
     table.insert(anchors, World.SpawnAsset(RIGHT_FOOT_DEBUG, {position = player:GetWorldPosition()}))
     AnchorTable[player] = anchors
-    for _, anchor in ipairs(anchors) do
-        listeners[anchor] = {}
-        anchor.serverUserData.active = false
-        listeners[anchor][1] = anchor.activatedEvent:Connect(
-            function(ik, player)
-                ik.serverUserData.active = true
-            end
-        )
-        listeners[anchor][2] = anchor.deactivatedEvent:Connect(
-            function(ik, player)
-                ik.serverUserData.active = false
-            end
-        )
-    end
     API.PlayerJoin(player, anchors)
 end
 
@@ -44,10 +29,6 @@ function Leave(player)
         anchor:Deactivate()
     end
     for _, anchor in ipairs(AnchorTable[player]) do
-        listeners[anchor][1]:Disconnect()
-        listeners[anchor][2]:Disconnect()
-        listeners[anchor] = nil
-        anchor:Deactivate()
         anchor:Destroy()
     end
     AnchorTable[player] = nil

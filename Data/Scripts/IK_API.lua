@@ -76,6 +76,44 @@ function API.DeleteKF(player, anchor, keyFrame)
     end
 end
 
+function RotationPathing(sr, er, progress, longRoute)
+    sr = sr < 0 and sr + 360 or sr
+    er = er < 0 and er + 360 or er
+    local diff = er - sr
+    if diff >= 0 then
+        if diff >= 180 then
+            if longRoute then
+                return (sr + diff * progress) % 360
+            else
+                return (sr - (360 - diff) * progress) % 360
+            end
+        else
+            if longRoute then
+                return (sr - (360 - diff) * progress) % 360
+            else
+                return (sr + diff * progress) % 360
+            end
+        end
+    else
+        -- need to run tests and double check math
+        local opposite = diff + 360
+        if diff <= -180 then
+            if longRoute then
+                return (sr + diff * progress) % 360
+            else
+                return (sr + opposite * progress) % 360
+            end
+        else
+            if longRoute then
+                return (sr + opposite * progress) % 360                
+            else
+                return (sr + diff * progress) % 360
+            end
+        end
+    end
+
+end
+
 function API.UpdateAnchors(player, currentTime)
     for i = 1, 5 do
         local sortedKF =  API.SortedKF[player][i]
@@ -95,16 +133,33 @@ function API.UpdateAnchors(player, currentTime)
             end
         end
         if right then
+            anchor.weight = right.weight
+            anchor.blendInTime = right.blendIn
             if left then
+                anchor.blendOutTime = left.blendOut
                 if left.active then
-                
+                    local timeDiff = currentTime - left.time
+                    local percentage = timeDiff / (right.time - left.time)
+                    local positionDiff = right.position - left.position
+                    anchor:SetPosition(left.position + positionDiff * percentage)
+                    local rx = RotationPathing(left.rotation.x, right.rotation.x, percentage, right.rxl)
+                    local ry = RotationPathing(left.rotation.y, right.rotation.y, percentage, right.ryl)
+                    local rz = RotationPathing(left.rotation.z, right.rotation.z, percentage, right.rzl)
+                    anchor:SetRotation(Rotation.New(rx, ry, rz))
+                    local offsetDiff = right.offest - left.offset
+                    anchor:SetPosition(left.offest + offsetDiff * percentage)
                 else
-                
+                    if anchor.target then
+                        anchor:Deactivate()
+                    end
+                    anchor:SetRotation(right.rotation)
+                    anchor:SetPosition(right.position)
+                    anchor:SetAimOffest(right.offset)
                 end
             else
-                anchor.weight = right.weight
-                anchor.blendInTime = right.blendIn
-                
+                anchor:SetRotation(right.rotation)
+                anchor:SetPosition(right.position)
+                anchor:SetAimOffest(right.offset)
             end
         else
             if #sortedKF > 0 then
