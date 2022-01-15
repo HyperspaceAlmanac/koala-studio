@@ -18,27 +18,105 @@ for i, key in ipairs(VALUES) do
     API.PropToIndex[key] = i
 end
 
-function BinSearchKF(player, anchor, time, key)
+function Compare(kf1, kf2)
+    return kf1.time <= kf2.time
 end
 
-function BinInsertKF(player, anchor, time, kf)
-    
+function SearchKF(player, anchor, left, right, KeyFrame)
 end
 
-function API.CreateCurve(player, anchor, keyFrames)
+function InsertKF(kftable, KeyFrame, left, right)
+
+end
+
+function API.CreateSortedKFs(player, anchor, keyFrames)
     API.SortedKF[player][anchor] = {}
+    local sorted = API.SortedKF[player][anchor]
+    for _, kf in ipairs(keyFrames) do
+        table.insert(sorted, kf)
+    end
+    table.sort(sorted, Compare)
 end
 
-function API.UpdateKF(player, anchor, index, key, val)
+function API.UpdateKF(player, anchor, keyFrame)
+    local sortedKF =  API.SortedKF[player][anchor]
+    if #sortedKF == 1 then
+        return
+    end
+    for i, val in ipairs(sortedKF) do
+        if val == keyFrame then
+            table.remove(sortedKF, i)
+        end
+    end
+    API.AddKF(player, anchor, keyFrame)
 end
 
 function API.AddKF(player, anchor, keyFrame)
+    local sortedKF =  API.SortedKF[player][anchor]
+    if #sortedKF == 0 then
+        table.insert(sortedKF, keyFrame)
+    else
+        for i, val in ipairs(sortedKF) do
+            if val.time >= keyFrame.time then
+                table.insert(sortedKF, i, keyFrame)
+                return
+            end
+        end
+    end
+    table.insert(sortedKF, keyFrame)
 end
 
-function API.DeleteKF(plyaer, anchor, index)
+function API.DeleteKF(player, anchor, keyFrame)
+    local sortedKF =  API.SortedKF[player][anchor]
+    for i, val in ipairs(sortedKF) do
+        if val == keyFrame then
+            table.remove(sortedKF, i)
+            return
+        end
+    end
 end
 
-function API.GetValue(player, anchor, index, key)
+function API.UpdateAnchors(player, currentTime)
+    for i = 1, 5 do
+        local sortedKF =  API.SortedKF[player][i]
+        local anchor = API.Anchors[player][i]
+        local left = nil
+        local right = nil
+        for j, kf in ipairs(sortedKF) do
+            if kf.time >= currentTime then --found right side
+                if j > 1 then
+                    left = sortedKF[j - 1]
+                    right = sortedKF[j]
+                    break
+                else
+                    right = sortedKF[j]
+                    break
+                end
+            end
+        end
+        if right then
+            if left then
+                if left.active then
+                
+                else
+                
+                end
+            else
+                anchor.weight = right.weight
+                anchor.blendInTime = right.blendIn
+                
+            end
+        else
+            if #sortedKF > 0 then
+                local last = sortedKF[#sortedKF]
+                anchor.blendOutTime = last.blendOut
+                anchor.weight = last.weight
+            end
+            if anchor.target then
+                anchor:Deactivate()
+            end
+        end
+    end
 end
 
 function API.PlayerJoin(player, anchors)

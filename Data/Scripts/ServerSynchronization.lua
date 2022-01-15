@@ -67,7 +67,7 @@ function LoadAnimation(player, index)
     local kfTable = animInfo.keyFrames
     for i = 1, 5 do
         local keyFrames = kfTable[i]
-        IK_API.CreateCurve(player, i, keyFrames)
+        IK_API.CreateSortedKFs(player, i, keyFrames)
         local size = #keyFrames
         table.insert(encodedTable, ENCODER_API.EncodeNetwork(size))
         if size > 0 then
@@ -169,6 +169,7 @@ function HandleKFTime(player, i, j, time)
     print(tostring(i)..", "..tostring(j))
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.time = time
+    IK_API.UpdateKF(player, i, kf)
 end
 
 function HandleKFPosition(player, i, j, position)
@@ -225,18 +226,20 @@ function HandleCreateKF(player, i, time)
     local kf = DuplicateKeyFrame(DEFAULT_KF)
     table.insert(GetCurrentAnchorTable(player)[i], kf)
     kf.time = CoreMath.Round(time, 3)
-    --IK_API.AddCurveKey(player, i, kf)
+    IK_API.AddKF(player, i, kf)
     print(time)
 end
 
 function HandleDuplicateKF(player, i, from)
     local anchor = GetCurrentAnchorTable(player)[i]
-    table.insert(anchor, DuplicateKeyFrame(anchor[from]))
-    --IK_API.AddCurveKey(player, i, anchor[#anchor])
+    local kf = DuplicateKeyFrame(anchor[from])
+    table.insert(anchor, kf)
+    IK_API.AddKF(player, i, kf)
 end
 
 function HandleDeleteKF(player, i, j)
     local anchor = GetCurrentAnchorTable(player)[i]
+    IK_API.DeleteKF(player, i, anchor[j])
     table.remove(anchor, j)
 end
 
@@ -274,7 +277,6 @@ Events.ConnectForPlayer("UpdateKFActive", HandleKFActive)
 Events.ConnectForPlayer("CreateKF", HandleCreateKF)
 Events.ConnectForPlayer("DuplicateKF", HandleDuplicateKF)
 Events.ConnectForPlayer("DeleteKF", HandleDeleteKF)
-
 Events.ConnectForPlayer("UpdateKFrxl", HandleKFrxl)
 Events.ConnectForPlayer("UpdateKFryl", HandleKFryl)
 Events.ConnectForPlayer("UpdateKFrzl", HandleKFrzl)
