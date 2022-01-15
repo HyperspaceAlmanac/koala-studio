@@ -11,6 +11,7 @@ end
 
 API.SortedKF = {}-- {{}, {}, {}, {}, {}} -- 5 list of curves, one for each anchor
 API.Anchors = {}
+API.Status = {}
 API.PropToIndex = {}
 
 local VALUES = {"px", "py", "pz", "rx", "ry", "rz", "ox", "oy", "oz", "weight", "blendIn", "blendOut", "active"}
@@ -177,6 +178,7 @@ end
 function API.PlayerJoin(player, anchors)
     API.SortedKF[player] = {}
     API.Anchors[player] = {}
+    API.Status[player] = { playing = false, currentTime = 0 }
     for _, anchor in ipairs(anchors) do
         table.insert(API.Anchors[player], anchor)
     end
@@ -185,6 +187,7 @@ end
 function API.PlayerLeft(player)
     API.SortedKF[player] = nil
     API.Anchors[player] = nil
+    API.Status[player] = nil
 end
 
 function API.Hello()
