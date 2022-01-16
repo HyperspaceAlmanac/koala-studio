@@ -180,6 +180,9 @@ function API.UpdateAnchors(player, currentTime)
             end
             if anchor.serverUserData.active then
                 anchor:Deactivate()
+                if i == 1 then
+                    player:SetWorldRotation(anchor:GetWorldRotation())
+                end
             end
         end
     end

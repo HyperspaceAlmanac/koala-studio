@@ -161,7 +161,15 @@ function DuplicateKeyFrame()
         local kfButton =  World.SpawnAsset(KEY_FRAME_BUTTON, {parent = prevKF.parent})
         InitializeKeyFrame(prevKF.x, kfButton, true, false)
         for _, val in ipairs(kfProps) do
-            kfButton.clientUserData.prop[val] = prevKF.clientUserData.prop[val]
+            if val == "rotation" then
+                kfButton.clientUserData.prop[val] = Rotation.New(prevKF.clientUserData.prop[val])
+            elseif val == "position" then
+                kfButton.clientUserData.prop[val] = Vector3.New(prevKF.clientUserData.prop[val])
+            elseif val == "offest" then
+                kfButton.clientUserData.prop[val] = Vector3.New(prevKF.clientUserData.prop[val])
+            else
+                kfButton.clientUserData.prop[val] = prevKF.clientUserData.prop[val]
+            end
         end
         local anchorIndex = prevKF.clientUserData.anchorIndex
         kfButton.clientUserData.anchorIndex = anchorIndex

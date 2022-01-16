@@ -242,6 +242,8 @@ function UpdateIK()
             bodyObj:SetWorldPosition(nBody:GetWorldPosition())
             bodyObj:Rotation(nBody:GetRotation())
         end
+    else
+        bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
     end
     bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
     if LOCAL_PLAYER.clientUserData.dragStartValue then

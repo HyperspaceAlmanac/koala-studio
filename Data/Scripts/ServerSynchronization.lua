@@ -144,9 +144,9 @@ local DEFAULT_KF = {
 function DuplicateKeyFrame(original)
     local kf = {}
     kf.time = original.time
-    kf.position = original.position
-    kf.rotation = original.rotation
-    kf.offset = original.offset
+    kf.position = Vector3.New(original.position)
+    kf.rotation = Rotation.New(original.rotation)
+    kf.offset = Vector3.New(original.offset)
     kf.weight = original.weight
     kf.blendIn = original.blendIn
     kf.blendOut = original.blendOut
