@@ -1,8 +1,8 @@
-
 -- API 
 local API = require(script:GetCustomProperty("IK_API"))
 
 -- Custom 
+local PLAYER_POSITION_REFERENCE = script:GetCustomProperty("PlayerPositionReference")
 local BODY_DEBUG = script:GetCustomProperty("BodyDebug")
 local LEFT_HAND_DEBUG = script:GetCustomProperty("LeftHandDebug")
 local LEFT_FOOT_DEBUG = script:GetCustomProperty("LeftFootDebug")
@@ -11,11 +11,17 @@ local RIGHT_FOOT_DEBUG = script:GetCustomProperty("RightFootDebug")
 
 
 local AnchorTable = {}
+local References = {}
 local listeners = {}
 
 function Join(player)
     local anchors = {}
-    local body = World.SpawnAsset(BODY_DEBUG, {position = player:GetWorldPosition()})
+    local r1 = World.SpawnAsset(PLAYER_POSITION_REFERENCE, {rotation=player:GetWorldRotation()})
+    r1:AttachToPlayer(player, "Pelvis")
+    local reference = World.SpawnAsset(PLAYER_POSITION_REFERENCE, {position = r1:GetWorldPosition(), rotation=player:GetWorldRotation()})
+    r1:Destroy()
+    References[player] = reference
+    local body = World.SpawnAsset(BODY_DEBUG, {parent = reference})
     table.insert(anchors, body)
     table.insert(anchors, World.SpawnAsset(LEFT_HAND_DEBUG, {parent = body}))
     table.insert(anchors, World.SpawnAsset(RIGHT_HAND_DEBUG, {parent = body}))
@@ -52,6 +58,8 @@ function Leave(player)
             anchor:Destroy()
         end
     end
+    References[player]:Destroy()
+    References[player] = nil
     AnchorTable[player] = nil
 end
 

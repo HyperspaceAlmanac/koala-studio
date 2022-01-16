@@ -127,6 +127,12 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:PlayerPositionReference"
+      AssetReference {
+        Id: 10793869502196623691
+      }
+    }
+    Overrides {
       Name: "cs:IK_API:category"
       String: "API"
     }

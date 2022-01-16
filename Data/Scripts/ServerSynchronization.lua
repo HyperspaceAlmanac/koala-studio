@@ -48,6 +48,33 @@ function EncodeKeyFrame(kf)
     return table.concat(tbl, "")
 end
 
+function DecodeKeyFrame(message)
+    local kf = {}
+    local misc = ENCODER_API.DecodeMisc(message:sub(1, 1))
+    kf.activated = misc[1]
+    kf.rxl = misc[2]
+    kf.ryl = misc[3]
+    kf.rzl = misc[4]
+    local signTable = ENCODER_API.DecodePosAndOffsetSigns(message:sub(2, 2))
+    local x = ENCODER_API.DecodeDecimal(message:sub(3, 5))
+    local y = ENCODER_API.DecodeDecimal(message:sub(6, 8))
+    local z = ENCODER_API.DecodeDecimal(message:sub(9, 11))
+    kf.position = Vector3.New(signTable[1] and x or -x, signTable[2] and y or -y, signTable[3] and z or -z)
+    x = ENCODER_API.DecodeDecimal(message:sub(12, 14))
+    y = ENCODER_API.DecodeDecimal(message:sub(15, 17))
+    z = ENCODER_API.DecodeDecimal(message:sub(18, 20))
+    kf.offset = Vector3.New(signTable[1] and x or -x, signTable[2] and y or -y, signTable[3] and z or -z)
+    x = ENCODER_API.DecodeDecimal(message:sub(21, 23))
+    y = ENCODER_API.DecodeDecimal(message:sub(24, 26))
+    z = ENCODER_API.DecodeDecimal(message:sub(27, 29))
+    kf.rotation = Rotation.New(x > 180 and -(360 - x) or x, y > 180 and - (360 - y) or y, z > 180 and - (360 - z) or z )
+    kf.time = ENCODER_API.DecodeDecimal(message:sub(30, 32))
+    kf.weight = CoreMath.Round(ENCODER_API.DecodeNetwork(message:sub(33, 34)) / 1000, 3)
+    kf.blendIn = ENCODER_API.DecodeDecimal(message:sub(35, 37))
+    kf.blendOut = ENCODER_API.DecodeDecimal(message:sub(38, 40))
+    return kf
+end
+
 function SendAnimations(player)
     local encodedTable = {}
     table.insert(encodedTable, ENCODER_API.EncodeByte(1))
@@ -276,16 +303,77 @@ function HandlePreviewStop(player)
     end
 end
 
+function EncodeForStorage(player)
+    local compressed = {}
+    for _, animation in ipairs(animations[player]) do
+        local entry = {}
+        entry.name = animation.name
+        entry.maxTime = animation.maxTime
+        entry.timeScale = animation.timeScale
+        entry.keyFrames = {}
+        for i, anchor in ipairs(animation.keyFrames) do
+            local encoded = {}
+            table.insert(encoded, ENCODER_API.EncodeNetwork(#anchor))
+            if #anchor > 0 then
+                for _, kf in ipairs(anchor) do
+                    table.insert(encoded, EncodeKeyFrame(kf))
+                end
+            end
+            table.insert(entry.keyFrames, table.concat(encoded, ""))
+        end
+        table.insert(compressed, entry)
+    end
+    return compressed
+end
+
+function DecodeFromStorage(player, data)
+    animations[player] = {}
+    for _, animation in ipairs(data) do
+        local entry = {}
+        entry.name = animation.name
+        entry.maxTime = animation.maxTime
+        entry.timeScale = animation.timeScale
+        entry.keyFrames = {}
+        for _, anchor in ipairs(animation.keyFrames) do
+            local keyFrames = {}
+            local index = 1
+            local size = ENCODER_API.DecodeNetwork(anchor:sub(1, 2))
+            index = index + 2
+            if size > 0 then
+                for i= 1, size do
+                    table.insert(keyFrames, DecodeKeyFrame(anchor:sub(index, index + 39)))
+                    index = index + 40
+                end
+            end
+            table.insert(entry.keyFrames, keyFrames)
+        end
+        table.insert(animations[player], entry)
+    end
+end
+
 function Join(player)
     animations[player] = {}
-    local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
-        {name="animation TWO", maxTime = 20, timeScale = 2, keyFrames = {{}, {}, {}, {}, {}, {}}},
-        {name="Much Longer Name" , maxTime = 15, timeScale = 3, keyFrames = {{}, {}, {}, {}, {}, {}}}}
-    animations[player] = animationTable
+    local persistent = Storage.GetPlayerData(player)
+    --DEBUG
+    --persistent = {}
+    if not persistent.animations then
+        local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
+        {name="animation 2", maxTime = 20, timeScale = 2, keyFrames = {{}, {}, {}, {}, {}, {}}},
+        {name="animation 3" , maxTime = 15, timeScale = 3, keyFrames = {{}, {}, {}, {}, {}, {}}}}
+        animations[player] = animationTable
+    else
+        DecodeFromStorage(player, persistent.animations)
+    end
     player.serverUserData.currentAnimation = nil
 end
 
 function Leave(player)
+    local persistent = Storage.GetPlayerData(player)
+    if not persistent.animations then
+        persistent.animations = {}
+    end
+    persistent.animations = EncodeForStorage(player)
+    Storage.SetPlayerData(player, persistent)
     animations[player] = nil
 end
 
