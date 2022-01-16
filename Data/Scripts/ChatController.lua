@@ -12,6 +12,7 @@ local START_ICON = script:GetCustomProperty("StartIcon"):WaitForObject() ---@typ
 local END_ICON = script:GetCustomProperty("EndIcon"):WaitForObject() ---@type UIImage
 
 -- IK
+local REFERENCE_CLIENT = script:GetCustomProperty("ReferenceClient")
 local BODY_IK = script:GetCustomProperty("BodyIKClient")
 local LEFT_FOOT_IK = script:GetCustomProperty("LeftFootIKClient")
 local LEFT_HAND_IK = script:GetCustomProperty("LeftHandIKClient")
@@ -23,7 +24,11 @@ LOCAL_PLAYER.clientUserData.dragStartValue = nil
 LOCAL_PLAYER.clientUserData.mouseStartPos = nil
 
 local clientIK = {}
-local bodyObj = World.SpawnAsset(BODY_IK)
+local r1 = World.SpawnAsset(REFERENCE_CLIENT)
+r1:AttachToPlayer(LOCAL_PLAYER, "Pelvis")
+local reference = World.SpawnAsset(REFERENCE_CLIENT, {position = r1:GetWorldPosition(), rotation = r1:GetWorldRotation()})
+r1:Destroy()
+local bodyObj = World.SpawnAsset(BODY_IK, {parent = reference})
 table.insert(clientIK, bodyObj)
 table.insert(clientIK, World.SpawnAsset(LEFT_HAND_IK, {parent = bodyObj}))
 table.insert(clientIK, World.SpawnAsset(RIGHT_HAND_IK, {parent = bodyObj}))
