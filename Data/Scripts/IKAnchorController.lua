@@ -11,15 +11,31 @@ local RIGHT_FOOT_DEBUG = script:GetCustomProperty("RightFootDebug")
 
 
 local AnchorTable = {}
+local listeners = {}
 
 function Join(player)
     local anchors = {}
-    table.insert(anchors, World.SpawnAsset(BODY_DEBUG, {position = player:GetWorldPosition()}))
-    table.insert(anchors, World.SpawnAsset(LEFT_HAND_DEBUG, {position = player:GetWorldPosition()}))
-    table.insert(anchors, World.SpawnAsset(RIGHT_HAND_DEBUG, {position = player:GetWorldPosition()}))
-    table.insert(anchors, World.SpawnAsset(LEFT_FOOT_DEBUG, {position = player:GetWorldPosition()}))
-    table.insert(anchors, World.SpawnAsset(RIGHT_FOOT_DEBUG, {position = player:GetWorldPosition()}))
+    local body = World.SpawnAsset(BODY_DEBUG, {position = player:GetWorldPosition()})
+    table.insert(anchors, body)
+    table.insert(anchors, World.SpawnAsset(LEFT_HAND_DEBUG, {parent = body}))
+    table.insert(anchors, World.SpawnAsset(RIGHT_HAND_DEBUG, {parent = body}))
+    table.insert(anchors, World.SpawnAsset(LEFT_FOOT_DEBUG, {parent = body}))
+    table.insert(anchors, World.SpawnAsset(RIGHT_FOOT_DEBUG, {parent = body}))
     AnchorTable[player] = anchors
+    for _, anchor in ipairs(anchors) do
+        listeners[anchor] = {}
+        anchor.serverUserData.active = false
+        listeners[anchor][1] = anchor.activatedEvent:Connect(
+            function(ik, player)
+                ik.serverUserData.active = true
+            end
+        )
+        listeners[anchor][2] = anchor.deactivatedEvent:Connect(
+            function(ik, player)
+                ik.serverUserData.active = false
+            end
+        )
+    end
     API.PlayerJoin(player, anchors)
 end
 
@@ -29,7 +45,12 @@ function Leave(player)
         anchor:Deactivate()
     end
     for _, anchor in ipairs(AnchorTable[player]) do
-        anchor:Destroy()
+        listeners[anchor][1]:Disconnect()
+        listeners[anchor][2]:Disconnect()
+        listeners[anchor] = nil
+        if Object.IsValid(anchor) then
+            anchor:Destroy()
+        end
     end
     AnchorTable[player] = nil
 end

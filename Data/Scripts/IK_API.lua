@@ -139,6 +139,10 @@ function API.UpdateAnchors(player, currentTime)
             if left then
                 anchor.blendOutTime = left.blendOut
                 if left.active then
+                    if not anchor.serverUserData.active then
+                        anchor:Activate(player)
+                    end
+
                     local timeDiff = currentTime - left.time
                     local percentage = timeDiff / (right.time - left.time)
                     local positionDiff = right.position - left.position
@@ -147,28 +151,34 @@ function API.UpdateAnchors(player, currentTime)
                     local ry = RotationPathing(left.rotation.y, right.rotation.y, percentage, right.ryl)
                     local rz = RotationPathing(left.rotation.z, right.rotation.z, percentage, right.rzl)
                     anchor:SetRotation(Rotation.New(rx, ry, rz))
-                    local offsetDiff = right.offest - left.offset
-                    anchor:SetPosition(left.offest + offsetDiff * percentage)
+                    local offsetDiff = right.offset - left.offset
+                    anchor:SetAimOffset(left.offset + offsetDiff * percentage)
                 else
-                    if anchor.target then
+                    if anchor.serverUserData.active then
                         anchor:Deactivate()
                     end
                     anchor:SetRotation(right.rotation)
                     anchor:SetPosition(right.position)
-                    anchor:SetAimOffest(right.offset)
+                    anchor:SetAimOffset(right.offset)
                 end
             else
+                if anchor.serverUserData.active then
+                    anchor:Deactivate()
+                end
                 anchor:SetRotation(right.rotation)
                 anchor:SetPosition(right.position)
-                anchor:SetAimOffest(right.offset)
+                anchor:SetAimOffset(right.offset)
             end
         else
             if #sortedKF > 0 then
                 local last = sortedKF[#sortedKF]
                 anchor.blendOutTime = last.blendOut
                 anchor.weight = last.weight
+                anchor:SetRotation(last.rotation)
+                anchor:SetPosition(last.position)
+                anchor:SetAimOffset(last.offset)
             end
-            if anchor.target then
+            if anchor.serverUserData.active then
                 anchor:Deactivate()
             end
         end
@@ -178,7 +188,7 @@ end
 function API.PlayerJoin(player, anchors)
     API.SortedKF[player] = {}
     API.Anchors[player] = {}
-    API.Status[player] = { playing = false, currentTime = 0 }
+    API.Status[player] = { isPlaying = false, currentTime = 0 }
     for _, anchor in ipairs(anchors) do
         table.insert(API.Anchors[player], anchor)
     end

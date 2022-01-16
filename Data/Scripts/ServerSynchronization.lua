@@ -1,5 +1,6 @@
 -- Custom 
 local NETWORKED_OBJ = script:GetCustomProperty("NetworkedObj"):WaitForObject() ---@type Folder
+local PLAYBACK_TIME = script:GetCustomProperty("PlaybackTime"):WaitForObject() ---@type Folder
 
 -- API 
 local IK_API = require(script:GetCustomProperty("IK_API"))
@@ -37,9 +38,9 @@ function EncodeKeyFrame(kf)
     table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(offset.y)))
     table.insert(tbl, ENCODER_API.EncodeDecimal(math.abs(offset.z)))
     local rot = kf.rotation
-    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.x < 0 and rot.x + 360 or rot.x))
-    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.y < 0 and rot.y + 360 or rot.y))
-    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.z < 0 and rot.z + 360 or rot.z))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.x % 360))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.y % 360))
+    table.insert(tbl, ENCODER_API.EncodeDecimal(rot.z % 360))
     table.insert(tbl, ENCODER_API.EncodeDecimal(kf.time))
     table.insert(tbl, ENCODER_API.EncodeNetwork(math.floor(kf.weight * 1000)))
     table.insert(tbl, ENCODER_API.EncodeDecimal(kf.blendIn))
@@ -76,17 +77,19 @@ function LoadAnimation(player, index)
             end
         end
     end
+    IK_API.Status[player].currentTime = 0
     NETWORKED_OBJ:SetCustomProperty("Message",  table.concat(encodedTable, ""))
 end
 
 function GetCurrentAnchorTable(player)
-    print(player.serverUserData.currentAnimation)
     return animations[player][player.serverUserData.currentAnimation].keyFrames
+end
+
+function GetCurrentAnimation(player)
+    return animations[player][player.serverUserData.currentAnimation]
 end
 function HandleSelectAnimation(player, index)
     player.serverUserData.currentAnimation = index
-    print("load animation")
-    print(index)
     LoadAnimation(player, index)
 end
 
@@ -106,7 +109,6 @@ end
 function HandleChangeAnimationName(player, index, newName)
     local prop = animations[player][index]
     prop.name = newName
-    print("New name: "..prop.name)
 end
 
 function HandleChangeTimeScale(player, index, scale)
@@ -122,6 +124,7 @@ function HandleChangeMaxTime(player, index, maxTime)
             kf.time = math.min(kf.time, maxTime)
         end
     end
+    IK_API.Status[player].currentTime = 0
 end
 
 local DEFAULT_KF = {
@@ -166,60 +169,71 @@ local sample = {
 }
 
 function HandleKFTime(player, i, j, time)
-    print(tostring(i)..", "..tostring(j))
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.time = time
     IK_API.UpdateKF(player, i, kf)
+    IK_API.UpdateAnchors(player, time)
+    IK_API.Status[player].currentTime = time
 end
 
 function HandleKFPosition(player, i, j, position)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.position = position
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFRotation(player, i, j, rotation)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.rotation = rotation
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFOffset(player, i, j, offset)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.offset = offset
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFWeight(player, i, j, weight)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.weight = weight
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFBlendIn(player, i, j, blendIn)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.blendIn = blendIn
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFBlendOut(player, i, j, blendOut)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.blendOut = blendOut
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFActive(player, i, j, active)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.active = active
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFrxl(player, i, j, active)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.rxl = active
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFryl(player, i, j, active)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.ryl = active
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleKFrzl(player, i, j, active)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.rzl = active
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleCreateKF(player, i, time)
@@ -227,7 +241,7 @@ function HandleCreateKF(player, i, time)
     table.insert(GetCurrentAnchorTable(player)[i], kf)
     kf.time = CoreMath.Round(time, 3)
     IK_API.AddKF(player, i, kf)
-    print(time)
+    IK_API.UpdateAnchors(player, kf.time)
 end
 
 function HandleDuplicateKF(player, i, from)
@@ -243,6 +257,25 @@ function HandleDeleteKF(player, i, j)
     table.remove(anchor, j)
 end
 
+function HandlePreviewPlay(player)
+    local status = IK_API.Status[player]
+    if not status.isPlaying then
+        status.isPlaying = true
+    end
+end
+
+function HandlePreviewSetTime(player, time)
+    local status = IK_API.Status[player]
+    status.currentTime = time
+end
+
+function HandlePreviewStop(player)
+    local status = IK_API.Status[player]
+    if status.isPlaying then
+        status.isPlaying = false
+    end
+end
+
 function Join(player)
     animations[player] = {}
     local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
@@ -254,6 +287,21 @@ end
 
 function Leave(player)
     animations[player] = nil
+end
+
+function Tick(deltaTime)
+    for _, player in ipairs(Game.GetPlayers()) do
+        local status = IK_API.Status[player]
+        if status.isPlaying then
+            local maxTime = GetCurrentAnimation(player).maxTime
+            status.currentTime = status.currentTime + deltaTime
+            if status.currentTime > maxTime then
+                status.currentTime = 0
+            end
+            IK_API.UpdateAnchors(player, status.currentTime)
+            PLAYBACK_TIME:SetCustomProperty("Time", status.currentTime)
+        end
+    end
 end
 
 Game.playerJoinedEvent:Connect(Join)
@@ -280,5 +328,9 @@ Events.ConnectForPlayer("DeleteKF", HandleDeleteKF)
 Events.ConnectForPlayer("UpdateKFrxl", HandleKFrxl)
 Events.ConnectForPlayer("UpdateKFryl", HandleKFryl)
 Events.ConnectForPlayer("UpdateKFrzl", HandleKFrzl)
+Events.ConnectForPlayer("PreviewPlay", HandlePreviewPlay)
+Events.ConnectForPlayer("PreviewSetTime", HandlePreviewSetTime)
+Events.ConnectForPlayer("PreviewStop", HandlePreviewStop)
+
 
 

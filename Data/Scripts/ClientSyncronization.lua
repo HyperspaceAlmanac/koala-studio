@@ -3,38 +3,6 @@ local ENCODER_API = require(script:GetCustomProperty("EncoderAPI"))
 local ANIMATOR_API = require(script:GetCustomProperty("AnimatorClientAPI"))
 local eventQueue = {}
 
-function CreateKeyFrame(params)
-end
-
-function MoveKeyFrame(params)
-end
-
-function UpdateKeyFrame(params)
-end
-
-function DeleteKeyFrame(params)
-end
-
-function CreateAnimation(params)
-end
-
-function LoadAnimation(params)
-
-end
-
-function SaveAnimation(params)
-end
-
-function ExportAnimation(params)
-
-end
-
-function DeleteAnimation(params)
-end
-
-function ClientEvent(type, params)
-end
-
 function ProcessRequest(params)
     if params[1] == "NewAnimation" then
         Events.BroadcastToServer("NewAnimation", params[2])
@@ -78,6 +46,12 @@ function ProcessRequest(params)
         Events.BroadcastToServer("UpdateKFryl", params[2], params[3], params[4])
     elseif params[1] == "UpdateKFrzl" then
         Events.BroadcastToServer("UpdateKFrzl", params[2], params[3], params[4])
+    elseif params[1] == "PlayAnimation" then
+        Events.BroadcastToServer("PreviewPlay")
+    elseif params[1] == "StopAnimation" then
+        Events.BroadcastToServer("PreviewStop")
+    elseif params[1] == "SetPreviewTime" then
+        Events.BroadcastToServer("PreviewSetTime", params[2])
     else
         print("Unknown request header, no action taken")
     end

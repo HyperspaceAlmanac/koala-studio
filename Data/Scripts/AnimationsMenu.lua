@@ -4,6 +4,7 @@ local ENCODER_API = require(script:GetCustomProperty("EncoderAPI"))
 
 -- Networking 
 local NETWORKED = script:GetCustomProperty("NetworkedObj"):WaitForObject() ---@type Folder
+local PLAYBACK_TIME = script:GetCustomProperty("PlaybackTime"):WaitForObject() ---@type Folder
 
 -- Custom 
 local ANIMATION_BUTTON = script:GetCustomProperty("AnimationButton")
@@ -15,6 +16,19 @@ local DELETE = script:GetCustomProperty("Delete"):WaitForObject() ---@type UIBut
 local EXPORT_ENCODED = script:GetCustomProperty("ExportEncoded"):WaitForObject() ---@type UIButton
 local EXPORT_SCRIPT = script:GetCustomProperty("ExportScript"):WaitForObject() ---@type UIButton
 local DELETE_MODAL = script:GetCustomProperty("DeleteModal"):WaitForObject() ---@type UIPanel
+
+--Preview
+local PREVIEW = script:GetCustomProperty("Preview"):WaitForObject() ---@type UIButton
+local PREVIEW_SCREEN = script:GetCustomProperty("PreviewScreen"):WaitForObject() ---@type UIButton
+local TIME = script:GetCustomProperty("Time"):WaitForObject() ---@type UIText
+local PLAY_BUTTON = script:GetCustomProperty("PlayButton"):WaitForObject() ---@type UIButton
+local STOP = script:GetCustomProperty("Stop"):WaitForObject() ---@type UIButton
+local BACK = script:GetCustomProperty("Back"):WaitForObject() ---@type UIButton
+local TIME_LINE = script:GetCustomProperty("TimeLine"):WaitForObject() ---@type UIButton
+local SECOND_LABEL = script:GetCustomProperty("SecondLabel")
+local CURRENT_TIME = script:GetCustomProperty("CurrentTime")
+local STATUS = script:GetCustomProperty("Status"):WaitForObject() ---@type UIText
+
 
 local LOCAL_PLAYER = Game.GetLocalPlayer()
 
@@ -255,6 +269,108 @@ function NetworkedMessage(obj, key)
         end
     end
 end
+-- PREVIEW
+
+local isPlaying = false
+local currentTime = 0
+local tickMarkSize = 100
+
+local SCREEN_SIZE = UI.GetScreenSize()
+TIME_LINE.width = math.floor(SCREEN_SIZE.x - 100)
+local currentTimeDisplay = World.SpawnAsset(CURRENT_TIME, {parent = TIME_LINE})
+
+local tickMarks = {}
+
+function UpdateTickMarks()
+    local maxSeconds = LOCAL_PLAYER.clientUserData.maxSeconds
+    tickMarkSize = TIME_LINE.width / maxSeconds
+    local tickNum = math.floor(maxSeconds)
+    if #tickMarks > tickNum then
+        for i = #tickMarks, tickNum, -1 do
+            tickMarks[i]:Destroy()
+            table.remove(tickMarks, i)
+        end
+    elseif #tickMarks < tickNum then
+        for i = #tickMarks + 1, tickNum do
+            table.insert(tickMarks, World.SpawnAsset(SECOND_LABEL, {parent = TIME_LINE}))
+        end
+    end
+    for i = 1, tickNum do
+        tickMarks[i].x = i * tickMarkSize
+    end
+end
+
+function OpenPreview(button)
+    if LOCAL_PLAYER.clientUserData.currentAnimation then
+        UpdateTickMarks()
+        API.CleanUp(LOCAL_PLAYER)
+        PREVIEW_SCREEN.visibility = Visibility.INHERIT
+    end
+end
+PREVIEW.clickedEvent:Connect(OpenPreview)
+
+function GoBack(button)
+    PREVIEW_SCREEN.visibility = Visibility.FORCE_OFF
+    isPlaying = false
+    STATUS.text = "Idle"
+    API.PushToQueue({"StopAnimation"})
+end
+BACK.clickedEvent:Connect(GoBack)
+
+function PlayAnimation(button)
+    if not isPlaying then
+        isPlaying = true
+        API.PushToQueue({"PlayAnimation"})
+        STATUS.text = "Playing"
+    end
+end
+PLAY_BUTTON.clickedEvent:Connect(PlayAnimation)
+
+function StopAnimation(button)
+    if isPlaying then
+        API.PushToQueue({"StopAnimation"})
+        isPlaying = false
+        STATUS.text = "Idle"
+    end
+end
+STOP.clickedEvent:Connect(StopAnimation)
+
+local isDragging = false
+function DragStart(button)
+    if not isPlaying then
+        isDragging = true
+    end
+end
+
+function DragEnd(button)
+    isDragging = false
+    API.PushToQueue({"SetPreviewTime", currentTime})
+end
+
+function UpdateDrag()
+    local offset = UI.GetCursorPosition().x - 50
+    currentTime = CoreMath.Round(CoreMath.Clamp(offset / tickMarkSize, 0, LOCAL_PLAYER.clientUserData.maxSeconds), 3)
+end
+
+TIME_LINE.pressedEvent:Connect(DragStart)
+TIME_LINE.releasedEvent:Connect(DragEnd)
+
+function Tick(deltaTime)
+    if isDragging then
+        UpdateDrag()
+    end
+    TIME.text = tostring(CoreMath.Round(currentTime, 3))
+    currentTimeDisplay.x = TIME_LINE.x + currentTime * tickMarkSize - 5
+end
+
+function UpdateTime(obj, key)
+    if key == "Time" then
+        currentTime = obj:GetCustomProperty("Time")
+    end
+end
+
+PLAYBACK_TIME.customPropertyChangedEvent:Connect(UpdateTime)
+
 Game.playerJoinedEvent:Connect(Join)
 NETWORKED.customPropertyChangedEvent:Connect(NetworkedMessage)
 
@@ -262,4 +378,5 @@ NETWORKED.customPropertyChangedEvent:Connect(NetworkedMessage)
 Task.Wait()
 API.FullCleanUp(LOCAL_PLAYER)
 API.PushToQueue({"GetAnimations"})
+
 
