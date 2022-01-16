@@ -4,7 +4,6 @@ local API = require(script:GetCustomProperty("AnimatorClientAPI"))
 
 -- Custom 
 local CHAT_REMINDER = script:GetCustomProperty("ChatReminder"):WaitForObject() ---@type UIPanel
-local TITLE = script:GetCustomProperty("Title"):WaitForObject() ---@type UIText
 local FIELD = script:GetCustomProperty("Field"):WaitForObject() ---@type UIText
 local TYPE = script:GetCustomProperty("Type"):WaitForObject() ---@type UIText
 local LMBDRAG_AREA = script:GetCustomProperty("LMBDragArea"):WaitForObject() ---@type UIButton
@@ -12,9 +11,27 @@ local LMBDRAG_AREA = script:GetCustomProperty("LMBDragArea"):WaitForObject() ---
 local START_ICON = script:GetCustomProperty("StartIcon"):WaitForObject() ---@type UIImage
 local END_ICON = script:GetCustomProperty("EndIcon"):WaitForObject() ---@type UIImage
 
+-- IK
+local BODY_IK = script:GetCustomProperty("BodyIKClient")
+local LEFT_FOOT_IK = script:GetCustomProperty("LeftFootIKClient")
+local LEFT_HAND_IK = script:GetCustomProperty("LeftHandIKClient")
+local RIGHT_FOOT_IK = script:GetCustomProperty("RightFootIKClient")
+local RIGHT_HAND_IK = script:GetCustomProperty("RightHandIKClient")
+
 local LOCAL_PLAYER = Game.GetLocalPlayer()
 LOCAL_PLAYER.clientUserData.dragStartValue = nil
 LOCAL_PLAYER.clientUserData.mouseStartPos = nil
+
+local clientIK = {}
+local bodyObj = World.SpawnAsset(BODY_IK)
+table.insert(clientIK, bodyObj)
+table.insert(clientIK, World.SpawnAsset(LEFT_HAND_IK, {parent = bodyObj}))
+table.insert(clientIK, World.SpawnAsset(RIGHT_HAND_IK, {parent = bodyObj}))
+table.insert(clientIK, World.SpawnAsset(LEFT_FOOT_IK, {parent = bodyObj}))
+table.insert(clientIK, World.SpawnAsset(RIGHT_FOOT_IK, {parent = bodyObj}))
+for _, anchor in ipairs(clientIK) do
+    anchor.visibility = Visibility.FORCE_OFF
+end
 
 local lpTable = {
     px = {"Position X", "number", "UpdateKFPosition"},
@@ -217,6 +234,34 @@ function ChatHook(param)
     end
 end
 
+function UpdateIK()
+    local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
+    if LOCAL_PLAYER.clientUserData.bodyIKEnabled then
+        if kf and kf.clientUserData.anchorIndex ~= 1 then
+            local nBody = LOCAL_PLAYER.clinetUerData.bodyIK
+            bodyObj:SetWorldPosition(nBody:GetWorldPosition())
+            bodyObj:Rotation(nBody:GetRotation())
+        end
+    end
+    bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
+    if LOCAL_PLAYER.clientUserData.dragStartValue then
+        if kf then
+            local anchorIndex = kf.clientUserData.anchorIndex
+            local prop = kf.clientUserData.prop
+            for i, anchor in ipairs(clientIK) do
+                anchor.visibility = i == anchorIndex and Visibility.FORCE_ON or Visibility.FORCE_OFF
+            end
+            clientIK[anchorIndex]:SetPosition(prop.position)
+            clientIK[anchorIndex]:SetRotation(prop.rotation)
+            clientIK[anchorIndex]:SetAimOffset(prop.offset)
+        end
+    else
+        for _, anchor in ipairs(clientIK) do
+            anchor.visibility = Visibility.FORCE_OFF
+        end
+    end
+end
+
 function UpdateDragStatus()
     if not LOCAL_PLAYER.clientUserData.dragStartValue then
         return
@@ -334,5 +379,6 @@ function Tick(deltaTime)
         TYPE.text = "String"
     end
     UpdateDragStatus()
+    UpdateIK()
 end
 Chat.sendMessageHook:Connect(ChatHook)

@@ -1,13 +1,13 @@
 Assets {
-  Id: 18238639466152772534
-  Name: "RightFootDebug"
+  Id: 10515593247504564916
+  Name: "RightHandIKClient"
   PlatformAssetType: 5
   TemplateAsset {
     ObjectBlock {
-      RootId: 9049328999808543155
+      RootId: 6521594406370216467
       Objects {
-        Id: 9049328999808543155
-        Name: "RightFootDebug"
+        Id: 6521594406370216467
+        Name: "RightHandIKClient"
         Transform {
           Scale {
             X: 1
@@ -16,8 +16,9 @@ Assets {
           }
         }
         ParentId: 4781671109827199097
-        ChildIds: 4063304868219735574
-        WantsNetworking: true
+        ChildIds: 175754045990489830
+        ChildIds: 3147087767677187613
+        ChildIds: 9736266167159224455
         Collidable_v2 {
           Value: "mc:ecollisionsetting:inheritfromparent"
         }
@@ -34,7 +35,7 @@ Assets {
           AimOffset {
           }
           IKAnchorType {
-            Value: "mc:eikanchortype:leftfoot"
+            Value: "mc:eikanchortype:righthand"
           }
           BlendWeight: 1
         }
@@ -43,49 +44,14 @@ Assets {
         }
       }
       Objects {
-        Id: 4063304868219735574
-        Name: "ClientContext"
-        Transform {
-          Location {
-          }
-          Rotation {
-          }
-          Scale {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        ParentId: 9049328999808543155
-        ChildIds: 2694436906723994950
-        ChildIds: 916558315117712829
-        ChildIds: 11532273022480702247
-        WantsNetworking: true
-        Collidable_v2 {
-          Value: "mc:ecollisionsetting:forceoff"
-        }
-        Visible_v2 {
-          Value: "mc:evisibilitysetting:inheritfromparent"
-        }
-        CameraCollidable {
-          Value: "mc:ecollisionsetting:forceoff"
-        }
-        EditorIndicatorVisibility {
-          Value: "mc:eindicatorvisibility:visiblewhenselected"
-        }
-        NetworkContext {
-        }
-        NetworkRelevanceDistance {
-          Value: "mc:eproxyrelevance:critical"
-        }
-      }
-      Objects {
-        Id: 2694436906723994950
+        Id: 175754045990489830
         Name: "Cylinder"
         Transform {
           Location {
+            X: 10
           }
           Rotation {
+            Pitch: 90
           }
           Scale {
             X: 0.25
@@ -93,7 +59,7 @@ Assets {
             Z: 0.25
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 6521594406370216467
         UnregisteredParameters {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
@@ -106,6 +72,7 @@ Assets {
             Color {
               R: 10
               G: 10
+              B: 10
               A: 1
             }
           }
@@ -143,12 +110,14 @@ Assets {
         }
       }
       Objects {
-        Id: 916558315117712829
+        Id: 3147087767677187613
         Name: "Offset"
         Transform {
           Location {
+            X: 10
           }
           Rotation {
+            Pitch: 90
           }
           Scale {
             X: 0.25
@@ -156,7 +125,7 @@ Assets {
             Z: 0.25
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 6521594406370216467
         UnregisteredParameters {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
@@ -169,6 +138,7 @@ Assets {
             Color {
               R: 10
               G: 10
+              B: 10
               A: 1
             }
           }
@@ -206,7 +176,7 @@ Assets {
         }
       }
       Objects {
-        Id: 11532273022480702247
+        Id: 9736266167159224455
         Name: "IKOffset"
         Transform {
           Location {
@@ -219,18 +189,18 @@ Assets {
             Z: 1
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 6521594406370216467
         UnregisteredParameters {
           Overrides {
             Name: "cs:Anchor"
             ObjectReference {
-              SubObjectId: 9049328999808543155
+              SubObjectId: 6521594406370216467
             }
           }
           Overrides {
             Name: "cs:Offset"
             ObjectReference {
-              SubObjectId: 916558315117712829
+              SubObjectId: 3147087767677187613
             }
           }
         }

@@ -162,8 +162,8 @@ function API.UpdateAnchors(player, currentTime)
                     anchor:SetAimOffset(right.offset)
                 end
             else
-                if anchor.serverUserData.active then
-                    anchor:Deactivate()
+                if not anchor.serverUserData.active then
+                    anchor:Activate(player)
                 end
                 anchor:SetRotation(right.rotation)
                 anchor:SetPosition(right.position)

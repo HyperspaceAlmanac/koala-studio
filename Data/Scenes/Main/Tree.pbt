@@ -371,6 +371,36 @@ Objects {
         SelfId: 17024485726696832196
       }
     }
+    Overrides {
+      Name: "cs:BodyIKClient"
+      AssetReference {
+        Id: 137590692968145005
+      }
+    }
+    Overrides {
+      Name: "cs:LeftFootIKClient"
+      AssetReference {
+        Id: 17969092512149600481
+      }
+    }
+    Overrides {
+      Name: "cs:LeftHandIKClient"
+      AssetReference {
+        Id: 13706177131980865166
+      }
+    }
+    Overrides {
+      Name: "cs:RightFootIKClient"
+      AssetReference {
+        Id: 11668123065425986917
+      }
+    }
+    Overrides {
+      Name: "cs:RightHandIKClient"
+      AssetReference {
+        Id: 10515593247504564916
+      }
+    }
   }
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"

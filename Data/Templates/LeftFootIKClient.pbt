@@ -1,13 +1,13 @@
 Assets {
-  Id: 18238639466152772534
-  Name: "RightFootDebug"
+  Id: 17969092512149600481
+  Name: "LeftFootIKClient"
   PlatformAssetType: 5
   TemplateAsset {
     ObjectBlock {
-      RootId: 9049328999808543155
+      RootId: 5192102393285348744
       Objects {
-        Id: 9049328999808543155
-        Name: "RightFootDebug"
+        Id: 5192102393285348744
+        Name: "LeftFootIKClient"
         Transform {
           Scale {
             X: 1
@@ -16,8 +16,9 @@ Assets {
           }
         }
         ParentId: 4781671109827199097
-        ChildIds: 4063304868219735574
-        WantsNetworking: true
+        ChildIds: 1224751838150805885
+        ChildIds: 4117387062658052486
+        ChildIds: 10777532199755874076
         Collidable_v2 {
           Value: "mc:ecollisionsetting:inheritfromparent"
         }
@@ -43,44 +44,7 @@ Assets {
         }
       }
       Objects {
-        Id: 4063304868219735574
-        Name: "ClientContext"
-        Transform {
-          Location {
-          }
-          Rotation {
-          }
-          Scale {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        ParentId: 9049328999808543155
-        ChildIds: 2694436906723994950
-        ChildIds: 916558315117712829
-        ChildIds: 11532273022480702247
-        WantsNetworking: true
-        Collidable_v2 {
-          Value: "mc:ecollisionsetting:forceoff"
-        }
-        Visible_v2 {
-          Value: "mc:evisibilitysetting:inheritfromparent"
-        }
-        CameraCollidable {
-          Value: "mc:ecollisionsetting:forceoff"
-        }
-        EditorIndicatorVisibility {
-          Value: "mc:eindicatorvisibility:visiblewhenselected"
-        }
-        NetworkContext {
-        }
-        NetworkRelevanceDistance {
-          Value: "mc:eproxyrelevance:critical"
-        }
-      }
-      Objects {
-        Id: 2694436906723994950
+        Id: 1224751838150805885
         Name: "Cylinder"
         Transform {
           Location {
@@ -93,7 +57,7 @@ Assets {
             Z: 0.25
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 5192102393285348744
         UnregisteredParameters {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
@@ -106,6 +70,7 @@ Assets {
             Color {
               R: 10
               G: 10
+              B: 10
               A: 1
             }
           }
@@ -143,7 +108,7 @@ Assets {
         }
       }
       Objects {
-        Id: 916558315117712829
+        Id: 4117387062658052486
         Name: "Offset"
         Transform {
           Location {
@@ -156,7 +121,7 @@ Assets {
             Z: 0.25
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 5192102393285348744
         UnregisteredParameters {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
@@ -169,6 +134,7 @@ Assets {
             Color {
               R: 10
               G: 10
+              B: 10
               A: 1
             }
           }
@@ -206,7 +172,7 @@ Assets {
         }
       }
       Objects {
-        Id: 11532273022480702247
+        Id: 10777532199755874076
         Name: "IKOffset"
         Transform {
           Location {
@@ -219,18 +185,18 @@ Assets {
             Z: 1
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 5192102393285348744
         UnregisteredParameters {
           Overrides {
             Name: "cs:Anchor"
             ObjectReference {
-              SubObjectId: 9049328999808543155
+              SubObjectId: 5192102393285348744
             }
           }
           Overrides {
             Name: "cs:Offset"
             ObjectReference {
-              SubObjectId: 916558315117712829
+              SubObjectId: 4117387062658052486
             }
           }
         }

@@ -1,13 +1,13 @@
 Assets {
-  Id: 4592957535985972253
-  Name: "BodyDebug"
+  Id: 137590692968145005
+  Name: "BodyIKClient"
   PlatformAssetType: 5
   TemplateAsset {
     ObjectBlock {
-      RootId: 9049328999808543155
+      RootId: 2698984605526861996
       Objects {
-        Id: 9049328999808543155
-        Name: "BodyDebug"
+        Id: 2698984605526861996
+        Name: "BodyIKClient"
         Transform {
           Scale {
             X: 1
@@ -15,9 +15,8 @@ Assets {
             Z: 1
           }
         }
-        ParentId: 8326545056456087967
-        ChildIds: 4063304868219735574
-        WantsNetworking: true
+        ParentId: 4781671109827199097
+        ChildIds: 9044781532931943513
         Collidable_v2 {
           Value: "mc:ecollisionsetting:inheritfromparent"
         }
@@ -43,43 +42,7 @@ Assets {
         }
       }
       Objects {
-        Id: 4063304868219735574
-        Name: "ClientContext"
-        Transform {
-          Location {
-          }
-          Rotation {
-          }
-          Scale {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        ParentId: 9049328999808543155
-        ChildIds: 2694436906723994950
-        ChildIds: 4487700880742048135
-        WantsNetworking: true
-        Collidable_v2 {
-          Value: "mc:ecollisionsetting:forceoff"
-        }
-        Visible_v2 {
-          Value: "mc:evisibilitysetting:inheritfromparent"
-        }
-        CameraCollidable {
-          Value: "mc:ecollisionsetting:forceoff"
-        }
-        EditorIndicatorVisibility {
-          Value: "mc:eindicatorvisibility:visiblewhenselected"
-        }
-        NetworkContext {
-        }
-        NetworkRelevanceDistance {
-          Value: "mc:eproxyrelevance:critical"
-        }
-      }
-      Objects {
-        Id: 2694436906723994950
+        Id: 9044781532931943513
         Name: "Cylinder"
         Transform {
           Location {
@@ -93,7 +56,7 @@ Assets {
             Z: 1
           }
         }
-        ParentId: 4063304868219735574
+        ParentId: 2698984605526861996
         UnregisteredParameters {
           Overrides {
             Name: "ma:Shared_BaseMaterial:id"
@@ -104,7 +67,8 @@ Assets {
           Overrides {
             Name: "ma:Shared_BaseMaterial:color"
             Color {
-              G: 5
+              R: 10
+              G: 10
               B: 10
               A: 1
             }
@@ -136,50 +100,6 @@ Assets {
               LinearDamping: 0.01
             }
             BoundsScale: 1
-          }
-        }
-        NetworkRelevanceDistance {
-          Value: "mc:eproxyrelevance:critical"
-        }
-      }
-      Objects {
-        Id: 4487700880742048135
-        Name: "BodyIKClient"
-        Transform {
-          Location {
-          }
-          Rotation {
-          }
-          Scale {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        ParentId: 4063304868219735574
-        UnregisteredParameters {
-          Overrides {
-            Name: "cs:BodyDebug"
-            ObjectReference {
-              SubObjectId: 9049328999808543155
-            }
-          }
-        }
-        Collidable_v2 {
-          Value: "mc:ecollisionsetting:inheritfromparent"
-        }
-        Visible_v2 {
-          Value: "mc:evisibilitysetting:inheritfromparent"
-        }
-        CameraCollidable {
-          Value: "mc:ecollisionsetting:inheritfromparent"
-        }
-        EditorIndicatorVisibility {
-          Value: "mc:eindicatorvisibility:visiblewhenselected"
-        }
-        Script {
-          ScriptAsset {
-            Id: 4181449562338020425
           }
         }
         NetworkRelevanceDistance {

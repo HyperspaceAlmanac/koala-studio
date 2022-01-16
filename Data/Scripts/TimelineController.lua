@@ -131,6 +131,12 @@ function InitializeKeyFrame(offset, kfButton, duplicate, load)
     if prev then
         prev:SetButtonColor(black)
     end
+    prev = LOCAL_PLAYER.clientUserData.lastPressed
+    if prev and prev.clientUserData.index then
+        prev:SetButtonColor(white)    
+    end
+    LOCAL_PLAYER.clientUserData.lastPressed = nil
+
     if not duplicate then
         if not load then
             LOCAL_PLAYER.clientUserData.currentKeyFrame = kfButton
