@@ -51,7 +51,7 @@ end
 function DecodeKeyFrame(message)
     local kf = {}
     local misc = ENCODER_API.DecodeMisc(message:sub(1, 1))
-    kf.activated = misc[1]
+    kf.active = misc[1]
     kf.rxl = misc[2]
     kf.ryl = misc[3]
     kf.rzl = misc[4]
@@ -197,6 +197,7 @@ local sample = {
 
 function HandleKFTime(player, i, j, time)
     local kf = GetCurrentAnchorTable(player)[i][j]
+    local temp = GetCurrentAnchorTable(player)
     kf.time = time
     IK_API.UpdateKF(player, i, kf)
     IK_API.UpdateAnchors(player, time)

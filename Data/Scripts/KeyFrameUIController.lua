@@ -71,7 +71,7 @@ function DeleteCurrentKeyFrame()
             if b == kf then
                 foundIndex = i
             else
-                if foundIndex and foundIndex > i then
+                if foundIndex and i > foundIndex then
                     b.clientUserData.timelineIndex = b.clientUserData.timelineIndex - 1
                 end
             end
