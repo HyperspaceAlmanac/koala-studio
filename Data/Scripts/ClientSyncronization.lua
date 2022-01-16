@@ -52,6 +52,10 @@ function ProcessRequest(params)
         Events.BroadcastToServer("PreviewStop")
     elseif params[1] == "SetPreviewTime" then
         Events.BroadcastToServer("PreviewSetTime", params[2])
+    elseif params[1] == "ExportEncoded" then
+        Events.BroadcastToServer("ExportEncoded")
+    elseif params[1] == "ExportScript" then
+        Events.BroadcastToServer("ExportScript")
     else
         print("Unknown request header, no action taken")
     end

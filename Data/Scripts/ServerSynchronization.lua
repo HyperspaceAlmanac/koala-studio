@@ -125,7 +125,7 @@ function HandleGetAnimations(player)
 end
 
 function HandleNewAnimation(player, animName)
-    table.insert(animations[player], {name=animName, maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}})
+    table.insert(animations[player], {name=animName, maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}}})
 end
 
 function HandleDeleteAnimation(player, index)
@@ -351,18 +351,106 @@ function DecodeFromStorage(player, data)
     end
 end
 
+function HandleExportEncoded(player)
+    local encoded = EncodeForStorage(player)
+    local formatted = {}
+    table.insert(formatted, "{")
+    for i, animation in ipairs(encoded) do
+        table.insert(formatted, "{")
+        table.insert(formatted, "name=\"")
+        table.insert(formatted, animation.name)
+        table.insert(formatted, "\",maxTime=")
+        table.insert(formatted, tostring(animation.maxTime))
+        table.insert(formatted, ",timeScale=")
+        table.insert(formatted, tostring(animation.timeScale))
+        table.insert(formatted, ",keyFrames={")
+        for j, keyFrame in ipairs(animation.keyFrames) do
+            table.insert(formatted, "\""..keyFrame.."\"")
+            if j < #animation.keyFrames then
+                table.insert(formatted, ",")
+            end
+        end
+        table.insert(formatted, "}")
+        table.insert(formatted, "}")
+        if i < #encoded then
+            table.insert(formatted, ",")
+        end
+    end
+    table.insert(formatted, "}")
+    print(table.concat(formatted, ""))
+end
+
+function FormatKeyFrame(kf)
+    local kfTable = {}
+    table.insert(kfTable, "{")
+    table.insert(kfTable, "time="..tostring(kf.time)..",")
+    table.insert(kfTable, string.format("position=Vector3.New(%.3f,%.3f,%.3f),", kf.position.x, kf.position.y, kf.position.z))
+    table.insert(kfTable, string.format("rotation=Rotation.New(%.3f,%.3f,%.3f),", kf.rotation.x, kf.rotation.y, kf.rotation.z))
+    table.insert(kfTable, string.format("offset=Vector3.New(%.3f,%.3f,%.3f),", kf.offset.x, kf.offset.y, kf.offset.z))
+    table.insert(kfTable, string.format("weight=%.3f,blendIn=%.3f,blendOut=%.3f,", kf.weight, kf.blendIn, kf.blendOut))
+    table.insert(kfTable, "active="..tostring(kf.active)..",rxl="..tostring(kf.rxl)..",ryl="..tostring(kf.ryl)..",rzl="..tostring(kf.rzl))
+    table.insert(kfTable, "}")
+    return table.concat(kfTable, "")
+end
+
+function HandleExportScript(player)
+    local formatted = {}
+    table.insert(formatted, "{")
+    for i, animation in ipairs(animations[player]) do
+        table.insert(formatted, "{name=\"")
+        table.insert(formatted, animation.name)
+        table.insert(formatted, "\",maxTime=")
+        table.insert(formatted, tostring(animation.maxTime))
+        table.insert(formatted, ",timeScale=")
+        table.insert(formatted, tostring(animation.timeScale))
+        table.insert(formatted, ",keyFrames={")
+        for j, anchor in ipairs(animation.keyFrames) do
+            table.insert(formatted, "{")
+            for k, kf in ipairs(anchor) do
+                table.insert(formatted, FormatKeyFrame(kf))
+                if k < #anchor then
+                    table.insert(formatted, ",")
+                end
+            end
+            table.insert(formatted, "}")
+            if j < #animation.keyFrames then
+                table.insert(formatted, ",")
+            end
+        end
+        table.insert(formatted, "}}")
+        if i < #animations[player] then
+            table.insert(formatted, ",")
+        end
+    end
+    table.insert(formatted, "}")
+    print(table.concat(formatted, ""))
+end
+
+--PASTE Encoded output here
+--local encodedTable = <Encoded output>
+
+--PASTE the table input here
+--local luaTable = <Exported script output here>
 function Join(player)
     animations[player] = {}
     local persistent = Storage.GetPlayerData(player)
     --DEBUG
     --persistent = {}
     if not persistent.animations then
-        local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}, {}}},
-        {name="animation 2", maxTime = 20, timeScale = 2, keyFrames = {{}, {}, {}, {}, {}, {}}},
-        {name="animation 3" , maxTime = 15, timeScale = 3, keyFrames = {{}, {}, {}, {}, {}, {}}}}
+        local animationTable = {{name="animation1", maxTime = 10, timeScale = 1, keyFrames = {{}, {}, {}, {}, {}}},
+        {name="animation 2", maxTime = 20, timeScale = 2, keyFrames = {{}, {}, {}, {}, {}}},
+        {name="animation 3" , maxTime = 15, timeScale = 3, keyFrames = {{}, {}, {}, {}, {}}}}
         animations[player] = animationTable
     else
         DecodeFromStorage(player, persistent.animations)
+        
+        -- To import encoded, do
+        -- local encodedTable = <pasted output>
+        --DecodeFromStorage(player, encodedTable)
+
+        -- To import exported lua script do
+        -- local luaTable = <pasted output>
+        --animations[player] = luaTable 
     end
     player.serverUserData.currentAnimation = nil
 end
@@ -419,6 +507,8 @@ Events.ConnectForPlayer("UpdateKFrzl", HandleKFrzl)
 Events.ConnectForPlayer("PreviewPlay", HandlePreviewPlay)
 Events.ConnectForPlayer("PreviewSetTime", HandlePreviewSetTime)
 Events.ConnectForPlayer("PreviewStop", HandlePreviewStop)
+Events.ConnectForPlayer("ExportEncoded", HandleExportEncoded)
+Events.ConnectForPlayer("ExportScript", HandleExportScript)
 
 
 

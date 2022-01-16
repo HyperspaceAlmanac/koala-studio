@@ -60,6 +60,17 @@ deleteMenu.cancel.clickedEvent:Connect(
     end
 )
 
+function ExportEncoded(button)
+    API.PushToQueue({"ExportEncoded"})
+end
+EXPORT_ENCODED.clickedEvent:Connect(ExportEncoded)
+
+function ExportScript(button)
+    API.PushToQueue({"ExportScript"})
+end
+EXPORT_SCRIPT.clickedEvent:Connect(ExportScript)
+
+
 function ClickedDelete(message, callback)
     deleteMenu.callback = callback
     DELETE_MODAL.visibility = Visibility.INHERIT
