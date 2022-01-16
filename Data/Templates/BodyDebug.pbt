@@ -15,7 +15,7 @@ Assets {
             Z: 1
           }
         }
-        ParentId: 8326545056456087967
+        ParentId: 4781671109827199097
         ChildIds: 4063304868219735574
         WantsNetworking: true
         Collidable_v2 {
@@ -58,7 +58,6 @@ Assets {
         }
         ParentId: 9049328999808543155
         ChildIds: 2694436906723994950
-        ChildIds: 4487700880742048135
         WantsNetworking: true
         Collidable_v2 {
           Value: "mc:ecollisionsetting:forceoff"
@@ -136,50 +135,6 @@ Assets {
               LinearDamping: 0.01
             }
             BoundsScale: 1
-          }
-        }
-        NetworkRelevanceDistance {
-          Value: "mc:eproxyrelevance:critical"
-        }
-      }
-      Objects {
-        Id: 4487700880742048135
-        Name: "BodyIKClient"
-        Transform {
-          Location {
-          }
-          Rotation {
-          }
-          Scale {
-            X: 1
-            Y: 1
-            Z: 1
-          }
-        }
-        ParentId: 4063304868219735574
-        UnregisteredParameters {
-          Overrides {
-            Name: "cs:BodyDebug"
-            ObjectReference {
-              SubObjectId: 9049328999808543155
-            }
-          }
-        }
-        Collidable_v2 {
-          Value: "mc:ecollisionsetting:inheritfromparent"
-        }
-        Visible_v2 {
-          Value: "mc:evisibilitysetting:inheritfromparent"
-        }
-        CameraCollidable {
-          Value: "mc:ecollisionsetting:inheritfromparent"
-        }
-        EditorIndicatorVisibility {
-          Value: "mc:eindicatorvisibility:visiblewhenselected"
-        }
-        Script {
-          ScriptAsset {
-            Id: 4181449562338020425
           }
         }
         NetworkRelevanceDistance {

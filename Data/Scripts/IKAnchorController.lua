@@ -22,6 +22,8 @@ function Join(player)
     r1:Destroy()
     References[player] = reference
     local body = World.SpawnAsset(BODY_DEBUG, {parent = reference})
+    player:SetPrivateNetworkedData("IKBody", body)
+    player:SetPrivateNetworkedData("IKBodyActive", false)
     table.insert(anchors, body)
     table.insert(anchors, World.SpawnAsset(LEFT_HAND_DEBUG, {parent = body}))
     table.insert(anchors, World.SpawnAsset(RIGHT_HAND_DEBUG, {parent = body}))
@@ -34,11 +36,13 @@ function Join(player)
         listeners[anchor][1] = anchor.activatedEvent:Connect(
             function(ik, player)
                 ik.serverUserData.active = true
+                player:SetPrivateNetworkedData("IKBodyActive", true)
             end
         )
         listeners[anchor][2] = anchor.deactivatedEvent:Connect(
-            function(ik, player)
+            function(ik)
                 ik.serverUserData.active = false
+                player:SetPrivateNetworkedData("IKBodyActive", false)
             end
         )
     end

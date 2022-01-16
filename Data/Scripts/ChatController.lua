@@ -23,6 +23,9 @@ local LOCAL_PLAYER = Game.GetLocalPlayer()
 LOCAL_PLAYER.clientUserData.dragStartValue = nil
 LOCAL_PLAYER.clientUserData.mouseStartPos = nil
 
+local ikBody = nil
+local ikBodyActive = false
+
 local clientIK = {}
 local r1 = World.SpawnAsset(REFERENCE_CLIENT)
 r1:AttachToPlayer(LOCAL_PLAYER, "Pelvis")
@@ -241,11 +244,10 @@ end
 
 function UpdateIK()
     local kf = LOCAL_PLAYER.clientUserData.currentKeyFrame
-    if LOCAL_PLAYER.clientUserData.bodyIKEnabled then
+    if ikBody and ikBodyActive then
         if kf and kf.clientUserData.anchorIndex ~= 1 then
-            local nBody = LOCAL_PLAYER.clinetUerData.bodyIK
-            bodyObj:SetWorldPosition(nBody:GetWorldPosition())
-            bodyObj:Rotation(nBody:GetRotation())
+            bodyObj:SetWorldPosition(ikBody:GetWorldPosition())
+            bodyObj:SetRotation(ikBody:GetRotation())
         end
     else
         bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
@@ -367,6 +369,14 @@ end
 LMBDRAG_AREA.pressedEvent:Connect(StartDrag)
 LMBDRAG_AREA.releasedEvent:Connect(EndDrag)
 
+function HandleIKStatus(player, key)
+    if key == "IKBody" then
+        ikBody = player:GetPrivateNetworkedData("IKBody")
+    elseif key == "IKBodyActive" then
+        ikBodyActive = player:GetPrivateNetworkedData("IKBodyActive")
+    end
+end
+
 function Tick(deltaTime)
     VisibilityCheck()
     local lp = LOCAL_PLAYER.clientUserData.lastPressed
@@ -389,3 +399,6 @@ function Tick(deltaTime)
     UpdateIK()
 end
 Chat.sendMessageHook:Connect(ChatHook)
+ikBody = LOCAL_PLAYER:GetPrivateNetworkedData("IKBody")
+ikBodyActive = LOCAL_PLAYER:GetPrivateNetworkedData("IKBodyActive")
+LOCAL_PLAYER.privateNetworkedDataChangedEvent:Connect(HandleIKStatus)
