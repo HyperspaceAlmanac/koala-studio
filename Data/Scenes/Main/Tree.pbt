@@ -3300,7 +3300,7 @@ Objects {
       }
     }
     Button {
-      Label: "LMB Drag Area (not Current and Max Time)\r\nRMB to rotate camera"
+      Label: "LMB Drag Area (not Current and Max Time)\r\nRMB to rotate camera\r\nTo get started, create a key frame, set its values, duplicate it\r\nand drag the duplciated one further along the timeline"
       FontColor {
         A: 1
       }
