@@ -117,6 +117,7 @@ function RotationPathing(sr, er, progress, longRoute)
 end
 
 function API.UpdateAnchors(player, currentTime)
+    currentTime = CoreMath.Round(currentTime, 3)
     for i = 1, 5 do
         local sortedKF =  API.SortedKF[player][i]
         local anchor = API.Anchors[player][i]
@@ -139,11 +140,11 @@ function API.UpdateAnchors(player, currentTime)
             anchor.blendInTime = right.blendIn
             if left then
                 anchor.blendOutTime = left.blendOut
+                local rightTime = CoreMath.Round(right.time, 3)
                 if left.active then
                     if not anchor.serverUserData.active then
                         anchor:Activate(player)
                     end
-
                     local timeDiff = currentTime - left.time
                     local percentage = timeDiff / (right.time - left.time)
                     local positionDiff = right.position - left.position
@@ -155,16 +156,33 @@ function API.UpdateAnchors(player, currentTime)
                     local offsetDiff = right.offset - left.offset
                     anchor:SetAimOffset(left.offset + offsetDiff * percentage)
                 else
-                    if anchor.serverUserData.active then
-                        anchor:Deactivate()
+                    if currentTime < rightTime then
+                        if anchor.serverUserData.active then
+                            anchor:Deactivate()
+                        end
+                    elseif currentTime == rightTime then
+                        if not anchor.serverUserData.active then
+                            anchor:Activate(player)
+                        end
                     end
                     anchor:SetRotation(right.rotation)
                     anchor:SetPosition(right.position)
                     anchor:SetAimOffset(right.offset)
                 end
             else
-                if anchor.serverUserData.active then
-                    anchor:Deactivate()
+                local rightTime = CoreMath.Round(right.time, 3)
+                if currentTime < rightTime then
+                    if anchor.serverUserData.active then
+                        anchor:Deactivate()
+                    end
+                    if i == 1 then
+                        anchor:SetRotation(Rotation.New(0, 0, 0))
+                        anchor:SetPosition(Vector3.New(0, 0, 0))
+                    end
+                elseif currentTime == rightTime then
+                    if not anchor.serverUserData.active then
+                        anchor:Activate(player)
+                    end
                 end
                 anchor:SetRotation(right.rotation)
                 anchor:SetPosition(right.position)

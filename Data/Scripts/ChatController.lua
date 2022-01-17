@@ -252,7 +252,7 @@ function UpdateIK()
     else
         bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
     end
-    bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
+    ---bodyObj:SetWorldRotation(LOCAL_PLAYER:GetWorldRotation())
     if LOCAL_PLAYER.clientUserData.dragStartValue then
         if kf then
             local anchorIndex = kf.clientUserData.anchorIndex
