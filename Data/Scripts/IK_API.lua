@@ -13,6 +13,7 @@ API.SortedKF = {}-- {{}, {}, {}, {}, {}} -- 5 list of curves, one for each ancho
 API.Anchors = {}
 API.Status = {}
 API.PropToIndex = {}
+API.MoveTo = nil
 
 local VALUES = {"px", "py", "pz", "rx", "ry", "rz", "ox", "oy", "oz", "weight", "blendIn", "blendOut", "active"}
 for i, key in ipairs(VALUES) do
@@ -162,8 +163,8 @@ function API.UpdateAnchors(player, currentTime)
                     anchor:SetAimOffset(right.offset)
                 end
             else
-                if not anchor.serverUserData.active then
-                    anchor:Activate(player)
+                if anchor.serverUserData.active then
+                    anchor:Deactivate()
                 end
                 anchor:SetRotation(right.rotation)
                 anchor:SetPosition(right.position)
@@ -205,6 +206,10 @@ end
 
 function API.Hello()
     print("Hello")
+end
+
+function API.RegisterMoveTo(callback)
+    API.MoveTo = callback
 end
 
 

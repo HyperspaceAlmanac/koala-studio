@@ -56,6 +56,10 @@ function ProcessRequest(params)
         Events.BroadcastToServer("ExportEncoded")
     elseif params[1] == "ExportScript" then
         Events.BroadcastToServer("ExportScript")
+    elseif params[1] == "Save" then
+        Events.BroadcastToServer("SaveProgress")
+    elseif params[1] == "Hub" then
+        Events.BroadcastToServer("GotoHub")
     else
         print("Unknown request header, no action taken")
     end

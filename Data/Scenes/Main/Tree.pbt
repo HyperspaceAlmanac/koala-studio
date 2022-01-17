@@ -18,6 +18,7 @@ Objects {
   ChildIds: 16813558807825262224
   ChildIds: 16495029666475327460
   ChildIds: 8326545056456087967
+  ChildIds: 2963273845728243796
   UnregisteredParameters {
   }
   Collidable_v2 {
@@ -30,6 +31,42 @@ Objects {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
   Folder {
+  }
+  NetworkRelevanceDistance {
+    Value: "mc:eproxyrelevance:critical"
+  }
+}
+Objects {
+  Id: 2963273845728243796
+  Name: "README"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 4781671109827199097
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Script {
+    ScriptAsset {
+      Id: 11413659484774047196
+    }
   }
   NetworkRelevanceDistance {
     Value: "mc:eproxyrelevance:critical"
@@ -131,6 +168,10 @@ Objects {
       AssetReference {
         Id: 10793869502196623691
       }
+    }
+    Overrides {
+      Name: "cs:HideAnchor"
+      Bool: false
     }
     Overrides {
       Name: "cs:IK_API:category"
@@ -587,6 +628,18 @@ Objects {
       Name: "cs:DeleteModal"
       ObjectReference {
         SelfId: 1014067658670821159
+      }
+    }
+    Overrides {
+      Name: "cs:Save"
+      ObjectReference {
+        SelfId: 15943042462839435911
+      }
+    }
+    Overrides {
+      Name: "cs:Hub"
+      ObjectReference {
+        SelfId: 17564897892703010447
       }
     }
     Overrides {
@@ -3247,7 +3300,7 @@ Objects {
       }
     }
     Button {
-      Label: "LMB Drag Area (not Current and Max Time)"
+      Label: "LMB Drag Area (not Current and Max Time)\r\nRMB to rotate camera"
       FontColor {
         A: 1
       }
@@ -4422,6 +4475,7 @@ Objects {
     }
   }
   ParentId: 5649922712792588649
+  ChildIds: 15943042462839435911
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -4461,6 +4515,200 @@ Objects {
       PressedColor {
         G: 1
         B: 1
+        A: 0.5
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 666500853896180674
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topright"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 15943042462839435911
+  Name: "Save"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 2357805222771354278
+  ChildIds: 17564897892703010447
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 240
+    Height: 60
+    UIX: -20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Button {
+      Label: "Save"
+      FontColor {
+        A: 1
+      }
+      FontSize: 28
+      ButtonColor {
+        G: 0.999999762
+        A: 1
+      }
+      HoveredColor {
+        G: 0.999999762
+        A: 0.75
+      }
+      PressedColor {
+        G: 0.999999762
+        A: 0.5
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 666500853896180674
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topright"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 17564897892703010447
+  Name: "Hub"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 15943042462839435911
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 240
+    Height: 60
+    UIX: -20
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Button {
+      Label: "Multiplayer"
+      FontColor {
+        A: 1
+      }
+      FontSize: 28
+      ButtonColor {
+        R: 1
+        G: 0.999999762
+        A: 1
+      }
+      HoveredColor {
+        R: 1
+        G: 0.999999762
+        A: 0.75
+      }
+      PressedColor {
+        R: 1
+        G: 0.999999762
         A: 0.5
       }
       DisabledColor {

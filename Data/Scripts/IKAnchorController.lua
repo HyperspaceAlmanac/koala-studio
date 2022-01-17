@@ -9,18 +9,26 @@ local LEFT_FOOT_DEBUG = script:GetCustomProperty("LeftFootDebug")
 local RIGHT_HAND_DEBUG = script:GetCustomProperty("RightHandDebug")
 local RIGHT_FOOT_DEBUG = script:GetCustomProperty("RightFootDebug")
 
+local HIDE_ANCHORS = script:GetCustomProperty("HideAnchors")
 
 local AnchorTable = {}
 local References = {}
 local listeners = {}
+
+function MoveTo(player)
+    local ref = References[player]
+    ref[2]:SetWorldPosition(ref[1]:GetWorldPosition())
+    ref[2]:SetWorldRotation(ref[2]:GetWorldRotation())
+end
+
+API.RegisterMoveTo(MoveTo)
 
 function Join(player)
     local anchors = {}
     local r1 = World.SpawnAsset(PLAYER_POSITION_REFERENCE, {rotation=player:GetWorldRotation()})
     r1:AttachToPlayer(player, "Pelvis")
     local reference = World.SpawnAsset(PLAYER_POSITION_REFERENCE, {position = r1:GetWorldPosition(), rotation=player:GetWorldRotation()})
-    r1:Destroy()
-    References[player] = reference
+    References[player] = {r1, reference}
     local body = World.SpawnAsset(BODY_DEBUG, {parent = reference})
     player:SetPrivateNetworkedData("IKBody", body)
     player:SetPrivateNetworkedData("IKBodyActive", false)
@@ -45,6 +53,9 @@ function Join(player)
                 player:SetPrivateNetworkedData("IKBodyActive", false)
             end
         )
+        if HIDE_ANCHORS then
+            anchor.visibility = Visibility.FORCE_OFF
+        end
     end
     API.PlayerJoin(player, anchors)
 end
@@ -62,7 +73,8 @@ function Leave(player)
             anchor:Destroy()
         end
     end
-    References[player]:Destroy()
+    References[player][1]:Destroy()
+    References[player][2]:Destroy()
     References[player] = nil
     AnchorTable[player] = nil
 end

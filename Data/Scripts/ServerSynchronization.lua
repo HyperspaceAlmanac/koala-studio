@@ -427,6 +427,19 @@ function HandleExportScript(player)
     print(table.concat(formatted, ""))
 end
 
+function HandleSaveProgress(player)
+    local persistent = Storage.GetPlayerData(player)
+    if not persistent.animations then
+        persistent.animations = {}
+    end
+    persistent.animations = EncodeForStorage(player)
+    Storage.SetPlayerData(player, persistent)
+end
+
+function HandleGotoHub(player)
+    player:TransferToScene("Playback")
+end
+
 --PASTE Encoded output here
 --local encodedTable = <Encoded output>
 
@@ -510,6 +523,7 @@ Events.ConnectForPlayer("PreviewSetTime", HandlePreviewSetTime)
 Events.ConnectForPlayer("PreviewStop", HandlePreviewStop)
 Events.ConnectForPlayer("ExportEncoded", HandleExportEncoded)
 Events.ConnectForPlayer("ExportScript", HandleExportScript)
-
+Events.ConnectForPlayer("SaveProgress", HandleSaveProgress)
+Events.ConnectForPlayer("GotoHub", HandleGotoHub)
 
 

@@ -28,6 +28,8 @@ local TIME_LINE = script:GetCustomProperty("TimeLine"):WaitForObject() ---@type 
 local SECOND_LABEL = script:GetCustomProperty("SecondLabel")
 local CURRENT_TIME = script:GetCustomProperty("CurrentTime")
 local STATUS = script:GetCustomProperty("Status"):WaitForObject() ---@type UIText
+local SAVE = script:GetCustomProperty("Save"):WaitForObject() ---@type UIButton
+local HUB = script:GetCustomProperty("Hub"):WaitForObject() ---@type UIButton
 
 
 local LOCAL_PLAYER = Game.GetLocalPlayer()
@@ -108,6 +110,18 @@ DELETE.clickedEvent:Connect(
                 end
             end)
         end
+    end
+)
+
+SAVE.clickedEvent:Connect(
+    function(button)
+        API.PushToQueue({"Save"})
+    end
+)
+
+HUB.clickedEvent:Connect(
+    function(button)
+        API.PushToQueue({"Hub"})
     end
 )
 
@@ -380,11 +394,18 @@ function UpdateTime(obj, key)
     end
 end
 
-PLAYBACK_TIME.customPropertyChangedEvent:Connect(UpdateTime)
+UpdateTime(PLAYBACK_TIME, "Time")
+local l1 = PLAYBACK_TIME.customPropertyChangedEvent:Connect(UpdateTime)
 
 Game.playerJoinedEvent:Connect(Join)
-NETWORKED.customPropertyChangedEvent:Connect(NetworkedMessage)
+local l2 = NETWORKED.customPropertyChangedEvent:Connect(NetworkedMessage)
 
+script.destroyEvent:Connect(
+    function(obj)
+        l1:Disconnect()
+        l2:Disconnect()
+    end
+)
 --Send initial message to get animations
 Task.Wait()
 API.FullCleanUp(LOCAL_PLAYER)
