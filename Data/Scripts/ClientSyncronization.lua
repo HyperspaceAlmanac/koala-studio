@@ -46,6 +46,8 @@ function ProcessRequest(params)
         Events.BroadcastToServer("UpdateKFryl", params[2], params[3], params[4])
     elseif params[1] == "UpdateKFrzl" then
         Events.BroadcastToServer("UpdateKFrzl", params[2], params[3], params[4])
+    elseif params[1] == "UpdateKFCurrentTime" then
+        Events.BroadcastToServer("UpdateKFCurrentTime", params[2], params[3])
     elseif params[1] == "PlayAnimation" then
         Events.BroadcastToServer("PreviewPlay")
     elseif params[1] == "StopAnimation" then

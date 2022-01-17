@@ -98,12 +98,19 @@ function PressKeyFrame(button)
         prev:SetButtonColor(white)    
     end
     LOCAL_PLAYER.clientUserData.lastPressed = nil
+    button.clientUserData.dragStartTime = time()
 end
 
 function ReleaseKeyFrame(button)
     LOCAL_PLAYER.clientUserData.draggingKeyFrame = false
-    local time = (button.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100)
-    API.PushToQueue({"UpdateKFTime", button.clientUserData.anchorIndex, button.clientUserData.timelineIndex, time})
+    local startTime =  button.clientUserData.dragStartTime
+    if startTime and time() - startTime > 0.3 then
+        local time = (button.x + 25) / (LOCAL_PLAYER.clientUserData.tickMarkNum * 100)
+        API.PushToQueue({"UpdateKFTime", button.clientUserData.anchorIndex, button.clientUserData.timelineIndex, time})
+    else
+        API.PushToQueue({"UpdateKFCurrentTime", button.clientUserData.anchorIndex, button.clientUserData.timelineIndex})
+    end
+    button.clientUserData.dragStartTime = nil
     button:SetButtonColor(gray)
 end
 
@@ -263,8 +270,11 @@ function Tick(deltaTime)
     end
     TIME_LINE.visibility = Visibility.INHERIT
     if LOCAL_PLAYER.clientUserData.currentKeyFrame and LOCAL_PLAYER.clientUserData.draggingKeyFrame then
-        local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition - 25
-        LOCAL_PLAYER.clientUserData.currentKeyFrame.x = CoreMath.Clamp(offset, -25, ANCHORS.width -25)
+        local startTime =  LOCAL_PLAYER.clientUserData.currentKeyFrame.clientUserData.dragStartTime
+        if startTime and time() - startTime > 0.3 then
+            local offset = UI.GetCursorPosition().x - SCROLLING_TIMELINE.x + SCROLLING_TIMELINE.scrollPosition - 25
+            LOCAL_PLAYER.clientUserData.currentKeyFrame.x = CoreMath.Clamp(offset, -25, ANCHORS.width -25)
+        end
     end
     TIME_BUTTON.text = tostring(CoreMath.Round(LOCAL_PLAYER.clientUserData.maxSeconds, 3))
 end

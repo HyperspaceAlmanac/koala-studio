@@ -167,11 +167,11 @@ end
 
 function ClickAnimation(button)
     API.CleanUp(LOCAL_PLAYER)
-    DeleteAllKeyFrames()
     local currentAnim = LOCAL_PLAYER.clientUserData.currentAnimation
     if currentAnim == button then
         return
     end
+    DeleteAllKeyFrames()
     if currentAnim then
         currentAnim:SetButtonColor(lightGray)
     end

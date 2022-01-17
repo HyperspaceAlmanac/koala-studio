@@ -178,6 +178,7 @@ function API.UpdateAnchors(player, currentTime)
                     if i == 1 then
                         anchor:SetRotation(Rotation.New(0, 0, 0))
                         anchor:SetPosition(Vector3.New(0, 0, 0))
+                        player:SetWorldRotation(anchor:GetWorldRotation())
                     end
                 elseif currentTime == rightTime then
                     if not anchor.serverUserData.active then
@@ -200,6 +201,8 @@ function API.UpdateAnchors(player, currentTime)
             if anchor.serverUserData.active then
                 anchor:Deactivate()
                 if i == 1 then
+                    anchor:SetRotation(Rotation.New(0, 0, 0))
+                    anchor:SetPosition(Vector3.New(0, 0, 0))
                     player:SetWorldRotation(anchor:GetWorldRotation())
                 end
             end

@@ -204,6 +204,12 @@ function HandleKFTime(player, i, j, time)
     IK_API.Status[player].currentTime = time
 end
 
+function HandleKFCurrentTime(player, i, j)
+    local kf = GetCurrentAnchorTable(player)[i][j]
+    IK_API.UpdateAnchors(player, kf.time)
+    IK_API.Status[player].currentTime = kf.time
+end
+
 function HandleKFPosition(player, i, j, position)
     local kf = GetCurrentAnchorTable(player)[i][j]
     kf.position = position
@@ -512,6 +518,7 @@ Events.ConnectForPlayer("UpdateKFWeight", HandleKFWeight)
 Events.ConnectForPlayer("UpdateKFBlendIn", HandleKFBlendIn)
 Events.ConnectForPlayer("UpdateKFBlendOut", HandleKFBlendOut)
 Events.ConnectForPlayer("UpdateKFActive", HandleKFActive)
+Events.ConnectForPlayer("UpdateKFCurrentTime", HandleKFCurrentTime)
 Events.ConnectForPlayer("CreateKF", HandleCreateKF)
 Events.ConnectForPlayer("DuplicateKF", HandleDuplicateKF)
 Events.ConnectForPlayer("DeleteKF", HandleDeleteKF)
