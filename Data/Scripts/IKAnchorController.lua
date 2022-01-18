@@ -57,7 +57,7 @@ function Join(player)
             anchor.visibility = Visibility.FORCE_OFF
         end
     end
-    API.PlayerJoin(player, anchors)
+    API.PlayerJoin(player, anchors, not HIDE_ANCHORS)
 end
 
 function Leave(player)

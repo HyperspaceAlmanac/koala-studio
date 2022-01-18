@@ -10,7 +10,7 @@ ScreenshotPaths: "C:\\Users\\Mecha\\Documents\\0core\\koalaStudio\\Main.png"
 ScreenshotPaths: "C:\\Users\\Mecha\\Documents\\0core\\koalaStudio\\img1.png"
 ScreenshotPaths: "C:\\Users\\Mecha\\Documents\\0core\\koalaStudio\\img2.png"
 ScreenshotPaths: "C:\\Users\\Mecha\\Documents\\0core\\koalaStudio\\img3.png"
-ReleaseNotes: "More bug fixes"
+ReleaseNotes: "Additional Fixes"
 OwnerId: "1c1f6725ecea475fb14a77c35acbe429"
 SerializationVersion: 2
 PublishedState: Public

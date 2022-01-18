@@ -118,6 +118,7 @@ end
 
 function API.UpdateAnchors(player, currentTime)
     currentTime = CoreMath.Round(currentTime, 3)
+    local editMode = API.Status[player].edit
     for i = 1, 5 do
         local sortedKF =  API.SortedKF[player][i]
         local anchor = API.Anchors[player][i]
@@ -160,7 +161,7 @@ function API.UpdateAnchors(player, currentTime)
                         if anchor.serverUserData.active then
                             anchor:Deactivate()
                         end
-                    elseif currentTime == rightTime then
+                    elseif currentTime == rightTime and editMode then
                         if not anchor.serverUserData.active then
                             anchor:Activate(player)
                         end
@@ -180,7 +181,7 @@ function API.UpdateAnchors(player, currentTime)
                         anchor:SetPosition(Vector3.New(0, 0, 0))
                         player:SetWorldRotation(anchor:GetWorldRotation())
                     end
-                elseif currentTime == rightTime then
+                elseif currentTime == rightTime and editMode then
                     if not anchor.serverUserData.active then
                         anchor:Activate(player)
                     end
@@ -210,10 +211,10 @@ function API.UpdateAnchors(player, currentTime)
     end
 end
 
-function API.PlayerJoin(player, anchors)
+function API.PlayerJoin(player, anchors, editorMode)
     API.SortedKF[player] = {}
     API.Anchors[player] = {}
-    API.Status[player] = { isPlaying = false, currentTime = 0 }
+    API.Status[player] = { isPlaying = false, currentTime = 0, edit = editorMode}
     for _, anchor in ipairs(anchors) do
         table.insert(API.Anchors[player], anchor)
     end

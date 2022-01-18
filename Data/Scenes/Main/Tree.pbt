@@ -643,6 +643,18 @@ Objects {
       }
     }
     Overrides {
+      Name: "cs:HelpButton"
+      ObjectReference {
+        SelfId: 6537533918662024598
+      }
+    }
+    Overrides {
+      Name: "cs:Help"
+      ObjectReference {
+        SelfId: 16720389987261777501
+      }
+    }
+    Overrides {
       Name: "cs:AnimatorClientAPI:category"
       String: "API"
     }
@@ -1283,6 +1295,7 @@ Objects {
   ChildIds: 1422195957262568687
   ChildIds: 1014067658670821159
   ChildIds: 16983216677616094512
+  ChildIds: 16720389987261777501
   ChildIds: 4635193898670718184
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
@@ -1443,6 +1456,108 @@ Objects {
       }
       Brush {
         Id: 841534158063459245
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 16720389987261777501
+  Name: "Help"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 14214228906969668433
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:forceoff"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 100
+    Height: 30
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    UseParentWidth: true
+    UseParentHeight: true
+    Button {
+      Label: "Welcome to Koala studios!\r\nThis is an in editor Custom Animations Editor where you can create and share / play back cutsom animations.\r\nThe animation is based on setting the Inverse Kinematic Anchors to values of the key frame before and after the current time.\r\nThere needs to be at least two key frames for one anchor for animation from firts to second.\r\nYou can create new animations, modify them, and play it back. Everything is automatically saved, and the data can also be printed out\r\nby hitting the two export buttons (use the downloaded editable project for this).\r\n------------------------------\r\nControls:\r\nHold down and drag the right mouse button to rotate the camera.\r\nClick on an animation name to load it. Click on the timeline to create a new key frame and drag it around.\r\nWhen the purple chat input modal shows up, you can enter values by pressing enter and typing it into the chat.\r\nThis is used to set the name of the animations and for directly setting some values.\r\nClick on the values in key frame editor popup to highlight it, and then change it by clicking and dragging in\r\nthe LMB drag area, or by pressing enter and typing into chat if purple chat input is displayed.\r\n------------------------------\r\nThe preview button only works when an animation is selected (it should be yellow), and will give you a preview of what\r\nthe animation looks like. Single key frames will cause the anchors to be activated in the editor, but will not in the multiplayer hub playback.\r\nThis is just to show you where the anchor currently is.\r\n\r\nClick Anywhere to close this."
+      FontColor {
+        A: 1
+      }
+      FontSize: 20
+      ButtonColor {
+        R: 0.25
+        G: 0.25
+        B: 0.25
+        A: 1
+      }
+      HoveredColor {
+        R: 0.25
+        G: 0.25
+        B: 0.25
+        A: 1
+      }
+      PressedColor {
+        R: 0.25
+        G: 0.25
+        B: 0.25
+        A: 1
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 666500853896180674
       }
       IsButtonEnabled: true
       ClickMode {
@@ -3300,7 +3415,7 @@ Objects {
       }
     }
     Button {
-      Label: "LMB Drag Area (not Current and Max Time)\r\nRMB to rotate camera\r\nTo get started, create a key frame, set its values, duplicate it\r\nand drag the duplciated one further along the timeline"
+      Label: "LMB Drag Area (does not affect Current and Max Time)\r\nPress blue \"i\" button for help and instructions. "
       FontColor {
         A: 1
       }
@@ -4476,6 +4591,7 @@ Objects {
   }
   ParentId: 5649922712792588649
   ChildIds: 15943042462839435911
+  ChildIds: 6537533918662024598
   Collidable_v2 {
     Value: "mc:ecollisionsetting:inheritfromparent"
   }
@@ -4553,6 +4669,103 @@ Objects {
       TargetAnchor {
         Anchor {
           Value: "mc:euianchor:topleft"
+        }
+      }
+    }
+  }
+}
+Objects {
+  Id: 6537533918662024598
+  Name: "HelpButton"
+  Transform {
+    Location {
+    }
+    Rotation {
+    }
+    Scale {
+      X: 1
+      Y: 1
+      Z: 1
+    }
+  }
+  ParentId: 2357805222771354278
+  Collidable_v2 {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  Visible_v2 {
+    Value: "mc:evisibilitysetting:inheritfromparent"
+  }
+  CameraCollidable {
+    Value: "mc:ecollisionsetting:inheritfromparent"
+  }
+  EditorIndicatorVisibility {
+    Value: "mc:eindicatorvisibility:visiblewhenselected"
+  }
+  Control {
+    Width: 60
+    Height: 60
+    RenderTransformPivot {
+      Anchor {
+        Value: "mc:euianchor:middlecenter"
+      }
+    }
+    Button {
+      Label: "i"
+      FontColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      FontSize: 28
+      ButtonColor {
+        B: 1
+        A: 1
+      }
+      HoveredColor {
+        B: 1
+        A: 0.75
+      }
+      PressedColor {
+        B: 1
+        A: 0.5
+      }
+      DisabledColor {
+        R: 1
+        G: 1
+        B: 1
+        A: 1
+      }
+      Brush {
+        Id: 666500853896180674
+      }
+      IsButtonEnabled: true
+      ClickMode {
+        Value: "mc:ebuttonclickmode:default"
+      }
+      Font {
+      }
+      Justification {
+        Value: "mc:etextjustify:center"
+      }
+      VerticalJustification {
+        Value: "mc:everticaljustification:center"
+      }
+      ShadowColor {
+        A: 1
+      }
+      ShadowOffset {
+      }
+    }
+    AnchorLayout {
+      SelfAnchor {
+        Anchor {
+          Value: "mc:euianchor:topright"
+        }
+      }
+      TargetAnchor {
+        Anchor {
+          Value: "mc:euianchor:bottomright"
         }
       }
     }

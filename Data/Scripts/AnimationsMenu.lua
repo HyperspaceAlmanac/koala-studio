@@ -30,6 +30,8 @@ local CURRENT_TIME = script:GetCustomProperty("CurrentTime")
 local STATUS = script:GetCustomProperty("Status"):WaitForObject() ---@type UIText
 local SAVE = script:GetCustomProperty("Save"):WaitForObject() ---@type UIButton
 local HUB = script:GetCustomProperty("Hub"):WaitForObject() ---@type UIButton
+local HELP_BUTTON = script:GetCustomProperty("HelpButton"):WaitForObject() ---@type UIButton
+local HELP = script:GetCustomProperty("Help"):WaitForObject() ---@type UIButton
 
 
 local LOCAL_PLAYER = Game.GetLocalPlayer()
@@ -59,6 +61,17 @@ deleteMenu.cancel.clickedEvent:Connect(
     function(button)
         deleteMenu.target = nil
         DELETE_MODAL.visibility = Visibility.FORCE_OFF
+    end
+)
+
+HELP_BUTTON.clickedEvent:Connect(
+    function(button)
+        HELP.visibility = Visibility.INHERIT
+    end
+)
+HELP.clickedEvent:Connect(
+    function(button)
+        HELP.visibility = Visibility.FORCE_OFF
     end
 )
 
